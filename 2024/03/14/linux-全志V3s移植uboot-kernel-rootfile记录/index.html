@@ -19,12 +19,12 @@
   <title>linux-全志V3s移植uboot kernel rootfile记录 - Blog</title>
 
   
-    <meta name="description" content="环境及材料准备系统环境安装好相应的ubuntu系统环境，这里为ubuntu 20.04系统： .uumnswnbpkob{zoom:67%;}  材料准备开发板为licheepi的V3s开发板，资料如下： 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1iXh4KYYlQPyKgEGASLdnNA  提取码：byga 交叉编译器安装下载材料中的交叉编译器”gcc-linaro-6.3.1-">
+    <meta name="description" content="环境及材料准备系统环境安装好相应的ubuntu系统环境，这里为ubuntu 20.04系统： .vxoumzyrlsgj{zoom:67%;}  材料准备开发板为licheepi的V3s开发板，资料如下： 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1iXh4KYYlQPyKgEGASLdnNA  提取码：byga 交叉编译器安装下载材料中的交叉编译器”gcc-linaro-6.3.1-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux-全志V3s移植uboot kernel rootfile记录">
 <meta property="og:url" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="环境及材料准备系统环境安装好相应的ubuntu系统环境，这里为ubuntu 20.04系统： .uumnswnbpkob{zoom:67%;}  材料准备开发板为licheepi的V3s开发板，资料如下： 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1iXh4KYYlQPyKgEGASLdnNA  提取码：byga 交叉编译器安装下载材料中的交叉编译器”gcc-linaro-6.3.1-">
+<meta property="og:description" content="环境及材料准备系统环境安装好相应的ubuntu系统环境，这里为ubuntu 20.04系统： .vxoumzyrlsgj{zoom:67%;}  材料准备开发板为licheepi的V3s开发板，资料如下： 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1iXh4KYYlQPyKgEGASLdnNA  提取码：byga 交叉编译器安装下载材料中的交叉编译器”gcc-linaro-6.3.1-">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314154622986.png">
 <meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314185402052.png">
@@ -41,8 +41,11 @@
 <meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193244752.png">
 <meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193643168.png">
 <meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193905580.png">
+<meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214704545.png">
+<meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214908467.png">
+<meta property="og:image" content="http://example.com/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214908467.png">
 <meta property="article:published_time" content="2024-03-14T07:35:46.000Z">
-<meta property="article:modified_time" content="2024-03-14T12:46:39.717Z">
+<meta property="article:modified_time" content="2024-03-14T13:49:11.038Z">
 <meta property="article:author" content="baimin">
 <meta property="article:tag" content="linux驱动">
 <meta name="twitter:card" content="summary">
@@ -103,7 +106,7 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-14T07:35:46.000Z">2024-03-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-14T12:46:39.717Z">2024-03-14</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-14T07:35:46.000Z">2024-03-14</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-14T13:49:11.038Z">2024-03-14</time></span></div></div>
 </div>
 
     
@@ -115,7 +118,7 @@
     
   </div>
   </div><article class="md-text content"><h2 id="环境及材料准备"><a href="#环境及材料准备" class="headerlink" title="环境及材料准备"></a>环境及材料准备</h2><h3 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h3><p>安装好相应的ubuntu系统环境，这里为ubuntu 20.04系统：</p>
-<style>.uumnswnbpkob{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314154622986.png" class="uumnswnbpkob lazy" alt="image-20240314154622986">
+<style>.vxoumzyrlsgj{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314154622986.png" class="vxoumzyrlsgj lazy" alt="image-20240314154622986">
 
 <h3 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h3><p>开发板为licheepi的V3s开发板，资料如下：</p>
 <p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1iXh4KYYlQPyKgEGASLdnNA">https://pan.baidu.com/s/1iXh4KYYlQPyKgEGASLdnNA</a> </p>
@@ -126,54 +129,54 @@
 <h2 id="uboot编译"><a href="#uboot编译" class="headerlink" title="uboot编译"></a>uboot编译</h2><p>下载材料中的uboot源码”u-boot-v3s-current.zip”到系统中：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解压</span></span><br><span class="line"><span class="built_in">mv</span> u-boot-v3s-current.zip ~/V3s</span><br><span class="line"><span class="built_in">cd</span> ~/V3s</span><br><span class="line">unzip u-boot-v3s-current.zip</span><br><span class="line"><span class="built_in">mv</span> u-boot-v3s-current uboot</span><br><span class="line"><span class="comment">#选择配置文件，配置uboot</span></span><br><span class="line"><span class="built_in">cd</span> uboot</span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- LicheePi_Zero_defconfig</span><br><span class="line"><span class="comment">#或者选择带显示功能的配置文件</span></span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- LicheePi_Zero_800x480LCD_defconfig </span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- LicheePi_Zero_480x272LCD_defconfig</span><br><span class="line"><span class="comment">#添加其他uboot配置，先安装ncurses</span></span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install build-essential</span><br><span class="line">sudo apt install libncurses5-dev</span><br><span class="line">make ARCH=arm menuconfig </span><br><span class="line"><span class="comment">#进入配置界面后，添加网络功能，如下图：</span></span><br><span class="line"><span class="comment">#添加开发板网口网络支持</span></span><br></pre></td></tr></table></figure>
 
-<style>.qbgydfeccfjc{zoom:67%;}</style>
+<style>.rjrgltvalbkf{zoom:67%;}</style>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">编译</span></span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">或者计算编译时间，并输入编译信息到build.log日志文件中</span></span><br><span class="line">time make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 2&gt;&amp;1 | tee build.log</span><br></pre></td></tr></table></figure>
 
 <p>成功得到”u-boot-sunxi-with-spl.bin”编译文件：</p>
-<style>.ewfmhjwotpsk{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314185402052.png" class="ewfmhjwotpsk lazy" alt="image-20240314185402052">
+<style>.ebohejulwhvf{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314185402052.png" class="ebohejulwhvf lazy" alt="image-20240314185402052">
 
 <h2 id="kernel编译"><a href="#kernel编译" class="headerlink" title="kernel编译"></a>kernel编译</h2><p>下载“linux-zero-5.2.y.zip”文件到系统中：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解压</span></span><br><span class="line"><span class="built_in">mv</span> linux-zero-5.2.y.zip V3s</span><br><span class="line"><span class="built_in">cd</span> ~/V3s</span><br><span class="line">unzip linux-zero-5.2.y.zip</span><br><span class="line"><span class="comment">#选择配置文件，配置kernel</span></span><br><span class="line"><span class="built_in">cd</span> linux-zero-5.2.y</span><br><span class="line">make ARCH=arm licheepi_zero_defconfig</span><br><span class="line"><span class="comment">#添加其他配置</span></span><br><span class="line">make ARCH=arm menuconfig </span><br><span class="line"><span class="comment">#使能linux logo显示，如图</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<style>.hrxfwhwnnpvy{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314190755906.png" class="hrxfwhwnnpvy lazy" alt="image-20240314190755906">
+<style>.tubkqkkrfqmn{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314190755906.png" class="tubkqkkrfqmn lazy" alt="image-20240314190755906">
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8 </span><br><span class="line"><span class="comment">#“-jx”的x为CPU的核心个数，可以查看当前CPU情况进行选择，也可以删掉-jx，但编译速度慢</span></span><br><span class="line"><span class="comment">#或者使用time统计编译时间</span></span><br><span class="line">time make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j8</span><br></pre></td></tr></table></figure>
 
 <p>编译得到“zImage”镜像文件和”sun8i-v3s-licheepi-zero.dtb”设备树文件：</p>
-<style>.mvnemelzfcdu{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314191134076.png" class="mvnemelzfcdu lazy" alt="image-20240314191134076">
+<style>.buhhltmuudos{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314191134076.png" class="buhhltmuudos lazy" alt="image-20240314191134076">
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#&quot;sun8i-v3s-licheepi-zero.dtb&quot;设备树文件目录：</span></span><br><span class="line"><span class="built_in">cd</span> ~/V3s/linux-zero-5.2.y</span><br><span class="line"><span class="built_in">ls</span> <span class="built_in">arch</span>/arm/boot/dts/</span><br><span class="line"><span class="comment">#如图：</span></span><br></pre></td></tr></table></figure>
 
-<style>.qdhlzqusnuvc{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314194701830.png" class="qdhlzqusnuvc lazy" alt="image-20240314194701830">
+<style>.xjfchwlmbngq{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314194701830.png" class="xjfchwlmbngq lazy" alt="image-20240314194701830">
 
 <h2 id="rootfs制作"><a href="#rootfs制作" class="headerlink" title="rootfs制作"></a>rootfs制作</h2><p>下载”buildroot-2017.08.tar.gz“文件到系统中：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#解压</span></span><br><span class="line"><span class="built_in">mv</span> buildroot-2017.08.tar.gz ~/V3s</span><br><span class="line"><span class="built_in">cd</span> ~/V3s</span><br><span class="line">tar xvf buildroot-2017.08.tar.gz</span><br><span class="line"><span class="comment">#配置</span></span><br><span class="line"><span class="built_in">cd</span> buildroot-2017.08</span><br><span class="line">make menuconfig</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>依次配置“Target options”：</p>
-<style>.gytvfpmxvlsv{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314191929631.png" class="gytvfpmxvlsv lazy" alt="image-20240314191929631">
+<style>.fokbmwxrslup{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314191929631.png" class="fokbmwxrslup lazy" alt="image-20240314191929631">
 
 <p>配置“Toolchain”编译工具链，注意交叉编译器的位置为“~&#x2F;V3s&#x2F;gcc-linaro-6.3.1-2017.02-x86_64_arm-linux-gnueabihf”，和图片里面不太一样：</p>
-<style>.vtmdotublwcn{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192213909.png" class="vtmdotublwcn lazy" alt="image-20240314192213909">
+<style>.elmmvhzkbiol{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192213909.png" class="elmmvhzkbiol lazy" alt="image-20240314192213909">
 
-<style>.rznmmuovijjv{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192357815.png" class="rznmmuovijjv lazy" alt="image-20240314192357815">
+<style>.yzhevyhnqjas{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192357815.png" class="yzhevyhnqjas lazy" alt="image-20240314192357815">
 
-<style>.qhrwktpjonhp{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192423631.png" class="qhrwktpjonhp lazy" alt="image-20240314192423631">
+<style>.vwsgrkpiigfj{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192423631.png" class="vwsgrkpiigfj lazy" alt="image-20240314192423631">
 
 <p>系统信息设置，设置系统主机名字、系统横幅信息、root管理员用户密码、时区选择等：</p>
-<style>.lgnuldbelpmw{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192632071.png" class="lgnuldbelpmw lazy" alt="image-20240314192632071">
+<style>.rqsibrixmegs{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192632071.png" class="rqsibrixmegs lazy" alt="image-20240314192632071">
 
-<style>.jtmrfozfenkv{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192822270.png" class="jtmrfozfenkv lazy" alt="image-20240314192822270">
+<style>.bhoaicsoyrhn{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314192822270.png" class="bhoaicsoyrhn lazy" alt="image-20240314192822270">
 
-<style>.ggukdifvqrcl{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193128271.png" class="ggukdifvqrcl lazy" alt="image-20240314193128271">
+<style>.khzbtbvbwrqi{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193128271.png" class="khzbtbvbwrqi lazy" alt="image-20240314193128271">
 
 <p>添加ssh功能方便后续进行“网络根文件系统启动”，如图：</p>
-<style>.yaqdtxztrecj{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193244752.png" class="yaqdtxztrecj lazy" alt="image-20240314193244752">
+<style>.cophdnrdaxhi{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193244752.png" class="cophdnrdaxhi lazy" alt="image-20240314193244752">
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编译</span></span><br><span class="line">time make</span><br></pre></td></tr></table></figure>
 
 <p>编译后的rootfs位于“~&#x2F;V3s&#x2F;buildroot-2017.08&#x2F;output”，target目录中为解压后的根文件系统，images目录中为压缩好的“rootfs.tar”根文件系统压缩包：</p>
-<style>.jxisomckpjtr{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193643168.png" class="jxisomckpjtr lazy" alt="image-20240314193643168">
+<style>.wnleodnrbbkv{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193643168.png" class="wnleodnrbbkv lazy" alt="image-20240314193643168">
 
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314193905580.png" class="lazy" title="image-20240314193905580">
 
@@ -240,7 +243,11 @@
 
 <h3 id="uboot配置"><a href="#uboot配置" class="headerlink" title="uboot配置"></a>uboot配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#网络配置</span></span><br><span class="line">setenv ipaddr 192.168.123.66				<span class="comment">#设置开发板IP地址</span></span><br><span class="line">setenv netmask 255.255.255.0			<span class="comment">#子网掩码配置</span></span><br><span class="line">setenv serverip 192.168.123.166			<span class="comment">#设置tftp服务IP地址</span></span><br><span class="line">setenv gatewayip 192.168.123.1			<span class="comment">#设置网关</span></span><br><span class="line">setenv ethaddr  b8:ae:1d:01:00:00		<span class="comment">#设置网卡mac地址，48bit 的地址不和其他重复即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#tftp加载kernel内核到内存中，bootz启动</span></span><br><span class="line"><span class="comment">#使用,已设置serverip可省略tftp服务IP地址：</span></span><br><span class="line"><span class="comment">#tftp DRAM地址 [[tftp服务IP地址]:文件名]</span></span><br><span class="line">tftp 80800000 zImage</span><br><span class="line">tftp 83000000 xxxx.dtb</span><br><span class="line">bootz 80800000 - 83000000</span><br></pre></td></tr></table></figure>
 
-<h3 id="linux内核配置"><a href="#linux内核配置" class="headerlink" title="linux内核配置"></a>linux内核配置</h3><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">在内核编译配置阶段，添加以下功能配置：</span><br><span class="line"></span><br><span class="line">1、配置网络部分，主要是使能CONFIG_IP_PNP以在2中能够看到Root file system on NFS选项</span><br><span class="line">	Networking support </span><br><span class="line">		Networking options </span><br><span class="line">			TCP/IP networking</span><br><span class="line">					IP: kernel level autoconfiguration</span><br><span class="line">						[*] IP: DHCP support</span><br><span class="line">						[*]IP: BOOTP support</span><br><span class="line">2、配置开启nfs服务</span><br><span class="line">	File systems  ---&gt;	</span><br><span class="line">		Network File Systems  ---&gt;</span><br><span class="line">			&lt;*&gt; NFS client support </span><br><span class="line">			[*] NFS client support for NFS version 3                                  </span><br><span class="line">			[*] NFS client support for the NFSv3 ACL protocol extension </span><br><span class="line">			[*] NFS client support for NFS version 4 (EXPERIMENTAL) </span><br><span class="line">			[*] NFS client support for NFSv4.1 (DEVELOPER ONLY) </span><br><span class="line">			[*] Root file system on NFS  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="linux内核配置"><a href="#linux内核配置" class="headerlink" title="linux内核配置"></a>linux内核配置</h3><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">在内核编译配置阶段，添加以下功能配置：</span><br><span class="line">make ARCH=arm menuconfig</span><br><span class="line">1、配置网络部分，主要是使能CONFIG_IP_PNP以在2中能够看到Root file system on NFS选项</span><br><span class="line">	Networking support </span><br><span class="line">		Networking options </span><br><span class="line">			TCP/IP networking</span><br><span class="line">					IP: kernel level autoconfiguration</span><br><span class="line">						[*] IP: DHCP support</span><br><span class="line">						[*]IP: BOOTP support</span><br><span class="line">2、配置开启nfs服务</span><br><span class="line">	File systems  ---&gt;	</span><br><span class="line">		Network File Systems  ---&gt;</span><br><span class="line">			&lt;*&gt; NFS client support </span><br><span class="line">			[*] NFS client support for NFS version 3                                  </span><br><span class="line">			[*] NFS client support for the NFSv3 ACL protocol extension </span><br><span class="line">			[*] NFS client support for NFS version 4 (EXPERIMENTAL) </span><br><span class="line">			[*] NFS client support for NFSv4.1 (DEVELOPER ONLY) </span><br><span class="line">			[*] Root file system on NFS  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<style>.civkhcwcjttr{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214704545.png" class="civkhcwcjttr lazy" alt="image-20240314214704545"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214908467.png" class="lazy" title="image-20240314214908467">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/image-20240314214908467.png" class="lazy" title="image-20240314214908467">
+
 <h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>如果使用网络根文件系统，需要创建网络根文件系统放到nfs目录中，再修改bootargs变量。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置网络根文件系统启动参数</span></span><br><span class="line">setenv bootargs <span class="string">&#x27;console=ttyS0,115200 root=/dev/nfs nfsroot=192.168.123.166:/home/thousand/licheepi/nfs/rootfs,proto=tcp rw ip=192.168.123.66:192.168.123.166:192.168.123.1:255.255.255.0::eth0:off&#x27;</span></span><br><span class="line">setenv bootargs <span class="string">&#x27;console=tty0 console=ttyS0,115200 root=/dev/nfs nfsroot=192.168.123.166:/home/thousand/licheepi/nfs/rootfs,proto=tcp rw ip=192.168.123.66:192.168.123.166:192.168.123.1:255.255.255.0::eth0:off&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#内存卡linux启动</span></span><br><span class="line">setenv bootcmd <span class="string">&quot;setenv bootm_boot_mode sec;load mmc 0:1 0x41000000 zImage;load mmc 0:1 0x41800000 sun8i-v3s-licheepi-zero-dock.dtb;bootz 0x41000000 - 0x41800000;&quot;</span></span><br><span class="line">saveenv</span><br><span class="line">boot</span><br><span class="line"><span class="comment">#tftp网络启动</span></span><br><span class="line">tftp 41800000 sun8i-v3s-licheepi-zero-with-480x272-lcd.dtb</span><br><span class="line">tftp 41000000 zImage</span><br><span class="line">bootz 0x41000000 - 0x41800000</span><br></pre></td></tr></table></figure>
 
@@ -249,45 +256,45 @@
 
 
 <h2 id="相关问题解决"><a href="#相关问题解决" class="headerlink" title="相关问题解决"></a>相关问题解决</h2><h3 id="uboot相关"><a href="#uboot相关" class="headerlink" title="uboot相关"></a>uboot相关</h3><h4 id="DTC设备树编译工具版本太旧"><a href="#DTC设备树编译工具版本太旧" class="headerlink" title="DTC设备树编译工具版本太旧"></a>DTC设备树编译工具版本太旧</h4><p>报错”Your dtc is too old,please upgrade to dtc 1.4 or newer“，设备树编译器版本过旧，需更新。</p>
-<style>.vljotwvvpyuk{zoom:67%;}</style>
+<style>.nqgefrdyyuwl{zoom:67%;}</style>
 
 <p>更新命令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install device-tree-compiler</span><br></pre></td></tr></table></figure>
-<style>.vubcckqxrkcy{zoom:67%;}</style>
+<style>.uosffgycerls{zoom:67%;}</style>
 
 
 <h4 id="缺少python解析器"><a href="#缺少python解析器" class="headerlink" title="缺少python解析器"></a>缺少python解析器</h4><p>报错”.&#x2F;tools&#x2F;binman&#x2F;binman:not found“，没有python解析器</p>
-<style>.biodvlrcyxth{zoom:67%;}</style>
+<style>.dajgchbkrwax{zoom:67%;}</style>
 
 <p>安装python：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python</span><br></pre></td></tr></table></figure>
 
 <h4 id="缺少bc工具"><a href="#缺少bc工具" class="headerlink" title="缺少bc工具"></a>缺少bc工具</h4><p>报错”bc: not found“，缺少bc工具</p>
-<style>.vororvkwxbnd{zoom:67%;}</style>
+<style>.uucourkjpxgw{zoom:67%;}</style>
 
 <p>安装bc：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install bc</span><br></pre></td></tr></table></figure>
 <p>正常输出：</p>
-<style>.pfmeclouodqb{zoom:67%;}</style>
+<style>.geyjgxryhkfv{zoom:67%;}</style>
 
 <h3 id="linux内核相关"><a href="#linux内核相关" class="headerlink" title="linux内核相关"></a>linux内核相关</h3><h4 id="缺少相关库文件"><a href="#缺少相关库文件" class="headerlink" title="缺少相关库文件"></a>缺少相关库文件</h4><p>报错”flex: not found“，缺少相关库文件</p>
-<style>.dlzzuypffahd{zoom:67%;}</style>
+<style>.khxkrenbjypq{zoom:67%;}</style>
 
 <p>安装相关库：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install flex</span><br><span class="line">sudo apt-get install bison</span><br></pre></td></tr></table></figure>
 
 <p>报错” fatal error: openssl&#x2F;bio.h: No such file or directory“,缺少文件</p>
-<style>.yybsglhdxgeq{zoom:67%;}</style>
+<style>.fhndugfaxqfj{zoom:67%;}</style>
 
 <p>添加文件：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
 
-<h3 id="根文件系统相关"><a href="#根文件系统相关" class="headerlink" title="根文件系统相关"></a>根文件系统相关</h3><h4 id="编译ssh出错"><a href="#编译ssh出错" class="headerlink" title="编译ssh出错"></a>编译ssh出错</h4><style>.kxpcbpzdhmhh{zoom:67%;}</style>
+<h3 id="根文件系统相关"><a href="#根文件系统相关" class="headerlink" title="根文件系统相关"></a>根文件系统相关</h3><h4 id="编译ssh出错"><a href="#编译ssh出错" class="headerlink" title="编译ssh出错"></a>编译ssh出错</h4><style>.ssgwhiwbyidm{zoom:67%;}</style>
 
 <p>解决：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> buildroot-2017.08</span><br><span class="line"><span class="built_in">cd</span> output/build/host-m4-1.4.18/</span><br><span class="line">sed -i <span class="string">&#x27;s/IO_ftrylockfile/IO_EOF_SEEN/&#x27;</span> lib/*.c</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;#define _IO_IN_BACKUP 0x100&quot;</span> &gt;&gt; lib/stdio-impl.h</span><br><span class="line"></span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 <h4 id="登录nfs挂载的根文件系统出错"><a href="#登录nfs挂载的根文件系统出错" class="headerlink" title="登录nfs挂载的根文件系统出错"></a>登录nfs挂载的根文件系统出错</h4><p>问题：“nfs挂载rootfs login: root Login incorrect”</p>
-<style>.hycruxlwcvzz{zoom:67%;}</style>
+<style>.nlrvwlcmhiak{zoom:67%;}</style>
 
 <p>主机配置nfs服务器需添加“no_root_squash”参数：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置，打开配置文件</span></span><br><span class="line">sudo vi /etc/exports</span><br><span class="line"><span class="comment">#最后一行添加下面的内容</span></span><br><span class="line"><span class="comment">##/home/thousand/nfs *(rw,sync,no_subtree_check)</span></span><br><span class="line">/home/thousand/nfs *(rw,<span class="built_in">sync</span>,no_root_squash,no_subtree_check)</span><br><span class="line"><span class="comment">#重启nfs服务</span></span><br><span class="line">sudo /etc/init.d/nfs-kernel-server restart </span><br></pre></td></tr></table></figure>
@@ -309,7 +316,7 @@
 <p>修改成如下参数，屏幕正常输出信息：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv bootargs <span class="string">&quot;console=ttyS0,115200 panic=5 console=tty0 rootwait root=/dev/mmcblk0p2 earlyprintk rw  vt.global_cursor_default=0&quot;</span></span><br></pre></td></tr></table></figure>
 <p>不过，此时<strong>串口端无法看到登录项，也不能输入</strong>，无法登录系统。屏幕上可以看到登录项，或许可以插入键盘到开发板上输入登录信息。</p>
-<style>.nmixbxczljed{zoom:67%;}</style>
+<style>.qfdwdktxolhf{zoom:67%;}</style>
 
 <p>然后把”console&#x3D;ttys0”移到前面就可以了，不过这时变成屏幕看不到登录选项了，确实奇怪：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenv bootargs <span class="string">&quot;console=tty0 console=ttyS0,115200 panic=5 rootwait root=/dev/mmcblk0p2 earlyprintk rw  vt.global_cursor_default=0&quot;</span></span><br></pre></td></tr></table></figure>
@@ -322,17 +329,17 @@
 <p>将原有的console注释掉，改为ttyS0和tty0，ttyS0是USB键盘输入，tty0就是正常输出输入</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#console::respawn:-/bin/sh </span><br><span class="line">ttyS0::respawn:-/bin/sh </span><br><span class="line">tty0::respawn:-/bin/sh</span><br></pre></td></tr></table></figure>
 <h4 id="调节LCD背光"><a href="#调节LCD背光" class="headerlink" title="调节LCD背光"></a>调节LCD背光</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#lcd背光控制</span></span><br><span class="line"><span class="built_in">ls</span> sys/class/backlight/backlight/</span><br><span class="line"><span class="comment">#查看最大亮度等级</span></span><br><span class="line"><span class="built_in">cat</span> /sys/class/backlight/backlight/max_brightness</span><br><span class="line"><span class="comment">#调节亮度</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /sys/class/backlight/backlight/brightness</span><br><span class="line"><span class="comment">#关闭背光</span></span><br><span class="line"><span class="built_in">echo</span> 1 &gt; /sys/class/backlight/backlight/bl_power</span><br><span class="line"><span class="comment">#打开背光电源</span></span><br><span class="line"><span class="built_in">echo</span> 0 &gt; /sys/class/backlight/backlight/bl_power</span><br></pre></td></tr></table></figure>
-<style>.cukidhoklphg{zoom:67%;}</style>
+<style>.wbwukgwclmgw{zoom:67%;}</style>
 
 <h4 id="LCD启动卡住"><a href="#LCD启动卡住" class="headerlink" title="LCD启动卡住"></a>LCD启动卡住</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用以下屏幕参数的设备树会卡死，暂不使用，</span></span><br><span class="line">setenv bootcmd <span class="string">&quot;setenv bootm_boot_mode sec;load mmc 0:1 0x41000000 zImage;load mmc 0:1 0x41800000 sun8i-v3s-licheepi-zero-with-480x272-lcd.dtb;bootz 0x41000000 - 0x41800000;&quot;</span></span><br><span class="line">setenv bootcmd <span class="string">&quot;setenv bootm_boot_mode sec;load mmc 0:1 0x41000000 zImage;load mmc 0:1 0x41800000 sun8i-v3s-licheepi-zero-with-800x480-lcd.dtb;bootz 0x41000000 - 0x41800000;&quot;</span></span><br></pre></td></tr></table></figure>
-<style>.esokykdcvkyr{zoom:67%;}</style>
+<style>.nynomkfcsstp{zoom:67%;}</style>
 
 <p>由于linux中sun8i-v3s.dtsi已默认有lcd的设备结点，生成的内核已有fb0设备，故这里不用额外配置lcd，不使用带有“-with-480x272-lcd.dtb”的设备树文件：</p>
-<style>.ckvezoccbehc{zoom:67%;}</style>
+<style>.lbtiioqidvhm{zoom:67%;}</style>
 
 
 
-<style>.kfrffqfpiblw{zoom:67%;}</style>
+<style>.brucsfccuhew{zoom:67%;}</style>
 
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#fb0测试</span></span><br><span class="line"><span class="comment">#现象为黑屏</span></span><br><span class="line"><span class="built_in">cat</span> /dev/zero&gt; /dev/fb0  </span><br><span class="line"> <span class="comment">#屏幕会随机花屏</span></span><br><span class="line"><span class="built_in">cat</span> /dev/urandom &gt; /dev/fb0 </span><br></pre></td></tr></table></figure>
 
@@ -343,24 +350,24 @@
 </ul>
 <h5 id="menuconfig-修改"><a href="#menuconfig-修改" class="headerlink" title="menuconfig 修改"></a>menuconfig 修改</h5><p>这里主要是针对linux5.2版本的linux，之前的版本（linux4.10，4.13，4.14）都默认勾选了这个配置：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm menuconfig </span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j2</span><br></pre></td></tr></table></figure>
-<style>.qovjsnnlbvkn{zoom:67%;}</style>
+<style>.ypxiixpwpqct{zoom:67%;}</style>
 
 <h5 id="网卡信息修改"><a href="#网卡信息修改" class="headerlink" title="网卡信息修改"></a>网卡信息修改</h5><p>制作好的文件系统，需要修改Net相关描述，在&#x2F;etc&#x2F;network&#x2F;interfaces 下添加：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#静态IP</span></span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet static</span><br><span class="line">address 192.168.123.88</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">gateway 192.168.123.1</span><br><span class="line"></span><br><span class="line"><span class="comment">#动态IP</span></span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet dhcp</span><br></pre></td></tr></table></figure>
 <p>也可以修改&#x2F;etc&#x2F;init.d&#x2F;rcS的启动文件，添加：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 up</span><br><span class="line">ifconfig eth0 192.168.123.66 netmask 255.255.255.0</span><br><span class="line">route add default gw 192.168.123.1</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;nameserver 192.168.123.1&quot;</span> &gt; /etc/resolv.conf</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>重启开发板，使用reboot指令重启。直接按开发板的复位键，可能会导致刚刚的修改丢失不被保存。</p>
-<style>.nxpejipobxyc{zoom:67%;}</style>
+<style>.ppxdjtvurkzu{zoom:67%;}</style>
 
 <blockquote>
 <p>对应的PC主机 ,Windows 可能需要关闭防火墙或者改出入站规则 ，不然ping 不上</p>
 </blockquote>
 <h3 id="ssh传输出错"><a href="#ssh传输出错" class="headerlink" title="ssh传输出错"></a>ssh传输出错</h3><p>运行重新编译的文件系统后，如果网络ip和之前设置的一样，容易出现其“指纹”和保存的不一样的问题，发出警告不予传输：</p>
-<style>.rbkruenhivfd{zoom:67%;}</style>
+<style>.wigkdbogjcsn{zoom:67%;}</style>
 
 <p>解决办法，打开用户目录下面的.ssh&#x2F;known_hosts文件，然后删除连过这个ip地址的记录，那么下次连接的时候会认为是第一次连接，所以会重新保存指纹。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&quot;</span> &gt; ./.ssh/known_hosts</span><br></pre></td></tr></table></figure>
-<style>.ubewsvglvpqp{zoom:67%;}</style>
+<style>.qvjjedklgklh{zoom:67%;}</style>
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
