@@ -1,0 +1,603 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>ARM体系结构 - Blog</title>
+
+  
+    <meta name="description" content="概述内容主要参考“arm体系结构与编程”第2版，这里的体系架构主要以ARM9为例进行说明。 ARM含义ARM有三种含义：ARM公司、ARM处理器、ARM技术 ARM公司是专门从事基于RISC技术的芯片设计开发的公司。作为知识产权供应商，ARM本身并不直接从事芯片生产，而是转让设计许可，由合作公司生产各具特色的芯片。世界各大半导体生产商从ARM公司购买其设计的ARM微处理器核，根据各自的不同应用领域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARM体系结构">
+<meta property="og:url" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="概述内容主要参考“arm体系结构与编程”第2版，这里的体系架构主要以ARM9为例进行说明。 ARM含义ARM有三种含义：ARM公司、ARM处理器、ARM技术 ARM公司是专门从事基于RISC技术的芯片设计开发的公司。作为知识产权供应商，ARM本身并不直接从事芯片生产，而是转让设计许可，由合作公司生产各具特色的芯片。世界各大半导体生产商从ARM公司购买其设计的ARM微处理器核，根据各自的不同应用领域">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312215004407.png">
+<meta property="og:image" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312211626917.png">
+<meta property="og:image" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312212917131.png">
+<meta property="og:image" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312213451807.png">
+<meta property="article:published_time" content="2024-03-12T07:37:39.000Z">
+<meta property="article:modified_time" content="2024-03-14T02:17:56.972Z">
+<meta property="article:author" content="baimin">
+<meta property="article:tag" content="arm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312215004407.png">
+  
+  
+  
+  <meta name="keywords" content="arm">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ARM%E5%90%AB%E4%B9%89"><span class="toc-text">ARM含义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARM%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84%E7%89%88%E6%9C%AC"><span class="toc-text">ARM体系架构版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E7%89%B9%E7%82%B9"><span class="toc-text">ARM体系结构特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM%E5%A4%84%E7%90%86%E5%99%A8%E7%9A%84%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%BC%8F"><span class="toc-text">ARM处理器的运行模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">ARM寄存器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM%E6%8C%87%E4%BB%A4%E9%9B%86"><span class="toc-text">ARM指令集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM%E4%BD%93%E7%B3%BB%E7%9A%84%E5%BC%82%E5%B8%B8%E4%B8%AD%E6%96%AD"><span class="toc-text">ARM体系的异常中断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="toc-text">ARM 流水线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ARM%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-text">ARM存储器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I-O-%E7%AE%A1%E7%90%86"><span class="toc-text">I&#x2F;O 管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/"><span class="title">linux-全志V3s移植uboot kernel rootfile记录</span></a><a class="item title active" href="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="title">ARM体系结构</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/02/27/linux-%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B/"><span class="title">linux应用编程</span></a><a class="item title" href="/2024/02/26/linux-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/"><span class="title">linux-基础命令使用</span></a><a class="item title" href="/2024/03/11/cpp-%E5%B8%B8%E7%94%A8STL%E8%AE%B0%E5%BD%95/"><span class="title">cpp常用STL记录</span></a><a class="item title" href="/2024/03/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="title">数据结构与算法</span></a><a class="item title" href="/2024/03/08/C%E8%AF%AD%E8%A8%80-%E5%9F%BA%E7%A1%80/"><span class="title">C语言基础</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a><a class="item title" href="/2024/03/02/%E4%BB%A3%E7%A0%81%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span class="title">代码命名规范</span></a><a class="item title" href="/2024/02/27/Visual-Studio%E7%9A%84%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E8%A7%A3%E9%87%8A/"><span class="title">Visual Studio的属性配置解释</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-12T07:37:39.000Z">2024-03-12</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-14T02:17:56.972Z">2024-03-14</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>ARM体系结构</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>内容主要参考“arm体系结构与编程”第2版，这里的体系架构主要以ARM9为例进行说明。</p>
+<h3 id="ARM含义"><a href="#ARM含义" class="headerlink" title="ARM含义"></a>ARM含义</h3><p>ARM有三种含义：ARM公司、ARM处理器、ARM技术</p>
+<p><strong>ARM公司</strong>是专门从事基于RISC技术的芯片设计开发的公司。作为知识产权供应商，ARM本身并不直接从事芯片生产，而是转让设计许可，由合作公司生产各具特色的芯片。世界各大半导体生产商从ARM公司购买其设计的ARM微处理器核，根据各自的不同应用领域，加入适当的外围电路，从而形成自己的ARM微处理器芯片进入市场。目前，全世界有几十家大的半导体公司都使用ARM公司的授权，因此既使得ARM技术获得更多的第三方工具、制造、软件的支持特，又使整个系统成本降低，使产品更容易进入市场并被消费者接受，更具有竞争力。 ARM知识产权授权用户非常众多，其中包括世界顶级的半导体和系统公司。</p>
+<p><strong>ARM处理器</strong>：ARM处理器是由ARM公司设计和授权的处理器架构。</p>
+<ol>
+<li><strong>架构特点</strong>：ARM处理器采用精简指令集计算机（RISC）架构，设计目标是提供高性能和低功耗的处理解决方案。ARM处理器的指令集简洁高效，优化了指令执行和内存访问，提供高效的数据处理和控制能力。</li>
+<li><strong>处理器系列</strong>：ARM公司设计了多个系列的处理器架构，以满足不同应用需求。其中包括：<ul>
+<li><strong>ARM Cortex-A系列</strong>：面向高性能计算和多任务处理，适用于智能手机、平板电脑、云服务器等需要较强处理能力的应用。</li>
+<li><strong>ARM Cortex-R系列</strong>：专为实时应用设计，提供可靠的实时性能和可预测性，适用于汽车电子、工业控制和嵌入式系统等领域。</li>
+<li><strong>ARM Cortex-M系列</strong>：针对低功耗和资源受限的嵌入式应用，提供紧凑的处理能力和实时性能，适用于物联网设备、传感器节点等。</li>
+</ul>
+</li>
+</ol>
+<p><strong>ARM技术</strong>是由ARM公司开发和推广的一系列技术和解决方案，涵盖了处理器架构、系统设计、软件开发和生态系统支持等方面。</p>
+<h3 id="ARM体系架构版本"><a href="#ARM体系架构版本" class="headerlink" title="ARM体系架构版本"></a>ARM体系架构版本</h3><p>迄今为止，ARM体系结构已经定义了多个版本，从低版本到高版本，ARM体系的指令集功能不断扩大。同时，各版本中还有一些变种，这些变种定义了该版本指令集中不同的功能。ARM处理器系列中的各种处理器，所采用的实现技术各不相同，性能差别很大，应用场合也有所不同，但是只要它们支持相同的ARM体系版本，基于它们的应用软件将是兼容的。</p>
+<p>ARM的版本分为两类，一个是内核版本，一个处理器版本。内核版本也就是ARM架构，如ARMv1、ARMv2、ARMv3、ARMv4、ARMv5、ARMv6、ARMv7、ARMv8等。处理器版本也就是ARM处理器，如ARM1、ARM9、ARM11、ARM Cortex-A（A7、A9、A15），ARM Cortex-M（M1、M3、M4）、ARM Cortex-R，这个也是通常意义上所指的ARM版本。</p>
+<p>ARM体系结构的版本</p>
+<table>
+<thead>
+<tr>
+<th>内核（架构）版本</th>
+<th>时间</th>
+<th>处理器版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ARMv1</td>
+<td>1985</td>
+<td>ARM1</td>
+</tr>
+<tr>
+<td>ARMv2</td>
+<td>1986</td>
+<td>ARM2、ARM3</td>
+</tr>
+<tr>
+<td>ARMv3</td>
+<td>1990</td>
+<td>ARM6、ARM7（<strong>没有MMU</strong>）<br />（引入了<u>Thumb指令集</u>，该指令集使用16位指令，用于提高代码密度。）</td>
+</tr>
+<tr>
+<td>ARMv4</td>
+<td>1993</td>
+<td>StrongARM、ARM7TDMI、ARM9TDMI<br />（支持<u>分页内存管理</u>等）</td>
+</tr>
+<tr>
+<td>ARMv5</td>
+<td>1998</td>
+<td>ARM7EJ、<strong>ARM9</strong>、ARM9E、ARM10E、XScale<br />（<u>协处理器支持</u>、增强的分页内存管理和增强的Thumb指令集）</td>
+</tr>
+<tr>
+<td>ARMv6</td>
+<td>2001</td>
+<td>ARM11、ARM Cortex-M<br />（引入了<u>Thumb-2指令集</u>，该指令集能够同时支持16位和32位指令。）</td>
+</tr>
+<tr>
+<td>ARMv7</td>
+<td>2004</td>
+<td>ARM <strong>Cortex-A</strong>（应用程序处理器）、ARM Cortex-R（实时处理器）、ARM Cortex-M（微控制器）<br />（32位ARM处理器体系结构的最高版本，<u>从这时开始ARM公司以Cortex来重新命名处理器</u>）</td>
+</tr>
+<tr>
+<td>ARMv8</td>
+<td>2011</td>
+<td>ARM Cortex-A30、ARM Cortex-A50、ARM Cortex-A70等<br />（<u>引入了AArch64，开始支持64位指令集</u>）</td>
+</tr>
+<tr>
+<td>ARMv9</td>
+<td>2021</td>
+<td>ARM Cortex-A510 &#x2F; A710 &#x2F; A715&#x2F;X2&#x2F;X3…等</td>
+</tr>
+</tbody></table>
+<p>常见SoC型号的架构及处理器版本示例：</p>
+<table>
+<thead>
+<tr>
+<th>SoC型号</th>
+<th>处理器版本</th>
+<th>架构版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>三星s3c2440&#x2F;S3C2410</td>
+<td>ARM9系列</td>
+<td>ARMv4</td>
+</tr>
+<tr>
+<td>全志F1C100s&#x2F;F1C200s</td>
+<td>ARM9系列</td>
+<td>ARMv5</td>
+</tr>
+<tr>
+<td>三星S3C6440</td>
+<td>ARM11系列</td>
+<td>ARMv6</td>
+</tr>
+<tr>
+<td>i.MX6ULL<br />全志A20&#x2F;A31&#x2F;V3s</td>
+<td>Cortex-A7</td>
+<td>ARMv7</td>
+</tr>
+<tr>
+<td>全志A10<br />苹果A4</td>
+<td>Cortex-A8</td>
+<td>ARMv7</td>
+</tr>
+<tr>
+<td>高通骁龙815<br />全志H616<br />瑞芯微RK3528</td>
+<td>Cortex-A53&#x2F;A57</td>
+<td>ARMv8</td>
+</tr>
+<tr>
+<td>瑞芯微RK3399</td>
+<td>Cortex-A53+A72</td>
+<td>ARMv8</td>
+</tr>
+<tr>
+<td>麒麟9000<br />骁龙888、天玑8100</td>
+<td>Cortex-A77&#x2F;A78</td>
+<td>ARMv8</td>
+</tr>
+<tr>
+<td>骁龙8Gen1</td>
+<td>Cortex-X2+A710+A510</td>
+<td>ARMv9</td>
+</tr>
+</tbody></table>
+<h3 id="ARM体系结构特点"><a href="#ARM体系结构特点" class="headerlink" title="ARM体系结构特点"></a>ARM体系结构特点</h3><p>主要参考”ARM体系结构与编程_唐振明“。</p>
+<p>ARM 内核采用精简指令集结构（Reduced Instruction Set Computer，RISC）体系结构。RISC技术产生于 20 世纪 70 年代，其设计目标是创建一种能以每个时钟周期执行一条指令的速度很快的计算机。RISC 的设计重点在于降低由硬件执行的指令复杂度，这是因为软件比硬件容易提供更大的灵活性和更高的智能。与其相对的传统复杂指令级计算机（CISC）则更侧重于硬件执行指令的功能性，这使 CISC 指令变得更复杂。</p>
+<style>.peyxrdcmkfye{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312215004407.png" class="peyxrdcmkfye lazy" alt="image-20240312215004407">
+
+<p>（1）Load&#x2F;Store 体系结构</p>
+<p>Load&#x2F;Store 体系结构也称为寄存器&#x2F;寄存器体系结构或者 RR 系统结构。在这类结构中，操作数和运算结果不是通过主存储器直接取回而是借用大量标量和矢量寄存器来取回的。与 RR体系结构相反，还有一种存储器&#x2F;存储器体系结构，在这种体系结构中，源操作数的中间值和最后的运算结果是直接从主存储器中取回的，这类结构的缩写符号是 SS 体系结构。</p>
+<p>（2）固定长度指令</p>
+<p>固定长度指令使得机器译码变得比较容易。由于指令简单，需要更多的指令来完成相同的工作，但是开发快速的价格低廉的存储器装置使得可以更快地执行较大代码段（大量指令成为可能）。</p>
+<p>（3）硬联控制</p>
+<p>RISC 机以硬联控制指令为特点，而 CISC 的微代码指令则相反。与用 CISC（常常是可变长度的）指令集来使处理器的语义效率最大相反，简单指令往往容易被机器翻译。像 CISC 那样通过执行较少指令来完成工作未必省时，因为还要包括微代码译码所需要的时间。因此，由硬件实现指令在执行时间方面提供了更好的平衡。除此之外，还节省了芯片上用于存储微代码的空间并且消除了翻译微代码所需的时间。</p>
+<p>（4）流水线</p>
+<p>指令处理过程被拆分为几个更小的、能够被流水线并行执行的单元。在理想情况下，流水线每周期前进一步，可获得更高的吞吐率。</p>
+<p>（5）寄存器</p>
+<p>RICS 处理器拥有更多的通用寄存器，每个寄存器都可存放数据或地址。寄存器可为所有的数据操作提供快速的局部存储访问。</p>
+<h2 id="ARM处理器的运行模式"><a href="#ARM处理器的运行模式" class="headerlink" title="ARM处理器的运行模式"></a>ARM处理器的运行模式</h2><table>
+<thead>
+<tr>
+<th>运行模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>用户模式(User,usr)</td>
+<td>正常程序执行的模式</td>
+</tr>
+<tr>
+<td>快速中断模式(FIQ,fq)</td>
+<td>用于高速数据传输和通道处理</td>
+</tr>
+<tr>
+<td>外部中断模式(IRQ,irq)</td>
+<td>用于通常的中断处理</td>
+</tr>
+<tr>
+<td>特权模式(Supervisor,sve)</td>
+<td>供操作系统使用的一种保护模式</td>
+</tr>
+<tr>
+<td>数据访问中止模式(Abort,abt)</td>
+<td>用于虚拟存储及存储保护</td>
+</tr>
+<tr>
+<td>未定义指令中止模式(Undefined,und)</td>
+<td>用于支持通过软件仿真硬件的协处理器</td>
+</tr>
+<tr>
+<td>系统模式(System,sys)</td>
+<td>用于运行特权级的操作系统任务</td>
+</tr>
+</tbody></table>
+<p>除了用户模式之外的其他6种处理器模式称为<strong>特权模式</strong>（Privileged Modes）。在这些模式下，程序可以访问所有的系统资源，也可以任意地进行处理器模式的切换。其中，除系统模式外，其他5种特权模式又称为<strong>异常模式</strong>。</p>
+<p>处理器模式可以通过软件控制进行切换，也可以通过外部中断或异常处理过程进行切换。大多数的用户程序运行在用户模式下。这时，应用程序不能够访问一些受操作系统保护的系统资源。应用程序也不能直接进行处理器模式的切换。当需要进行处理器模式切换时，应用程序可以产生异常处理，在异常处理过程中进行处理器模式的切换。这种体系结构可以使操作系统控制整个系统的资源。</p>
+<p>当应用程序发生异常中断时，处理器进入相应的异常模式。在每一种异常模式中都有一组寄存器，供相应的异常处理程序使用，这样就可以保证在进入异常模式时，用户模式下的寄存器（保存了程序运行状态）不被破坏。</p>
+<p>系统模式并不是通过异常过程进入的，它和用户模式具有完全一样的寄存器。但是系统模式属于特权模式，可以访问所用的系统资源，也可以直接进行处理器模式切换。它主要供操作系统任务使用。通常操作系统的任务需要访问所有的系统资源，同时该任务仍然使用用户模式的寄存器组，而不是使用异常模式下相应的寄存器组，这样可以保证当异常中断发生时任务状态不被破坏。</p>
+<h2 id="ARM寄存器"><a href="#ARM寄存器" class="headerlink" title="ARM寄存器"></a>ARM寄存器</h2><p>ARM处理器共有37个寄存器。其中包括：</p>
+<p>●　31个通用寄存器，包括程序计数器（PC）在内。这些寄存器都是32位寄存器。</p>
+<p>●　6个状态寄存器。这些寄存器都是32位寄存器，但目前只使用了其中12位。</p>
+<p>ARM处理器共有7种不同的处理器模式，在每一种处理器模式中有一组相应的寄存器组。任意时刻（也就是任意的处理器模式下），可见的寄存器包括15个通用寄存器（R0～R14）、一个或两个状态寄存器及程序计数器（PC）。在所有的寄存器中，有些是各模式共用的同一个物理寄存器；有一些寄存器是各模式自己拥有的独立的物理寄存器。</p>
+<style>.zmukkxinwefk{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312211626917.png" class="zmukkxinwefk lazy" alt="image-20240312211626917">
+
+<p><strong>通用寄存器</strong></p>
+<p>通用寄存器可以分为下面3类：</p>
+<p>●　未备份寄存器（Unbanked Registers），包括R0～R7。</p>
+<p>●　备份寄存器（Banked Registers），包括R8～R14。</p>
+<p>●　程序计数器PC，即R15。</p>
+<p>1．未备份寄存器</p>
+<p>未备份寄存器包括R0～R7。对于每一个未备份寄存器来说，在所有的处理器模式下指的都是同一个物理寄存器。在异常中断造成处理器模式切换时，由于不同的处理器模式使用相同的物理寄存器，可能造成寄存器中数据被破坏。未备份寄存器没有被系统用于特别的用途，任何可采用通用寄存器的应用场合都可以使用未备份寄存器。</p>
+<p>2．备份寄存器</p>
+<p>对于备份寄存器R8～R12来说，每个寄存器对应两个不同的物理寄存器。例如，当使用快速中断模式下的寄存器时，寄存器R8和寄存器R9分别记作R8_fiq、R9_fiq；当使用用户模式下的寄存器时，寄存器R8和寄存器R9分别记作R8_usr、R9_usr等。在这两种情况下，使用的是不同的物理寄存器。系统没有将这几个寄存器用于任何特殊用途，但是当中断处理非常简单，仅仅使用R8～R14寄存器时，FIQ处理程序可以不必执行保存和恢复中断现场的指令，从而可以使中断处理过程非常迅速。</p>
+<p>对于备份寄存器R13和R14来说，每个寄存器对应6个不同的物理寄存器，其中的一个是用户模式和系统模式共用的；另外的5个对应于其他5种处理器模式。</p>
+<p>3．程序计数器R15</p>
+<p>程序计数器R15又被记作PC。它虽然可以作为一般的通用寄存器使用，但是有一些指令在使用R15时有一些特殊限制。当违反了这些限制时，该指令执行的结果将是不可预料的。</p>
+<p><strong>程序状态寄存器</strong></p>
+<p>CPSR（当前程序状态寄存器）可以在任何处理器模式下被访问。它包含了条件标志位、中断禁止位、当前处理器模式标志以及其他的一些控制和状态位。</p>
+<p>每一种处理器模式下都有一个专用的物理状态寄存器，称为SPSR（备份程序状态寄存器）。当特定的异常中断发生时，这个寄存器用于存放当前程序状态寄存器的内容。在异常中断程序退出时，可以用SPSR中保存的值来恢复CPSR。</p>
+<p>由于用户模式和系统模式不是异常中断模式，所以它们没有SPSR。当在用户模式或系统模式中访问SPSR时，将会产生不可预知的结果。</p>
+<p>CPSR的格式如下所示，SPSR格式与CPSR格式相同</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312212917131.png" class="lazy" title="image-20240312212917131">
+
+<h2 id="ARM指令集"><a href="#ARM指令集" class="headerlink" title="ARM指令集"></a>ARM指令集</h2><p>ARM处理器使用ARM指令集和Thumb指令集。</p>
+<ul>
+<li>ARM指令集包含32位的指令，提供了丰富的功能和灵活性。</li>
+<li>Thumb指令集支持16位的指令，用于提高代码密度和节省存储空间。</li>
+<li>最新的ARM处理器还支持AArch64执行状态，提供了64位的指令集，称为AArch64指令集。</li>
+</ul>
+<p><strong>Thumb指令集</strong></p>
+<p>Thumb指令集是ARM架构中的一种16位指令集，旨在提高代码密度和降低存储器需求。</p>
+<p>Thumb指令集与ARM指令集的区别：</p>
+<ol>
+<li><code>指令长度</code>：ARM指令集的指令长度为32位，而Thumb指令集的指令长度为16位。由于指令长度减少了一半，Thumb指令集可以在同样的存储空间下存储更多的指令，从而提高了代码密度。</li>
+<li><code>寄存器数量</code>：ARM指令集有16个通用寄存器，每个寄存器都是32位的。而Thumb指令集有8个通用寄存器，每个寄存器都是16位的。这意味着在Thumb指令集中，可以同时使用的寄存器数量更少，因此需要更频繁地进行数据的加载和存储。</li>
+<li><code>指令集功能</code>：ARM指令集提供了更多的功能和灵活性，支持更多的数据处理操作和复杂的指令流控制。相比之下，Thumb指令集在设计上更加简化，提供了基本的数据操作和简单的控制流指令，牺牲了一些高级功能和复杂的指令。</li>
+<li><code>性能</code>：由于Thumb指令集的指令长度较短，指令的执行时间通常也较短。因此，在某些情况下，Thumb指令集可以提供更高的执行速度和更低的功耗。</li>
+</ol>
+<p><strong>ARM指令集</strong></p>
+<p>ARM指令集可以分为6类，即跳转指令、数据处理指令、程序状态寄存器（PSR）传输指令、Load&#x2F;Store指令、协处理器指令和异常中断产生指令。</p>
+<h2 id="ARM体系的异常中断"><a href="#ARM体系的异常中断" class="headerlink" title="ARM体系的异常中断"></a>ARM体系的异常中断</h2><p>在ARM体系中，通常有以下3种方式控制程序的执行流程：</p>
+<p>●　在正常程序执行过程中，每执行一条ARM指令，程序计数寄存器（PC）的值加4个字节；每执行一条Thumb指令，程序计数寄存器（PC）的值加两个字节。整个过程是按顺序执行的。</p>
+<p>●　通过跳转指令，程序可以跳转到特定的地址标号处执行，或者跳转到特定的子程序处执行。其中，B指令用于执行跳转操作；BL指令在执行跳转操作的同时，保存子程序的返回地址；BX指令在执行跳转操作的同时，根据目标地址的最低位可以将程序状态切换到Thumb状态；BLX指令执行3个操作，跳转到目标地址处执行，保存子程序的返回地址，根据目标地址的最低位可以将程序状态切换到Thumb状态。</p>
+<p>●　当异常中断发生时，系统执行完当前指令后，将跳转到相应的异常中断处理程序处执行。在异常中断处理程序执行完成后，程序返回到发生中断的指令的下一条指令处执行。在进入异常中断处理程序时，要保存被中断的程序的执行现场，在从异常中断处理程序退出时，要恢复被中断的程序的执行现场。</p>
+<p><strong>ARM中异常中断的种类</strong></p>
+<style>.kcssebqwfbdf{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312213451807.png" class="kcssebqwfbdf lazy" alt="image-20240312213451807">
+
+<p><strong>ARM处理器对异常中断的响应过程</strong></p>
+<p>（1）保存处理器当前状态、中断屏蔽位以及各条件标志位。这是通过将当前程序状态寄存器CPSR的内容保存到将要执行的异常中断对应的SPSR寄存器中实现的。各异常中断有自己的物理SPSR寄存器。</p>
+<p>（2）设置当前程序状态寄存器CPSR中相应的位。包括设置CPSR中的位，使处理器进入相应的执行模式；设置CPSR中的位，禁止IRQ中断，当进入FIQ模式时，禁止FIQ中断。</p>
+<p>（3）将寄存器lr_mode设置成返回地址。</p>
+<p>（4）将程序计数器（PC）设置成该异常中断的中断向量地址，从而跳转到相应的异常中断处理程序处执行。</p>
+<p><strong>从异常中断处理程序中返回过程</strong></p>
+<p>（1）恢复被中断的程序的处理器状态，即将SPSR_mode寄存器内容复制到CPSR中。</p>
+<p>（2）返回到发生异常中断的指令的下一条指令处执行，即把lr_mode寄存器的内容复制到程序计数器PC中。</p>
+<p><strong>中断和异常的区别</strong></p>
+<ul>
+<li><code>中断（Interrupt）</code>是由外部设备或事件引发的中断请求，用于打断正在执行的指令流，让处理器转移到中断服务程序（Interrupt Service Routine，ISR）来处理该事件。中断通常由外部设备的信号触发，例如定时器溢出、外部设备的输入等。</li>
+<li><code>异常（Exception）</code>是由程序运行过程中的异常情况引发的事件，如无效的指令、访问越界、除以零等。异常会导致处理器从当前模式切换到异常模式，并执行异常处理程序（Exception Handler）来处理异常情况。</li>
+</ul>
+<p><strong>异常处理过程</strong></p>
+<ol>
+<li>当发生异常时，处理器会保存当前的上下文信息（如寄存器状态、程序计数器等），以便稍后恢复执行。</li>
+<li>处理器会根据异常类型和优先级判断是否响应该异常，如果需要响应，则会切换到异常模式，并跳转到相应的异常处理程序。</li>
+<li>异常处理程序会执行相关的异常处理逻辑，如错误处理、状态恢复、错误日志记录等。</li>
+<li>在处理完异常后，处理器会从保存的上下文信息中恢复状态，并回到原来的模式和指令流中，继续执行。</li>
+</ol>
+<h2 id="ARM-流水线"><a href="#ARM-流水线" class="headerlink" title="ARM 流水线"></a>ARM 流水线</h2><p>处理器按照一系列步骤来执行每一条指令。典型计算机系统的步骤如下: </p>
+<p>（1）从存储器读取指令（fetch）；</p>
+<p>（2）译码以鉴别它是属于哪一条指令（dec）；</p>
+<p>（3）从指令中提取指令的操作数（这些操作数往往存在于寄存器中）（reg）；</p>
+<p>（4）将操作数进行组合以得到结果或存储器地址（ALU）；</p>
+<p>（5）如果需要，则访问存储器以存储数据（mem）；</p>
+<p>（6）将结果写回到寄存器堆（res）。</p>
+<p>并不是所有的指令都需要其中的每一个步骤，但是，多数指令需要其中的多个步骤。这些步骤往往使用不同的硬件功能，如果一条指令不是在前一条指令结束之前就开始，那么在每一步骤内处理器只有少部分的硬件在使用。</p>
+<p>有一个明显的方法可以改善硬件资源的使用率和处理器的吞吐量，这就是当前一条指令结束之前就开始执行下一条指令，也就是通常所说的<strong>流水线（Pipeline）技术</strong>。</p>
+<p>流水线是RISC 处理器执行指令时采用的机制。使用流水线，可在取下一条指令的同时译码和执行其他指令，从而加快执行的速度。</p>
+<p><strong>管道流水线</strong></p>
+<p>ARM处理器的管道流水线是一种用于提高指令执行效率的技术。它将指令执行过程划分为多个阶段，并在每个阶段引入寄存器，使得多条指令可以同时在不同的阶段执行。这样可以提高处理器的吞吐量，使得指令能够更快地完成执行。</p>
+<p>流水线中的不同阶段包括：</p>
+<ol>
+<li>取指令（Instruction Fetch）</li>
+<li>译码（Instruction Decode）</li>
+<li>执行（Execute）</li>
+<li>访存（Memory Access）</li>
+<li>写回（Write Back）</li>
+</ol>
+<p>通过流水线技术，当一条指令执行进入流水线后，后续的指令可以继续进入流水线的不同阶段，从而实现指令级并行（Instruction-Level Parallelism）。这可以提高处理器的效率，使得多条指令可以在同一时间段内重叠执行。</p>
+<h2 id="ARM存储器"><a href="#ARM存储器" class="headerlink" title="ARM存储器"></a>ARM存储器</h2><p>ARM 处理器内核广泛应用于嵌入式系统和其他行业应用中。为了适应不同系统的需要，ARM 采用了灵活多样的存储管理体系。从平板式内存映射到灵活方便的 MMU 内存管理单元，用户可以根据自己的需要使用不同的存储管理策略。在 ARM 体系结构中可使用的存储管理策略包括以下几种：</p>
+<p>（1）多类型的存储单元（可以使用 SDRAM、FLASH 等）；</p>
+<p>（2）Caches；</p>
+<p>（3）写缓存；</p>
+<p>（4）虚拟内存地址</p>
+<p>另外，内存映射 I&#x2F;O 机制可以使开发者灵活、方便地增加大量外设。可以通过下面的几种方法实现对存储系统的管理：</p>
+<p>（1）使能 Cache，加快存储器的访问速度；</p>
+<p>（2）启动虚拟地址到物理地址的映射；</p>
+<p>（3）使用“域管理”策略，对存储单元的访问进行保护；</p>
+<p>（4）对 I&#x2F;O 映射地址空间的访问加以限制。</p>
+<p><strong>ARM的Cache和MMU</strong></p>
+<ol>
+<li><code>Cache</code>：Cache是一种位于处理器和主存之间的高速存储器，用于存储最近使用的数据和指令。它的作用是通过预先将数据和指令复制到快速的缓存中，加快对数据的访问速度，减少对主存的访问次数。Cache的工作原理是基于局部性原理，即程序和数据的访问往往呈现出一定的空间局部性和时间局部性。Cache通过存储最近使用的数据块，以便在后续的访问中快速提供数据，减少了对主存的延迟。</li>
+<li><code>MMU</code>:MMU是负责管理虚拟内存和物理内存之间映射关系的组件。它允许操作系统和应用程序使用虚拟内存地址，而不必关心物理内存的实际分配情况。MMU的主要功能包括地址转换和内存保护。它通过将虚拟地址转换为物理地址，实现了对虚拟内存的透明访问。MMU还负责内存保护，通过访问控制和权限设置，确保不同应用程序之间的内存隔离和安全性。MMU还支持内存映射技术，例如页面映射（Page Mapping）和段映射（Segment Mapping），以及虚拟内存的分页和分段机制，实现了灵活的内存管理和资源分配。</li>
+</ol>
+<p><strong>ARM的大端和小端字节序</strong></p>
+<p>字节序（Byte Order）指的是多字节数据在内存中存储的顺序。在ARM体系结构中，字节序对于处理器和操作系统的开发者来说是重要的。不同的字节序可能会影响数据的读取和存储，特别是在跨平台和数据交换的情况下。</p>
+<ol>
+<li><code>大端字节序</code>：在大端字节序中，多字节数据的高位字节存储在低地址处，而低位字节存储在高地址处。这意味着多字节数据的字节顺序与其在内存中的存储顺序相同。</li>
+<li><code>小端字节序</code>：在小端字节序中，多字节数据的低位字节存储在低地址处，而高位字节存储在高地址处。这意味着多字节数据的字节顺序与其在内存中的存储顺序相反。</li>
+</ol>
+<h2 id="I-O-管理"><a href="#I-O-管理" class="headerlink" title="I&#x2F;O 管理"></a>I&#x2F;O 管理</h2><p>ARM 系统完成 I&#x2F;O 功能的标准方法是使用存储器映射 I&#x2F;O。这种方法使用特定的存储器地址。当从这些地址加载或向这些地址存储时，它们提供 I&#x2F;O 功能。某些 ARM 系统中也可能存在直接存储器访问（Direct Memory Access，DMA）硬件。</p>
+<p>外围设备（如串行线控制器）中包含一些寄存器。在存储器映射系统中，这些寄存器就像特定地址的存储器一样（在其他的系统组织中，I&#x2F;O 功能可能与存储器件有不同的寻址空间）。如串行线控制器可能有以下 5 种寄存器：</p>
+<p>（1）发送数据寄存器（只写）：写入这个位置的数据被送往串行线。</p>
+<p>（2）接收数据寄存器（只读）：保存从串行线送来的数据。</p>
+<p>（3）控制寄存器（读&#x2F;写）：设置数据速率，管理 RTS（请求发送）和其他类似信号。</p>
+<p>（4）中断使能寄存器（读&#x2F;写）：控制中断的硬件事件。</p>
+<p>（5）状态寄存器（读&#x2F;写）：指示读数据是否有效，写缓存是否满等。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>来源：<a target="_blank" rel="noopener" href="https://eight-legged-essay.yangpaopao.space/arm/basic.html">https://eight-legged-essay.yangpaopao.space/arm/basic.html</a></p>
+<p><strong>ARM的协处理器（Coprocessor）和向量处理器（NEON）</strong></p>
+<ol>
+<li><code>协处理器（Coprocessor）</code>：协处理器是ARM处理器的一个可选扩展，用于执行特定的处理任务。它是与主处理器并行工作的一个辅助处理器。协处理器可以执行一些特定的指令和操作，例如浮点运算、加密算法、信号处理等。通过将特定任务分配给协处理器，ARM处理器可以提高处理性能和效率。</li>
+<li><code>向量处理器（NEON）</code>：NEON是ARM处理器中的一个向量处理器扩展，用于高效执行并行的多媒体和信号处理操作。NEON提供了一组特定的指令和寄存器，用于同时处理多个数据元素，例如矢量、矩阵和像素数据。这使得ARM处理器能够高效地执行诸如图像处理、音频处理、视频编解码等计算密集型任务。</li>
+</ol>
+<p><strong>ARM体系结构中的Thumb-2技术</strong></p>
+<p>Thumb-2是ARM体系结构中的一种指令集技术，旨在提高代码密度和性能。它结合了Thumb指令集（16位指令）和ARM指令集（32位指令），使得处理器能够同时执行16位和32位指令，以适应不同的应用场景。Thumb-2技术提供了以下优势：</p>
+<ol>
+<li><code>代码密度改善</code>：Thumb-2指令集中的16位指令相比于32位指令更加紧凑，占用更少的存储空间。通过使用Thumb-2指令集，可以显著减少程序的代码大小。这对于存储有限的设备（如嵌入式系统）和带宽受限的环境非常有益。</li>
+<li><code>性能提升</code>：Thumb-2技术不仅仅是为了减少代码大小，还针对性能进行了优化。Thumb-2指令集中的某些16位指令具有与对应的32位指令相似的执行效率。这意味着通过使用Thumb-2指令集，可以在减少代码大小的同时保持较高的执行效率。</li>
+<li><code>兼容性和灵活性</code>：Thumb-2技术兼容先前的Thumb指令集，因此可以无缝地与使用Thumb指令集编写的现有代码进行交互。此外，处理器可以在Thumb状态和ARM状态之间进行快速切换，使得开发人员可以根据需要选择最适合的指令集。</li>
+</ol>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/">linux-全志V3s移植uboot kernel rootfile记录</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/11/cpp-%E5%B8%B8%E7%94%A8STL%E8%AE%B0%E5%BD%95/">cpp常用STL记录</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>

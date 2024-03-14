@@ -1,0 +1,378 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>C语言-预处理相关 - Blog</title>
+
+  
+    <meta name="description" content="#error 12345678&#x2F;&#x2F; 编译程序时，只要遇到#error就会生成一个编译错误提醒，并且停止编译，语法格式:#error error-message实例:#ifdef xxx#error “xxx has been defined”#else#endif  #ifndef #define #endif 1234&#x2F;&#x2F; 当项目中有多个c文件使用到同一个头文件是，在编译的时候会出现大量的变量，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C语言-预处理相关">
+<meta property="og:url" content="http://example.com/2024/02/26/C%E8%AF%AD%E8%A8%80-%E9%A2%84%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="#error 12345678&#x2F;&#x2F; 编译程序时，只要遇到#error就会生成一个编译错误提醒，并且停止编译，语法格式:#error error-message实例:#ifdef xxx#error “xxx has been defined”#else#endif  #ifndef #define #endif 1234&#x2F;&#x2F; 当项目中有多个c文件使用到同一个头文件是，在编译的时候会出现大量的变量，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-26T11:48:56.000Z">
+<meta property="article:modified_time" content="2024-02-26T11:50:09.205Z">
+<meta property="article:author" content="baimin">
+<meta property="article:tag" content="C语言">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="C语言">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#error"><span class="toc-text">#error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ifndef-define-endif"><span class="toc-text">#ifndef #define #endif</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#define%E5%92%8Cconst"><span class="toc-text">#define和const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#typedef%E5%92%8C-define"><span class="toc-text">typedef和#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#define"><span class="toc-text">#define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#include"><span class="toc-text">#include</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="toc-text">C代码编译过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E5%AE%9A%E4%B9%89%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F"><span class="toc-text">在头文件中是否可以定义静态变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%92%8C-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">#和##的作用</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/"><span class="title">linux-全志V3s移植uboot kernel rootfile记录</span></a><a class="item title" href="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="title">ARM体系结构</span></a><a class="item title" href="/2024/02/27/linux-%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B/"><span class="title">linux应用编程</span></a><a class="item title" href="/2024/02/26/linux-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/"><span class="title">linux-基础命令使用</span></a><a class="item title" href="/2024/03/11/cpp-%E5%B8%B8%E7%94%A8STL%E8%AE%B0%E5%BD%95/"><span class="title">cpp常用STL记录</span></a><a class="item title" href="/2024/03/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="title">数据结构与算法</span></a><a class="item title" href="/2024/03/08/C%E8%AF%AD%E8%A8%80-%E5%9F%BA%E7%A1%80/"><span class="title">C语言基础</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a><a class="item title" href="/2024/03/02/%E4%BB%A3%E7%A0%81%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span class="title">代码命名规范</span></a><a class="item title" href="/2024/02/27/Visual-Studio%E7%9A%84%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E8%A7%A3%E9%87%8A/"><span class="title">Visual Studio的属性配置解释</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-02-26T11:48:56.000Z">2024-02-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-02-26T11:50:09.205Z">2024-02-26</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>C语言-预处理相关</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h3 id="error"><a href="#error" class="headerlink" title="#error"></a>#error</h3><blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 编译程序时，只要遇到#error就会生成一个编译错误提醒，并且停止编译，</span><br><span class="line">语法格式:</span><br><span class="line">#error error-message</span><br><span class="line">实例:</span><br><span class="line">#ifdef xxx</span><br><span class="line">#error “xxx has been defined”</span><br><span class="line">#else</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="ifndef-define-endif"><a href="#ifndef-define-endif" class="headerlink" title="#ifndef #define #endif"></a>#ifndef #define #endif</h3><blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 当项目中有多个c文件使用到同一个头文件是，在编译的时候会出现大量的变量，函数声明冲突，解决就是使用</span><br><span class="line">#ifndef _HEAR_H_</span><br><span class="line">#define _HEAR_H_</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="define和const"><a href="#define和const" class="headerlink" title="#define和const"></a>#define和const</h3><blockquote>
+<p>Define和const 都可以用于定义常量但以下区别(<strong>生效时间，内存占用情况，类型检查</strong>)：</p>
+<ol>
+<li>define只是单纯的文本替换，define常量的生命生命周期止于编译器，不存在分配内存，存在与程序的代码段</li>
+<li>const生效于编译的阶段；define生效于预处理阶段</li>
+<li>Const修饰的常量处于程序的数据段，在堆栈中分配空间</li>
+<li>Const有数据类型检查，define没有</li>
+<li>#define不可调试，const能调试</li>
+<li>const定义的变量在C中不是真正的常量</li>
+<li>Const 定义的常量不能作为数组的大小</li>
+</ol>
+</blockquote>
+<h3 id="typedef和-define"><a href="#typedef和-define" class="headerlink" title="typedef和#define"></a>typedef和#define</h3><blockquote>
+<p>原理不同：</p>
+<ol>
+<li>首先#define是预处理命令，在预处理阶段只是机械的替换带入字符串，并不会左类型检查，</li>
+<li>typedef是关键字，作用是给自己的作用域内给一个已经存在的类型起个别名</li>
+<li>#define没有作用域的限制，只要是之前预定义过的宏，在以后的程序中都可以使用，而typedef有自己的作用域</li>
+<li>对指针的操作不同</li>
+</ol>
+</blockquote>
+<h3 id="define"><a href="#define" class="headerlink" title="#define"></a>#define</h3><blockquote>
+<p><strong>表明一年</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define YEAR (60 * 60  * 24 * 365)ul</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>标准宏MIN</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define MIN(a, b) ((a) &lt; (b) ? (a) : (b))</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>缺点</strong></p>
+<ol>
+<li>无法进行类型检查</li>
+<li>运算优先级问题</li>
+<li>无法调试</li>
+<li>代码膨胀</li>
+<li>无法操作类的私有数据成员</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#define m(a,b) a*b</span><br><span class="line">// #define m(a,b) (a)*(b)//避免出问题最好加上()</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    printf(&quot;%d\n&quot;,m(5,6));</span><br><span class="line">    printf(&quot;%d\n&quot;,m(5+1,6));//实际是这样的：5+1*6</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define sqort(a)  ((a)*(a))</span><br><span class="line">// 实例1： </span><br><span class="line">int a = 5;</span><br><span class="line">int b = sqort(a++);//( (a++) * (a++) )  先给括号赋值 5之后a再+1=6</span><br><span class="line">printf(&quot;%d\n&quot;,b);//30</span><br><span class="line">printf(&quot;%d\n&quot;,a);//7</span><br><span class="line"></span><br><span class="line">// 实例2：	</span><br><span class="line">int a = 5;</span><br><span class="line">int b = sqort(++a);//(（++a）* (++a)) </span><br><span class="line">printf(&quot;%d\n&quot;,b);//49</span><br><span class="line">printf(&quot;%d\n&quot;,a);//7</span><br><span class="line"></span><br><span class="line">这里主要是考察++a和后加加的问题</span><br><span class="line">// 记住一点：</span><br><span class="line">++a返回的a的引用，a++返回的是a加之前的数值</span><br><span class="line">a的引用是要等最终的那个a才能确定的</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="include"><a href="#include" class="headerlink" title="#include"></a>#include</h3><blockquote>
+<p>对于.#include&lt;头文件&gt;，表示是系统文件，编译会先从标准库路径下搜索，编译器设置的头文件路径–&gt;系统变量</p>
+<p>对于#include”头文件”，当前头文件目录–&gt;编译器设置的头文件路径–&gt;系统变量</p>
+</blockquote>
+<h3 id="C代码编译过程"><a href="#C代码编译过程" class="headerlink" title="C代码编译过程"></a>C代码编译过程</h3><blockquote>
+<ol>
+<li><strong>预处理（Preprocessing）：</strong></li>
+</ol>
+<ul>
+<li>预处理阶段是在实际编译之前的一个可选步骤，用于处理源代码中的预处理指令，比如 <code>#include</code> 和 <code>#define</code>。</li>
+<li>预处理器将处理这些指令，并且可能会包含其他文件、进行宏替换等。</li>
+<li>预处理的输出是一个经过处理的源文件，通常以<code>.i</code>或<code>.ii</code>为扩展名。</li>
+</ul>
+<ol>
+<li><strong>编译（Compiling）：</strong></li>
+</ol>
+<ul>
+<li>编译阶段将预处理后的源代码转换为汇编代码（Assembly Code）。</li>
+<li>编译器（如GNU Compiler Collection中的<code>gcc</code>）将C源代码翻译成汇编语言。</li>
+<li>输出是一个以<code>.s</code>为扩展名的汇编代码文件。</li>
+</ul>
+<ol>
+<li><strong>汇编（Assembling）：</strong></li>
+</ol>
+<ul>
+<li>汇编阶段将汇编代码转换为机器语言指令。</li>
+<li>汇编器（如GNU Assembler中的<code>as</code>）将汇编代码翻译成机器码。</li>
+<li>输出是一个以<code>.o</code>或<code>.obj</code>为扩展名的目标文件，包含了二进制指令。</li>
+</ul>
+<ol>
+<li><strong>链接（Linking）：</strong></li>
+</ol>
+<ul>
+<li>链接阶段将多个目标文件（例如，多个C文件分别编译得到的目标文件）合并为一个可执行文件。</li>
+<li>链接器（如GNU的<code>ld</code>或<code>gcc</code>中的链接器部分）将各个目标文件中的函数和变量引用解析，并创建一个可执行文件。</li>
+<li>链接的输出是一个可执行的二进制文件，可以在操作系统上运行。</li>
+</ul>
+</blockquote>
+<h3 id="在头文件中是否可以定义静态变量"><a href="#在头文件中是否可以定义静态变量" class="headerlink" title="在头文件中是否可以定义静态变量"></a>在头文件中是否可以定义静态变量</h3><blockquote>
+<p>不可以，因为静态变量是有记忆的，不会随函数结束而结束，所以，如果定义在头文件中，那么就会被多个文件开辟空间，浪费资源或者重新出错</p>
+</blockquote>
+<h3 id="和-的作用"><a href="#和-的作用" class="headerlink" title="#和##的作用"></a>#和##的作用</h3><blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// #利用宏参数字符串化</span><br><span class="line">#define ARGV(x) printf(&quot;&quot;#x&quot; is %s\n&quot;,#x) //表示把参数x解释为字符串</span><br><span class="line">int a = 5;</span><br><span class="line">ARGV(a); //a is a</span><br><span class="line"></span><br><span class="line">// ##运算符粘合剂 组合成一个变量，强制分隔</span><br><span class="line">#define targ( n )   X##n   //表示X1......或Xn</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int a = 5;</span><br><span class="line">   // ARGV(a);</span><br><span class="line">   int targ(1) = 10;//表示 X1 =10</span><br><span class="line">   printf(&quot;%d\&quot;,X1);//10</span><br><span class="line">   return 0</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></blockquote>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/02/26/C%E8%AF%AD%E8%A8%80-%E5%85%B3%E9%94%AE%E5%AD%97/">C语言-关键字</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/02/26/C%E8%AF%AD%E8%A8%80-%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84%E7%9B%B8%E5%85%B3/">C语言-指针与数组相关</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>

@@ -1,0 +1,996 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>linux-基础命令使用 - Blog</title>
+
+  
+    <meta name="description" content="Linux系统基础资料：https:&#x2F;&#x2F;linuxtools-rst.readthedocs.io&#x2F;zh_CN&#x2F;latest&#x2F;base&#x2F;index.html 0.Linux帮助命令在linux终端，面对命令不知道怎么用，或不记得命令的拼写及参数时，我们需要求助于系统的帮助文档； linux系统内置的帮助文档很详细，通常能解决我们的问题，我们需要掌握如何正确的去使用它们；  在只记得部分命令关键字的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux-基础命令使用">
+<meta property="og:url" content="http://example.com/2024/02/26/linux-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Linux系统基础资料：https:&#x2F;&#x2F;linuxtools-rst.readthedocs.io&#x2F;zh_CN&#x2F;latest&#x2F;base&#x2F;index.html 0.Linux帮助命令在linux终端，面对命令不知道怎么用，或不记得命令的拼写及参数时，我们需要求助于系统的帮助文档； linux系统内置的帮助文档很详细，通常能解决我们的问题，我们需要掌握如何正确的去使用它们；  在只记得部分命令关键字的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/image-20220528152129627.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-1708953089999.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543131.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543142.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543143.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543154.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543165.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_19,color_FFFFFF,t_70,g_se,x_16.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/732635170d50411db2493b1446534a9c.png">
+<meta property="og:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543166-1708953418502.png">
+<meta property="article:published_time" content="2024-02-26T12:36:59.000Z">
+<meta property="article:modified_time" content="2024-03-13T02:38:50.283Z">
+<meta property="article:author" content="baimin">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/image-20220528152129627.png">
+  
+  
+  
+  <meta name="keywords" content="linux">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80"><span class="toc-text">Linux系统基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#0-Linux%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"><span class="toc-text">0.Linux帮助命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#whatis%E4%B8%8Einfo%E5%91%BD%E4%BB%A4"><span class="toc-text">whatis与info命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#man%E5%91%BD%E4%BB%A4"><span class="toc-text">man命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#which%E4%B8%8Ewhereis%E5%91%BD%E4%BB%A4"><span class="toc-text">which与whereis命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%96%87%E4%BB%B6%E5%8F%8A%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="toc-text">1.文件及目录管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%88%9B%E5%BB%BA%E3%80%81%E5%88%A0%E9%99%A4%E5%92%8C%E4%BF%AE%E6%94%B9"><span class="toc-text">文件创建、删除和修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%A2%9C%E8%89%B2"><span class="toc-text">文件颜色</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%98%BE%E7%A4%BA%E5%8F%8A%E5%88%87%E6%8D%A2"><span class="toc-text">目录显示及切换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA"><span class="toc-text">目录内容显示</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E5%88%87%E6%8D%A2"><span class="toc-text">目录切换</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E7%9B%AE%E5%BD%95%E5%8F%8A%E6%96%87%E4%BB%B6%E5%90%8D-find"><span class="toc-text">查找目录及文件名 find</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AE%9A%E4%BD%8Dlocate"><span class="toc-text">文件定位locate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B%E5%8F%8A%E6%9F%A5%E6%89%BE"><span class="toc-text">文件内容查看及查找</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-text">查看文件内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9grep-egrep"><span class="toc-text">查找文件内容grep&#x2F;egrep</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E5%8F%8A%E4%BF%AE%E6%94%B9"><span class="toc-text">文件权限及修改</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%91%BD%E4%BB%A4ls"><span class="toc-text">1、命令ls</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E6%9D%83%E9%99%90%E5%86%85%E5%AE%B9"><span class="toc-text">2、权限内容</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E6%9D%83%E9%99%90%E4%BF%AE%E6%94%B9"><span class="toc-text">3、权限修改</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%99%E6%96%87%E4%BB%B6%E5%A2%9E%E5%8A%A0%E5%88%AB%E5%90%8D"><span class="toc-text">给文件增加别名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E9%81%93"><span class="toc-text">管道</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">重定向</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bash%E5%BF%AB%E6%8D%B7%E8%BE%93%E5%85%A5%E6%88%96%E5%88%A0%E9%99%A4"><span class="toc-text">Bash快捷输入或删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8"><span class="toc-text">综合应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86"><span class="toc-text">2.文本处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#find-%E6%96%87%E4%BB%B6%E6%9F%A5%E6%89%BE"><span class="toc-text">find 文件查找</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E8%88%AC%E6%90%9C%E7%B4%A2"><span class="toc-text">一般搜索</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E5%88%B6%E6%90%9C%E7%B4%A2"><span class="toc-text">定制搜索</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%BE%E5%88%B0%E5%90%8E%E7%9A%84%E5%90%8E%E7%BB%AD%E5%8A%A8%E4%BD%9C"><span class="toc-text">找到后的后续动作</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#print%E7%9A%84%E5%AE%9A%E7%95%8C%E7%AC%A6"><span class="toc-text">-print的定界符</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#grep-%E6%96%87%E6%9C%AC%E6%90%9C%E7%B4%A2"><span class="toc-text">grep 文本搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xargs-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0%E8%BD%AC%E6%8D%A2"><span class="toc-text">xargs 命令行参数转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sort-%E6%8E%92%E5%BA%8F"><span class="toc-text">sort 排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uniq-%E6%B6%88%E9%99%A4%E9%87%8D%E5%A4%8D%E8%A1%8C"><span class="toc-text">uniq 消除重复行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8tr%E8%BF%9B%E8%A1%8C%E8%BD%AC%E6%8D%A2"><span class="toc-text">用tr进行转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cut-%E6%8C%89%E5%88%97%E5%88%87%E5%88%86%E6%96%87%E6%9C%AC"><span class="toc-text">cut 按列切分文本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#paste-%E6%8C%89%E5%88%97%E6%8B%BC%E6%8E%A5%E6%96%87%E6%9C%AC"><span class="toc-text">paste 按列拼接文本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wc-%E7%BB%9F%E8%AE%A1%E8%A1%8C%E5%92%8C%E5%AD%97%E7%AC%A6%E7%9A%84%E5%B7%A5%E5%85%B7"><span class="toc-text">wc 统计行和字符的工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sed-%E6%96%87%E6%9C%AC%E6%9B%BF%E6%8D%A2%E5%88%A9%E5%99%A8"><span class="toc-text">sed 文本替换利器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk-%E6%95%B0%E6%8D%AE%E6%B5%81%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-text">awk 数据流处理工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%AD%E4%BB%A3%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%E3%80%81%E5%8D%95%E8%AF%8D%E5%92%8C%E5%AD%97%E7%AC%A6"><span class="toc-text">迭代文件中的行、单词和字符</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86"><span class="toc-text">3.磁盘管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4"><span class="toc-text">查看磁盘空间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%93%E5%8C%85-%E5%8E%8B%E7%BC%A9"><span class="toc-text">打包&#x2F; 压缩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%8C%85-%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-text">解包&#x2F;解压缩</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-text">4.进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E8%BF%9B%E7%A8%8B"><span class="toc-text">查询进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%88%E6%AD%A2%E8%BF%9B%E7%A8%8B"><span class="toc-text">终止进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9B%91%E6%8E%A7"><span class="toc-text">进程监控</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E7%BA%BF%E7%A8%8B%E6%A0%88"><span class="toc-text">分析线程栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E8%BF%90%E7%94%A8"><span class="toc-text">综合运用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="toc-text">5.性能监控工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%91%E6%8E%A7CPU"><span class="toc-text">监控CPU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%86%85%E5%AD%98"><span class="toc-text">查询内存</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E9%A1%B5%E9%9D%A2%E4%BA%A4%E6%8D%A2"><span class="toc-text">查询页面交换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%A1%AC%E7%9B%98%E4%BD%BF%E7%94%A8"><span class="toc-text">查询硬盘使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8-1"><span class="toc-text">综合应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E7%BD%91%E7%BB%9C%E5%B7%A5%E5%85%B7"><span class="toc-text">6.网络工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1%E5%92%8C%E7%AB%AF%E5%8F%A3"><span class="toc-text">查询网络服务和端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1"><span class="toc-text">网络路由</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E4%B8%8B%E8%BD%BD"><span class="toc-text">镜像下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ftp-sftp-lftp-ssh"><span class="toc-text">ftp&#x2F;sftp&#x2F;lftp&#x2F;ssh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%A4%8D%E5%88%B6"><span class="toc-text">网络复制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-text">7.用户管理工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7"><span class="toc-text">用户</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="toc-text">添加用户</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7"><span class="toc-text">删除用户</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E7%9A%84%E7%BB%84"><span class="toc-text">用户的组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B0%86%E7%94%A8%E6%88%B7%E5%8A%A0%E5%85%A5%E5%88%B0%E7%BB%84"><span class="toc-text">将用户加入到组</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E6%89%80%E6%9C%89%E7%BB%84"><span class="toc-text">查看系统所有组</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="toc-text">用户权限</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E8%AF%BB%E5%86%99%E6%9D%83%E9%99%90"><span class="toc-text">更改读写权限</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95%E7%9A%84%E6%8B%A5%E6%9C%89%E8%80%85"><span class="toc-text">更改文件或目录的拥有者</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">环境变量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E5%8F%8AIPC%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="toc-text">8.系统管理及IPC资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="toc-text">系统管理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC"><span class="toc-text">查询系统版本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="toc-text">查询硬件信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4"><span class="toc-text">设置系统时间</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IPC%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="toc-text">IPC资源管理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IPC%E8%B5%84%E6%BA%90%E6%9F%A5%E8%AF%A2"><span class="toc-text">IPC资源查询</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%92%8C%E8%AE%BE%E7%BD%AE%E7%B3%BB%E7%BB%9F%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6"><span class="toc-text">检测和设置系统资源限制</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%B7%A5%E5%85%B7"><span class="toc-text">其他工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tar%E5%B7%A5%E5%85%B7"><span class="toc-text">tar工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#locate%E5%AE%9A%E4%BD%8D%E6%96%87%E4%BB%B6"><span class="toc-text">locate定位文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dd%E5%B7%A5%E5%85%B7"><span class="toc-text">dd工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#wget%E5%B7%A5%E5%85%B7"><span class="toc-text">wget工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%9E%E6%94%B6%E7%AB%99"><span class="toc-text">回收站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="toc-text">其他命令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E7%89%88%E6%9C%AC%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-text">查看系统版本命令：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Ubuntu%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9"><span class="toc-text">Ubuntu系统扩容</span></a></li></ol></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/"><span class="title">linux-全志V3s移植uboot kernel rootfile记录</span></a><a class="item title" href="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="title">ARM体系结构</span></a><a class="item title" href="/2024/02/27/linux-%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B/"><span class="title">linux应用编程</span></a><a class="item title active" href="/2024/02/26/linux-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/"><span class="title">linux-基础命令使用</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/11/cpp-%E5%B8%B8%E7%94%A8STL%E8%AE%B0%E5%BD%95/"><span class="title">cpp常用STL记录</span></a><a class="item title" href="/2024/03/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="title">数据结构与算法</span></a><a class="item title" href="/2024/03/08/C%E8%AF%AD%E8%A8%80-%E5%9F%BA%E7%A1%80/"><span class="title">C语言基础</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a><a class="item title" href="/2024/03/02/%E4%BB%A3%E7%A0%81%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span class="title">代码命名规范</span></a><a class="item title" href="/2024/02/27/Visual-Studio%E7%9A%84%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E8%A7%A3%E9%87%8A/"><span class="title">Visual Studio的属性配置解释</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-02-26T12:36:59.000Z">2024-02-26</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-13T02:38:50.283Z">2024-03-13</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>linux-基础命令使用</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="Linux系统基础"><a href="#Linux系统基础" class="headerlink" title="Linux系统基础"></a>Linux系统基础</h2><p>资料：<a target="_blank" rel="noopener" href="https://linuxtools-rst.readthedocs.io/zh_CN/latest/base/index.html">https://linuxtools-rst.readthedocs.io/zh_CN/latest/base/index.html</a></p>
+<h3 id="0-Linux帮助命令"><a href="#0-Linux帮助命令" class="headerlink" title="0.Linux帮助命令"></a>0.Linux帮助命令</h3><p>在linux终端，面对命令不知道怎么用，或不记得命令的拼写及参数时，我们需要求助于系统的帮助文档； linux系统内置的帮助文档很详细，通常能解决我们的问题，我们需要掌握如何正确的去使用它们；</p>
+<ul>
+<li>在只记得部分命令关键字的场合，我们可通过<strong>man -k</strong>来搜索；</li>
+<li>需要知道某个命令的简要说明，可以使用<strong>whatis</strong>；而更详细的介绍，则可用<strong>info</strong>命令；</li>
+<li>查看命令在哪个位置，我们需要使用<strong>which</strong>；</li>
+<li>而对于命令的具体参数及使用方法，我们需要用到强大的<strong>man</strong>；</li>
+</ul>
+<h4 id="whatis与info命令"><a href="#whatis与info命令" class="headerlink" title="whatis与info命令"></a>whatis与info命令</h4><p>简要说明命令的作用（显示命令所处的man分类页面）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$whatis command</span><br></pre></td></tr></table></figure>
+
+<p>正则匹配:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$whatis -w &quot;loca*&quot;</span><br></pre></td></tr></table></figure>
+
+<p>更加详细的说明文档:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$info command</span><br></pre></td></tr></table></figure>
+
+<h4 id="man命令"><a href="#man命令" class="headerlink" title="man命令"></a>man命令</h4><p>查询命令command的说明文档:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$man command</span><br><span class="line">eg：man date</span><br></pre></td></tr></table></figure>
+
+<p>使用page up和page down来上下翻页。</p>
+<p>在man的帮助手册中，将帮助文档分为了9个类别，对于有的关键字可能存在多个类别中， 我们就需要指定特定的类别来查看；（一般我们查询bash命令，归类在1类中）；</p>
+<p>man页面所属的分类标识(常用的是分类1和分类3)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(1)、用户可以操作的命令或者是可执行文件</span><br><span class="line">(2)、系统核心可调用的函数与工具等</span><br><span class="line">(3)、一些常用的函数与数据库</span><br><span class="line">(4)、设备文件的说明</span><br><span class="line">(5)、设置文件或者某些文件的格式</span><br><span class="line">(6)、游戏</span><br><span class="line">(7)、惯例与协议等。例如Linux标准文件系统、网络协议、ASCⅡ，码等说明内容</span><br><span class="line">(8)、系统管理员可用的管理条令</span><br><span class="line">(9)、与内核有关的文件</span><br></pre></td></tr></table></figure>
+
+<p>前面说到使用whatis会显示命令所在的具体的文档类别，我们学习如何使用它</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">eg:</span><br><span class="line">$whatis printf</span><br><span class="line">printf               (1)  - format and print data</span><br><span class="line">printf               (1p)  - write formatted output</span><br><span class="line">printf               (3)  - formatted output conversion</span><br><span class="line">printf               (3p)  - print formatted output</span><br><span class="line">printf [builtins]    (1)  - bash built-in commands, see bash(1)</span><br></pre></td></tr></table></figure>
+
+<p>我们看到printf在分类1和分类3中都有；分类1中的页面是命令操作及可执行文件的帮助；而3是常用函数库说明；如果我们想看的是C语言中printf的用法，可以指定查看分类3的帮助：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$man 3 printf</span><br><span class="line"></span><br><span class="line">$man -k keyword</span><br></pre></td></tr></table></figure>
+
+<p>查询关键字 根据命令中部分关键字来查询命令，适用于只记住部分命令的场合；</p>
+<p>eg：查找GNOME的config配置工具命令:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$man -k GNOME config| grep 1</span><br></pre></td></tr></table></figure>
+
+<p>对于某个单词搜索，可直接使用&#x2F;word来使用: &#x2F;-a; 多关注下SEE ALSO 可看到更多精彩内容</p>
+<h4 id="which与whereis命令"><a href="#which与whereis命令" class="headerlink" title="which与whereis命令"></a>which与whereis命令</h4><p>查看程序的binary文件所在路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$which command</span><br></pre></td></tr></table></figure>
+
+<p>eg:查找make程序安装路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$which make</span><br><span class="line">/opt/app/openav/soft/bin/make install</span><br></pre></td></tr></table></figure>
+
+<p>查看程序的搜索路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$whereis command</span><br></pre></td></tr></table></figure>
+
+<p>当系统中安装了同一软件的多个版本时，不确定使用的是哪个版本时，这个命令就能派上用场；</p>
+<h3 id="1-文件及目录管理"><a href="#1-文件及目录管理" class="headerlink" title="1.文件及目录管理"></a>1.文件及目录管理</h3><h4 id="文件创建、删除和修改"><a href="#文件创建、删除和修改" class="headerlink" title="文件创建、删除和修改"></a>文件创建、删除和修改</h4><ul>
+<li><p>创建新文件（夹）：touch、mkdir</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建新文件</span></span><br><span class="line">touch 新文件名1 新文件名2...</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">创建新文件夹</span></span><br><span class="line">mkdir 新文件夹1 新文件夹2...</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除：rm、rmdir</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除文件</span></span><br><span class="line">rm 文件名1 文件名2...</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除空文件夹</span></span><br><span class="line">rmdir 空文件夹名1 空文件夹名2...</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除整个文件夹，包含里面所有内容</span></span><br><span class="line">rm -rf 文件夹名1 文件夹名2...</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">删除日志</span> </span><br><span class="line">rm \*log (等价: $find ./ -name “*log” -exec rm &#123;&#125; ;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>移动和重命名：mv</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">移动文件</span></span><br><span class="line">mv 文件名 目标路径</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">移动文件夹，需在文件夹名后面加<span class="string">&#x27;/&#x27;</span></span></span><br><span class="line">mv 文件夹名/ 目标路径</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">重命名文件/文件夹</span></span><br><span class="line">mv 原文件名/文件夹名 新文件名/文件夹名</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制：cp (cp -r )</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制文件</span></span><br><span class="line">cp 待复制文件(夹)名 目标路径</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">复制文件夹，文件夹名后加<span class="string">&#x27;/&#x27;</span></span></span><br><span class="line">cp 带复制文件夹名/ 目标路径</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">若含子文件夹则需加-r</span></span><br><span class="line">cp -r 带复制文件夹名/ 目标路径</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="文件颜色"><a href="#文件颜色" class="headerlink" title="文件颜色"></a>文件颜色</h4><p><strong>颜色–详解：</strong></p>
+<p>绿色文件———-可执行文件，可执行的程序</p>
+<p>红色文件———–压缩文件或者包文件</p>
+<p>蓝色文件———-目录   </p>
+<p>白色文件———-普通，如文本文件，配置文件，源码文件等</p>
+<p>浅蓝色文件———-链接文件，主要是使用ln命令建立的文件</p>
+<p>红色闪烁———-表示链接的文件有问题</p>
+<p>黄色文件———-表示设备文件</p>
+<p>灰色文件———-表示其它文件</p>
+<h4 id="目录显示及切换"><a href="#目录显示及切换" class="headerlink" title="目录显示及切换"></a>目录显示及切换</h4><h5 id="目录内容显示"><a href="#目录内容显示" class="headerlink" title="目录内容显示"></a>目录内容显示</h5><ul>
+<li>显示当前目录下的文件 ls</li>
+<li>按时间排序，以列表的方式显示目录项 ls -lrt</li>
+<li>显示当前目录路径：pwd</li>
+</ul>
+<h5 id="目录切换"><a href="#目录切换" class="headerlink" title="目录切换"></a>目录切换</h5><ul>
+<li>找到文件&#x2F;目录位置：cd</li>
+<li>切换到上一个工作目录： cd -</li>
+<li>切换到home目录： cd or cd ~</li>
+<li>显示当前路径: pwd</li>
+<li>更改当前工作路径为path: cd path</li>
+</ul>
+<h4 id="查找目录及文件名-find"><a href="#查找目录及文件名-find" class="headerlink" title="查找目录及文件名 find"></a>查找目录及文件名 find</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1.按文件名</span></span><br><span class="line">find 路径 -name &quot;文件名&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">搜寻文件或目录:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">find ./ -name <span class="string">&quot;core*&quot;</span> | xargs file</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查找目标文件夹中是否有obj文件:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">find ./ -name <span class="string">&#x27;*.o&#x27;</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2.按文件类型</span></span><br><span class="line">find 路径 -type 类型</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">类型：普通文件f、目录d、符号链接l、块设备文件b、字符设备文件c、socket文件s、管道文件p</span></span><br><span class="line"><span class="meta prompt_">  </span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">3.按照文件大小</span></span><br><span class="line">find 路径 -size 范围</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">范围：+表示大于        -表示小于        等于不需要符号</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">大小：M(必须大写)        k(必须小写)        c(表示字符)</span></span><br><span class="line">find / -size +0k -size -10k</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">4.按照文件日期</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">按照创建日期查找</span></span><br><span class="line">find 路径 -ctime -n/+n	#-n:n天以内，+n：n天以外</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">按照修改日期查找</span></span><br><span class="line">find 路径 -mtime -n/+n</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">按照访问日期查找</span></span><br><span class="line">find 路径 -atime -n/+n</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">5.高级查找</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-<span class="built_in">exec</span></span></span><br><span class="line">find 路径 查找方式 -exec shell命令 &#123;&#125; \;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">递归当前目录及子目录删除所有.o文件:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">find ./ -name <span class="string">&quot;*.o&quot;</span> -<span class="built_in">exec</span> <span class="built_in">rm</span> &#123;&#125; \;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-ok，该方法与-<span class="built_in">exec</span>相比更加安全，其存在确认过程</span></span><br><span class="line">find 路径 查找方式 -ok shell命令 &#123;&#125; \;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">管道方式</span></span><br><span class="line">find 路径 查找方式 | xargs shell命令</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件定位locate"><a href="#文件定位locate" class="headerlink" title="文件定位locate"></a>文件定位locate</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">find是实时查找，如果需要更快的查询，可试试locate；locate会为文件系统建立索引数据库，如果有文件更新，需要定期执行更新命令来更新索引库:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">updatedb</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">寻找包含有string的路径:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">locate string</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="文件内容查看及查找"><a href="#文件内容查看及查找" class="headerlink" title="文件内容查看及查找"></a>文件内容查看及查找</h4><h5 id="查看文件内容"><a href="#查看文件内容" class="headerlink" title="查看文件内容"></a>查看文件内容</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看文件：<span class="built_in">cat</span> vi <span class="built_in">head</span> <span class="built_in">tail</span> more</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示时同时显示行号:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">cat</span> -n</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">按页显示列表内容:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">ls</span> -al | more</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">只看前10行:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">head</span> - 10 **</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示文件第一行:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">head</span> -1 filename</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示文件倒数第五行:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">tail</span> -5 filename</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">查看两个文件间的差别:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">diff file1 file2</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">动态显示文本最新信息:</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">tail</span> -f crawler.log</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="查找文件内容grep-egrep"><a href="#查找文件内容grep-egrep" class="headerlink" title="查找文件内容grep&#x2F;egrep"></a>查找文件内容grep&#x2F;egrep</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">grep查找</span></span><br><span class="line">grep 参数 &quot;内容&quot; 查找目录或文件</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">参数：</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-r 若是目录，则可以递归查找</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-n:可以显示该查找内容所在的行号</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-i:可以忽略大小写进行查找</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">-v:不显示含有某字符串</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">grep和find命令结合使用</span></span><br><span class="line">find ./ -name &quot;*.cpp&quot; | xargs grep -n &quot;main&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">egrep支持更多扩展，使用egrep查询文件内容:</span></span><br><span class="line">egrep &#x27;03.1\/CO\/AE&#x27; TSF_STAT_111130.log.012</span><br><span class="line">egrep &#x27;A_LMCA777:C&#x27; TSF_STAT_111130.log.035 &gt; co.out2</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件权限及修改"><a href="#文件权限及修改" class="headerlink" title="文件权限及修改"></a>文件权限及修改</h4><h5 id="1、命令ls"><a href="#1、命令ls" class="headerlink" title="1、命令ls"></a><strong>1、命令ls</strong></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">默认只显示可见文件名称，-a显示所有文件，-l显示可见文件的权限</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示所有文件及权限</span></span><br><span class="line">ls -al</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">显示指定文件的权限</span></span><br><span class="line">ls 指定文件名 -l</span><br></pre></td></tr></table></figure>
+
+<h5 id="2、权限内容"><a href="#2、权限内容" class="headerlink" title="2、权限内容"></a><strong>2、权限内容</strong></h5><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/image-20220528152129627.png" alt="image-20220528152129627"></p>
+<p>权限结构：设备类型+所属用户权限+所属组权限+其他用户权限。</p>
+<p>第一位为<strong>设备类型</strong>。各类型如下：</p>
+<ul>
+<li><code>-rw-rw-r--</code>-:普通文件</li>
+<li><code>crw-rw----</code>c:字符设备</li>
+<li><code>brw-rw----</code>b:块设备</li>
+<li><code>drwxrwxr-x</code>d:目录文件</li>
+<li><code>srw-rw-r--</code>s:套接字</li>
+<li><code>lrwxrwxrwx</code>l：连接文件（软连接）</li>
+</ul>
+<p>后面每三位为一组权限，顺序依次为”所属用户权限+所属组权限+其他用户权限“。</p>
+<ul>
+<li>r：读</li>
+<li>w：写</li>
+<li>x：可执行</li>
+</ul>
+<h5 id="3、权限修改"><a href="#3、权限修改" class="headerlink" title="3、权限修改"></a><strong>3、权限修改</strong></h5><ul>
+<li>改变文件的拥有者 chown</li>
+<li>改变文件读、写、执行等属性 chmod</li>
+<li>递归子目录修改： chown -R tuxapp source&#x2F;</li>
+<li>增加脚本可执行权限： chmod a+x myscript</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">修改文件权限。7转化成二进制位111，表示rw权限；三个7则一次表示所属用户、组及其他用户权限。</span></span><br><span class="line">chmod 777 文件名</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">改变文件所属用户</span></span><br><span class="line">chown 用户名 文件名</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">改变文件所属组</span></span><br><span class="line">chown .组 文件名</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">改变文件所属用户及组</span></span><br><span class="line">chown 用户名 .组 文件名</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="给文件增加别名"><a href="#给文件增加别名" class="headerlink" title="给文件增加别名"></a>给文件增加别名</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">硬连接；删除一个，将仍能找到；</span></span><br><span class="line">ln cc ccAgain </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">符号链接(软链接)；删除源，另一个无法使用；（后面一个ccTo 为新建的文件）</span></span><br><span class="line">ln -s cc ccTo </span><br></pre></td></tr></table></figure>
+
+<h4 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h4><ul>
+<li>批处理命令连接执行，使用 |</li>
+<li>串联: 使用分号 ;</li>
+<li>前面成功，则执行后面一条，否则，不执行:&amp;&amp;</li>
+<li>前面失败，则后一条执行: ||</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ls /proc &amp;&amp; echo  suss! || echo failed.</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">与上述相同效果的是:</span></span><br><span class="line">if ls /proc; then echo suss; else echo fail; fi</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1.&gt; 和 &gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">&gt;是重定向(覆盖)到一个文件，&gt;&gt;是追加内容到一个文件.如果文件不存在，那么这两个命令都会首先创建这个文件。</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">2. 1&gt; 和 2&gt;</span>  </span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">1&gt; 将正确的输出重定向到某个文件;2&gt; 将错误的输出重定向到某个文件</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将错误输出和正确输出保存到同一个文件：</span></span><br><span class="line">command 1&gt; a.txt 2&gt;&amp;1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">或者</span></span><br><span class="line">command &gt; a.txt 2&gt;&amp;1</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">3.1&gt;&gt; 和 2&gt;&gt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">将错误的和正确的信息重定向追加到同一个文件</span></span><br><span class="line">command 1&gt;&gt; a.txt 2&gt;&amp;1</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">正确的结果想追加，错误的结果覆盖。</span></span><br><span class="line">command 1&gt;&gt; right.txt 2&gt; wrong.txt</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">4.&lt;</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">&lt; 可以将原本由标准输入改为由指定地方输入</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">建一个hh文件，里面写入hello world</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">执行 &gt;&gt; txt.py &lt; hh，就可以把hh里面的内容写入到txt.py</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">清空文件:</span></span><br><span class="line">:&gt; a.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">启动帐号后自动执行的是 文件为 .profile，然后通过这个文件可设置自己的环境变量；安装的软件路径一般需要加入到path中:</span></span><br><span class="line">PATH=$APPDIR:/opt/app/soft/bin:$PATH:/usr/local/bin:$TUXDIR/bin:$ORACLE_HOME/bin;export PATH</span><br></pre></td></tr></table></figure>
+
+<h4 id="Bash快捷输入或删除"><a href="#Bash快捷输入或删除" class="headerlink" title="Bash快捷输入或删除"></a>Bash快捷输入或删除</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">快捷键:</span><br><span class="line">Ctl-U   删除光标到行首的所有字符,在某些设置下,删除全行</span><br><span class="line">Ctl-W   删除当前光标到前边的最近一个空格之间的字符</span><br><span class="line">Ctl-H   backspace,删除光标前边的字符</span><br><span class="line">Ctl-R   匹配最相近的一个文件，然后输出</span><br></pre></td></tr></table></figure>
+
+<h4 id="综合应用"><a href="#综合应用" class="headerlink" title="综合应用"></a>综合应用</h4><p>查找record.log中包含AAA，但不包含BBB的记录的总数:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat -v record.log | grep AAA | grep -v BBB | wc -l</span><br></pre></td></tr></table></figure>
+
+<p>总结</p>
+<h3 id="2-文本处理"><a href="#2-文本处理" class="headerlink" title="2.文本处理"></a>2.文本处理</h3><h4 id="find-文件查找"><a href="#find-文件查找" class="headerlink" title="find 文件查找"></a>find 文件查找</h4><h5 id="一般搜索"><a href="#一般搜索" class="headerlink" title="一般搜索"></a>一般搜索</h5><p>查找txt和pdf文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . \( -name &quot;*.txt&quot; -o -name &quot;*.pdf&quot; \) -print</span><br></pre></td></tr></table></figure>
+
+<p>正则方式查找.txt和pdf:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -regex  &quot;.*\(\.txt|\.pdf\)$&quot;</span><br></pre></td></tr></table></figure>
+
+<p>-iregex： 忽略大小写的正则</p>
+<p>否定参数 ,查找所有非txt文本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . ! -name &quot;*.txt&quot; -print</span><br></pre></td></tr></table></figure>
+
+<p>指定搜索深度,打印出当前目录的文件（深度为1）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -maxdepth 1 -type f</span><br></pre></td></tr></table></figure>
+
+<h5 id="定制搜索"><a href="#定制搜索" class="headerlink" title="定制搜索"></a>定制搜索</h5><ul>
+<li>按类型搜索</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type d -print  //只列出所有目录</span><br></pre></td></tr></table></figure>
+
+<p>-type f 文件 &#x2F; l 符号链接 &#x2F; d 目录</p>
+<p>find支持的文件检索类型可以区分普通文件和符号链接、目录等，但是二进制文件和文本文件无法直接通过find的类型区分出来；</p>
+<p>file命令可以检查文件具体类型（二进制或文本）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$file redis-cli  # 二进制文件</span><br><span class="line">redis-cli: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.9, not stripped</span><br><span class="line">$file redis.pid  # 文本文件</span><br><span class="line">redis.pid: ASCII text</span><br></pre></td></tr></table></figure>
+
+<p>所以,可以用以下命令组合来实现查找本地目录下的所有二进制文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -lrt | awk &#x27;&#123;print $9&#125;&#x27;|xargs file|grep  ELF| awk &#x27;&#123;print $1&#125;&#x27;|tr -d &#x27;:&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>按时间搜索</p>
+<pre><code>-atime 访问时间 (单位是天，分钟单位则是-amin，以下类似）-mtime 修改时间 （内容被修改）-ctime 变化时间 （元数据或权限变化）
+</code></pre>
+<p>最近第7天被访问过的所有文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -atime 7 -type f -print</span><br></pre></td></tr></table></figure>
+
+<p>最近7天内被访问过的所有文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -atime -7 -type f -print</span><br></pre></td></tr></table></figure>
+
+<p>查询7天前被访问过的所有文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -atime +7 type f -print</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>按大小搜索：</li>
+</ul>
+<p>w字 k M G 寻找大于2k的文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -size +2k</span><br></pre></td></tr></table></figure>
+
+<p>按权限查找:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -perm 644 -print //找具有可执行权限的所有文件</span><br></pre></td></tr></table></figure>
+
+<p>按用户查找:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -user weber -print// 找用户weber所拥有的文件</span><br></pre></td></tr></table></figure>
+
+<h5 id="找到后的后续动作"><a href="#找到后的后续动作" class="headerlink" title="找到后的后续动作"></a>找到后的后续动作</h5><ul>
+<li>删除</li>
+</ul>
+<p>删除当前目录下所有的swp文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -name &quot;*.swp&quot; -delete</span><br></pre></td></tr></table></figure>
+
+<p>另一种语法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . type f -name &quot;*.swp&quot; | xargs rm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行动作（强大的exec）</li>
+</ul>
+<p>将当前目录下的所有权变更为weber:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -user root -exec chown weber &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<p>注：{}是一个特殊的字符串，对于每一个匹配的文件，{}会被替换成相应的文件名；</p>
+<p>将找到的文件全都copy到另一个目录:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . -type f -mtime +10 -name &quot;*.txt&quot; -exec cp &#123;&#125; OLD \;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>结合多个命令</li>
+</ul>
+<p>如果需要后续执行多个命令，可以将多个命令写成一个脚本。然后 -exec 调用时执行脚本即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-exec ./commands.sh &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+
+<h5 id="print的定界符"><a href="#print的定界符" class="headerlink" title="-print的定界符"></a>-print的定界符</h5><p>默认使用’\n’作为文件的定界符；</p>
+<p>-print0 使用’\0’作为文件的定界符，这样就可以搜索包含空格的文件；</p>
+<h4 id="grep-文本搜索"><a href="#grep-文本搜索" class="headerlink" title="grep 文本搜索"></a>grep 文本搜索</h4><h4 id="xargs-命令行参数转换"><a href="#xargs-命令行参数转换" class="headerlink" title="xargs 命令行参数转换"></a>xargs 命令行参数转换</h4><h4 id="sort-排序"><a href="#sort-排序" class="headerlink" title="sort 排序"></a>sort 排序</h4><h4 id="uniq-消除重复行"><a href="#uniq-消除重复行" class="headerlink" title="uniq 消除重复行"></a>uniq 消除重复行</h4><h4 id="用tr进行转换"><a href="#用tr进行转换" class="headerlink" title="用tr进行转换"></a>用tr进行转换</h4><h4 id="cut-按列切分文本"><a href="#cut-按列切分文本" class="headerlink" title="cut 按列切分文本"></a>cut 按列切分文本</h4><h4 id="paste-按列拼接文本"><a href="#paste-按列拼接文本" class="headerlink" title="paste 按列拼接文本"></a>paste 按列拼接文本</h4><h4 id="wc-统计行和字符的工具"><a href="#wc-统计行和字符的工具" class="headerlink" title="wc 统计行和字符的工具"></a>wc 统计行和字符的工具</h4><h4 id="sed-文本替换利器"><a href="#sed-文本替换利器" class="headerlink" title="sed 文本替换利器"></a>sed 文本替换利器</h4><h4 id="awk-数据流处理工具"><a href="#awk-数据流处理工具" class="headerlink" title="awk 数据流处理工具"></a>awk 数据流处理工具</h4><h4 id="迭代文件中的行、单词和字符"><a href="#迭代文件中的行、单词和字符" class="headerlink" title="迭代文件中的行、单词和字符"></a>迭代文件中的行、单词和字符</h4><ol>
+<li>迭代文件中的每一行<br> 2.迭代一行中的每一个单词</li>
+<li>迭代每一个字符</li>
+</ol>
+<h3 id="3-磁盘管理"><a href="#3-磁盘管理" class="headerlink" title="3.磁盘管理"></a>3.磁盘管理</h3><h4 id="查看磁盘空间"><a href="#查看磁盘空间" class="headerlink" title="查看磁盘空间"></a>查看磁盘空间</h4><p>查看磁盘空间利用大小:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<p>-h: human缩写，以易读的方式显示结果（即带单位：比如M&#x2F;G，如果不加这个参数，显示的数字以B为单位）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">df</span> -h</span></span><br><span class="line"><span class="meta prompt_">/opt/app/todeav/config#</span><span class="language-bash"><span class="built_in">df</span> -h</span></span><br><span class="line">Filesystem            Size  Used Avail Use% Mounted on</span><br><span class="line">/dev/mapper/VolGroup00-LogVol00</span><br><span class="line">2.0G  711M  1.2G  38% /</span><br><span class="line">/dev/mapper/vg1-lv2    20G  3.8G   15G  21% /opt/applog</span><br><span class="line">/dev/mapper/vg1-lv1    20G   13G  5.6G  70% /opt/app</span><br></pre></td></tr></table></figure>
+
+<p>查看当前目录所占空间大小:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-h 人性化显示</li>
+<li>-s 递归整个目录的大小</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$du -sh</span><br><span class="line">653M</span><br></pre></td></tr></table></figure>
+
+<p>查看当前目录下所有子文件夹排序后的大小:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for i in `ls`; do du -sh $i; done | sort</span><br><span class="line">或者：</span><br><span class="line">du -sh `ls` | sort</span><br></pre></td></tr></table></figure>
+
+<h4 id="打包-压缩"><a href="#打包-压缩" class="headerlink" title="打包&#x2F; 压缩"></a>打包&#x2F; 压缩</h4><p>在linux中打包和压缩和分两步来实现的；</p>
+<p><strong>打包</strong></p>
+<p>打包是将多个文件归并到一个文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf etc.tar /etc &lt;==仅打包，不压缩！</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-c :打包选项</li>
+<li>-v :显示打包进度</li>
+<li>-f :使用档案文件</li>
+</ul>
+<p>注：有的系统中指定参数时不需要在前面加上-，直接使用tar xvf</p>
+<p>示例：用tar实现文件夹同步，排除部分文件不同步:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar --exclude &#x27;*.svn&#x27; -cvf - /path/to/source | ( cd /path/to/target; tar -xf -)</span><br></pre></td></tr></table></figure>
+
+<p><strong>压缩</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gzip demo.txt</span><br></pre></td></tr></table></figure>
+
+<p>生成 demo.txt.gz</p>
+<h4 id="解包-解压缩"><a href="#解包-解压缩" class="headerlink" title="解包&#x2F;解压缩"></a>解包&#x2F;解压缩</h4><p><strong>解包</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf demo.tar</span><br></pre></td></tr></table></figure>
+
+<p>-x 解包选项</p>
+<p>若解压后缀为 .tar.gz的文件，则分两步：</p>
+<p> 1 先解压缩，生成**.tar:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$gunzip    demo.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>2 解包:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$tar -xvf  demo.tar</span><br><span class="line">$bzip2 -d demo.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<p>bz2解压:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar jxvf demo.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<p>如果tar 不支持j，则同样需要分两步来解包解压缩，使用bzip2来解压，再使用tar解包:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bzip2 -d  demo.tar.bz2</span><br><span class="line">tar -xvf  demo.tar</span><br></pre></td></tr></table></figure>
+
+<p>-d decompose,解压缩</p>
+<p>tar解压参数说明：</p>
+<ul>
+<li>-z 解压gz文件</li>
+<li>-j 解压bz2文件</li>
+<li>-J 解压xz文件</li>
+</ul>
+<h3 id="4-进程管理"><a href="#4-进程管理" class="headerlink" title="4.进程管理"></a>4.进程管理</h3><h4 id="查询进程"><a href="#查询进程" class="headerlink" title="查询进程"></a>查询进程</h4><p>查询正在运行的进程信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ps -ef</span><br></pre></td></tr></table></figure>
+
+<p>eg:查询归属于用户colin115的进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ps -ef | grep colin115</span><br><span class="line">$ps -lu colin115</span><br></pre></td></tr></table></figure>
+
+<p>查询进程ID（适合只记得部分进程字段）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$pgrep 查找进程</span><br><span class="line"></span><br><span class="line">eg:查询进程名中含有re的进程</span><br><span class="line">[/home/weber#]pgrep -l re</span><br><span class="line">2 kthreadd</span><br><span class="line">28 ecryptfs-kthrea</span><br><span class="line">29515 redis-server</span><br></pre></td></tr></table></figure>
+
+<p>以完整的格式显示所有的进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ps -ajx</span><br></pre></td></tr></table></figure>
+
+<p>显示进程信息，并实时更新</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$top</span><br></pre></td></tr></table></figure>
+
+<p>查看端口占用的进程状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i:3306</span><br></pre></td></tr></table></figure>
+
+<p>查看用户username的进程所打开的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$lsof -u username</span><br></pre></td></tr></table></figure>
+
+<p>查询init进程当前打开的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$lsof -c init</span><br></pre></td></tr></table></figure>
+
+<p>查询指定的进程ID(23295)打开的文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$lsof -p 23295</span><br></pre></td></tr></table></figure>
+
+<p>查询指定目录下被进程开启的文件（使用+D 递归目录）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$lsof +d mydir1/</span><br></pre></td></tr></table></figure>
+
+<h4 id="终止进程"><a href="#终止进程" class="headerlink" title="终止进程"></a>终止进程</h4><p>杀死指定PID的进程 (PID为Process ID)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$kill PID</span><br></pre></td></tr></table></figure>
+
+<p>杀死相关进程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 3434</span><br></pre></td></tr></table></figure>
+
+<p>杀死job工作 (job为job number)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$kill %job</span><br></pre></td></tr></table></figure>
+
+<h4 id="进程监控"><a href="#进程监控" class="headerlink" title="进程监控"></a>进程监控</h4><p>查看系统中使用CPU、使用内存最多的进程；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$top</span><br><span class="line">(-&gt;)P</span><br></pre></td></tr></table></figure>
+
+<p>输入top命令后，进入到交互界面；接着输入字符命令后显示相应的进程状态：</p>
+<p>对于进程，平时我们最常想知道的就是哪些进程占用CPU最多，占用内存最多。以下两个命令就可以满足要求:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">P：根据CPU使用百分比大小进行排序。</span><br><span class="line">M：根据驻留内存大小进行排序。</span><br><span class="line">i：使top不显示任何闲置或者僵死进程。</span><br></pre></td></tr></table></figure>
+
+<h4 id="分析线程栈"><a href="#分析线程栈" class="headerlink" title="分析线程栈"></a>分析线程栈</h4><p>使用命令pmap，来输出进程内存的状况，可以用来分析线程堆栈；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$pmap PID</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">[/home/weber#]ps -fe| grep redis</span><br><span class="line">weber    13508 13070  0 08:14 pts/0    00:00:00 grep --color=auto redis</span><br><span class="line">weber    29515     1  0  2013 ?        02:55:59 ./redis-server redis.conf</span><br><span class="line">[/home/weber#]pmap 29515</span><br><span class="line">29515:   ./redis-server redis.conf</span><br><span class="line">08048000    768K r-x--  /home/weber/soft/redis-2.6.16/src/redis-server</span><br><span class="line">08108000      4K r----  /home/weber/soft/redis-2.6.16/src/redis-server</span><br><span class="line">08109000     12K rw---  /home/weber/soft/redis-2.6.16/src/redis-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="综合运用"><a href="#综合运用" class="headerlink" title="综合运用"></a>综合运用</h4><p>将用户colin115下的所有进程名以av_开头的进程终止:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -u colin115 |  awk &#x27;/av_/ &#123;print &quot;kill -9 &quot; $1&#125;&#x27; | sh</span><br></pre></td></tr></table></figure>
+
+<p>将用户colin115下所有进程名中包含HOST的进程终止:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -fe| grep colin115|grep HOST |awk &#x27;&#123;print $2&#125;&#x27; | xargs kill -9;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-性能监控工具"><a href="#5-性能监控工具" class="headerlink" title="5.性能监控工具"></a>5.性能监控工具</h3><h4 id="监控CPU"><a href="#监控CPU" class="headerlink" title="监控CPU"></a>监控CPU</h4><p>查看CPU使用率</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$sar -u</span><br><span class="line"></span><br><span class="line">eg:</span><br><span class="line">$sar -u 1 2</span><br><span class="line">[/home/weber#]sar -u 1 2</span><br><span class="line">Linux 2.6.35-22-generic-pae (MyVPS)     06/28/2014      _i686_  (1 CPU)</span><br><span class="line"></span><br><span class="line">09:03:59 AM     CPU     %user     %nice   %system   %iowait    %steal     %idle</span><br><span class="line">09:04:00 AM     all      0.00      0.00      0.50      0.00      0.00     99.50</span><br><span class="line">09:04:01 AM     all      0.00      0.00      0.00      0.00      0.00    100.00</span><br></pre></td></tr></table></figure>
+
+<p>后面的两个参数表示监控的频率，比如例子中的1和2，表示每秒采样一次，总共采样2次；</p>
+<p>查看CPU平均负载</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sar -q 1 2</span><br></pre></td></tr></table></figure>
+
+<p>sar指定-q后，就能查看运行队列中的进程数、系统上的进程大小、平均负载等；</p>
+<h4 id="查询内存"><a href="#查询内存" class="headerlink" title="查询内存"></a>查询内存</h4><p>查看内存使用状况 sar指定-r之后，可查看内存使用状况;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$sar -r 1 2</span><br><span class="line">09:08:48 AM kbmemfree kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact</span><br><span class="line">09:08:49 AM     17888    359784     95.26     37796     73272    507004     65.42    137400    150764</span><br><span class="line">09:08:50 AM     17888    359784     95.26     37796     73272    507004     65.42    137400    150764</span><br><span class="line">Average:        17888    359784     95.26     37796     73272    507004     65.42    137400    150764</span><br></pre></td></tr></table></figure>
+
+<p>查看内存使用量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$free -m</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询页面交换"><a href="#查询页面交换" class="headerlink" title="查询页面交换"></a>查询页面交换</h4><p>查看页面交换发生状况 页面发生交换时，服务器的吞吐量会大幅下降；服务器状况不良时，如果怀疑因为内存不足而导致了页面交换的发生，可以使用sar -W这个命令来确认是否发生了大量的交换；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sar -W 1 3</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询硬盘使用"><a href="#查询硬盘使用" class="headerlink" title="查询硬盘使用"></a>查询硬盘使用</h4><p>查看磁盘空间利用情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$df -h</span><br></pre></td></tr></table></figure>
+
+<p>查询当前目录下空间使用情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh  -h是人性化显示 s是递归整个目录的大小</span><br></pre></td></tr></table></figure>
+
+<p>查看该目录下所有文件夹的排序后的大小</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for i in `ls`; do du -sh $i; done | sort</span><br><span class="line">或者</span><br><span class="line">du -sh `ls`</span><br></pre></td></tr></table></figure>
+
+<h4 id="综合应用-1"><a href="#综合应用-1" class="headerlink" title="综合应用"></a>综合应用</h4><p>当系统中sar不可用时，可以使用以下工具替代：linux下有 vmstat、Unix系统有prstat</p>
+<p>eg： 查看cpu、内存、使用情况： vmstat n m （n 为监控频率、m为监控次数）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[/home/weber#]vmstat 1 3</span><br><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ----cpu----</span><br><span class="line">r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa</span><br><span class="line">0  0  86560  42300   9752  63556    0    1     1     1    0    0  0  0 99  0</span><br><span class="line">1  0  86560  39936   9764  63544    0    0     0    52   66   95  5  0 95  0</span><br><span class="line">0  0  86560  42168   9772  63556    0    0     0    20  127  231 13  2 84  0</span><br></pre></td></tr></table></figure>
+
+<p>使用watch 工具监控变化 当需要持续的监控应用的某个数据变化时，watch工具能满足要求； 执行watch命令后，会进入到一个界面，输出当前被监控的数据，一旦数据变化，便会高亮显示变化情况；</p>
+<p>eg：操作redis时，监控内存变化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$watch -d -n 1 &#x27;./redis-cli info | grep memory&#x27;</span><br><span class="line">(以下为watch工具中的界面内容，一旦内存变化，即实时高亮显示变化）</span><br><span class="line">Every 1.0s: ./redis-cli info | grep memory                                                                  Mon Apr 28 16:10:36 2014</span><br><span class="line"></span><br><span class="line">used_memory:45157376</span><br><span class="line">used_memory_human:43.07M</span><br><span class="line">used_memory_rss:47628288</span><br><span class="line">used_memory_peak:49686080</span><br><span class="line">used_memory_peak_human:47.38M</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-网络工具"><a href="#6-网络工具" class="headerlink" title="6.网络工具"></a>6.网络工具</h3><h4 id="查询网络服务和端口"><a href="#查询网络服务和端口" class="headerlink" title="查询网络服务和端口"></a>查询网络服务和端口</h4><p>netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。</p>
+<p>列出所有端口 (包括监听和未监听的):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -a</span><br></pre></td></tr></table></figure>
+
+<p>列出所有 tcp 端口:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -at</span><br></pre></td></tr></table></figure>
+
+<p>列出所有有监听的服务状态:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -l</span><br></pre></td></tr></table></figure>
+
+<p>使用netstat工具查询端口:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$netstat -antp | grep 6379</span><br><span class="line">tcp        0      0 127.0.0.1:6379          0.0.0.0:*               LISTEN      25501/redis-server</span><br><span class="line"></span><br><span class="line">$ps 25501</span><br><span class="line">  PID TTY      STAT   TIME COMMAND</span><br><span class="line">25501 ?        Ssl   28:21 ./redis-server ./redis.conf</span><br></pre></td></tr></table></figure>
+
+<p>lsof（list open files）是一个列出当前系统打开文件的工具。在linux环境下，任何事物都以文件的形式存在，通过文件不仅仅可以访问常规数据，还可以访问网络连接和硬件。所以如传输控制协议 (TCP) 和用户数据报协议 (UDP) 套接字等； 在查询网络端口时，经常会用到这个工具。</p>
+<p>查询7902端口现在运行什么程序:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#分为两步</span><br><span class="line">#第一步，查询使用该端口的进程的PID；</span><br><span class="line">    $lsof -i:7902</span><br><span class="line">    COMMAND   PID   USER   FD   TYPE    DEVICE SIZE NODE NAME</span><br><span class="line">    WSL     30294 tuapp    4u  IPv4 447684086       TCP 10.6.50.37:tnos-dp (LISTEN)</span><br><span class="line"></span><br><span class="line">#查到30294</span><br><span class="line">#使用ps工具查询进程详情：</span><br><span class="line">$ps -fe | grep 30294</span><br><span class="line">tdev5  30294 26160  0 Sep10 ?        01:10:50 tdesl -k 43476</span><br><span class="line">root     22781 22698  0 00:54 pts/20   00:00:00 grep 11554</span><br></pre></td></tr></table></figure>
+
+<h4 id="网络路由"><a href="#网络路由" class="headerlink" title="网络路由"></a>网络路由</h4><p>查看路由状态:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$route -n</span><br></pre></td></tr></table></figure>
+
+<p>发送ping包到地址IP:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ping IP</span><br></pre></td></tr></table></figure>
+
+<p>探测前往地址IP的路由路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$traceroute IP</span><br></pre></td></tr></table></figure>
+
+<p>DNS查询，寻找域名domain对应的IP:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$host domain</span><br></pre></td></tr></table></figure>
+
+<p>反向DNS查询:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$host IP</span><br></pre></td></tr></table></figure>
+
+<h4 id="镜像下载"><a href="#镜像下载" class="headerlink" title="镜像下载"></a>镜像下载</h4><p>直接下载文件或者网页:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget url</span><br></pre></td></tr></table></figure>
+
+<p>常用选项:</p>
+<ul>
+<li>–limit-rate :下载限速</li>
+<li>-o：指定日志文件；输出都写入日志；</li>
+<li>-c：断点续传</li>
+</ul>
+<h4 id="ftp-sftp-lftp-ssh"><a href="#ftp-sftp-lftp-ssh" class="headerlink" title="ftp&#x2F;sftp&#x2F;lftp&#x2F;ssh"></a>ftp&#x2F;sftp&#x2F;lftp&#x2F;ssh</h4><p>SSH登陆:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ssh ID@host</span><br></pre></td></tr></table></figure>
+
+<p>ssh登陆远程服务器host，ID为用户名。</p>
+<p>ftp&#x2F;sftp文件传输:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sftp ID@host</span><br></pre></td></tr></table></figure>
+
+<p>登陆服务器host，ID为用户名。sftp登陆后，可以使用下面的命令进一步操作：</p>
+<ul>
+<li>get filename # 下载文件</li>
+<li>put filename # 上传文件</li>
+<li>ls # 列出host上当前路径的所有文件</li>
+<li>cd # 在host上更改当前路径</li>
+<li>lls # 列出本地主机上当前路径的所有文件</li>
+<li>lcd # 在本地主机更改当前路径</li>
+</ul>
+<p>lftp同步文件夹(类似rsync工具):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lftp -u user:pass host</span><br><span class="line">lftp user@host:~&gt; mirror -n</span><br></pre></td></tr></table></figure>
+
+<h4 id="网络复制"><a href="#网络复制" class="headerlink" title="网络复制"></a>网络复制</h4><p>将本地localpath指向的文件上传到远程主机的path路径:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$scp localpath ID@host:path</span><br></pre></td></tr></table></figure>
+
+<p>以ssh协议，遍历下载path路径下的整个文件系统，到本地的localpath:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$scp -r ID@site:path localpath</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-用户管理工具"><a href="#7-用户管理工具" class="headerlink" title="7.用户管理工具"></a>7.用户管理工具</h3><h4 id="用户"><a href="#用户" class="headerlink" title="用户"></a>用户</h4><h5 id="添加用户"><a href="#添加用户" class="headerlink" title="添加用户"></a>添加用户</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$useradd -m username</span><br></pre></td></tr></table></figure>
+
+<p>该命令为用户创建相应的帐号和用户目录&#x2F;home&#x2F;username；</p>
+<p>用户添加之后，设置密码：</p>
+<p>密码以交互方式创建:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$passwd username</span><br></pre></td></tr></table></figure>
+
+<h5 id="删除用户"><a href="#删除用户" class="headerlink" title="删除用户"></a>删除用户</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$userdel -r username</span><br></pre></td></tr></table></figure>
+
+<p>不带选项使用 userdel，只会删除用户。用户的家目录将仍会在&#x2F;home目录下。要完全的删除用户信息，使用-r选项；</p>
+<p>帐号切换 登录帐号为userA用户状态下，切换到userB用户帐号工作:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$su userB</span><br></pre></td></tr></table></figure>
+
+<p>进入交互模型，输入密码授权进入；</p>
+<h4 id="用户的组"><a href="#用户的组" class="headerlink" title="用户的组"></a>用户的组</h4><h5 id="将用户加入到组"><a href="#将用户加入到组" class="headerlink" title="将用户加入到组"></a>将用户加入到组</h5><p>默认情况下，添加用户操作也会相应的增加一个同名的组，用户属于同名组； 查看当前用户所属的组:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$groups</span><br></pre></td></tr></table></figure>
+
+<p>一个用户可以属于多个组，将用户加入到组:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$usermod -G groupNmame username</span><br></pre></td></tr></table></figure>
+
+<p>变更用户所属的根组(将用加入到新的组，并从原有的组中除去）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$usermod -g groupName username</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看系统所有组"><a href="#查看系统所有组" class="headerlink" title="查看系统所有组"></a>查看系统所有组</h5><p>系统的所有用户及所有组信息分别记录在两个文件中：&#x2F;etc&#x2F;passwd , &#x2F;etc&#x2F;group 默认情况下这两个文件对所有用户可读：</p>
+<p>查看所有用户及权限:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$more /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>查看所有的用户组及权限:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$more /etc/group</span><br></pre></td></tr></table></figure>
+
+<h4 id="用户权限"><a href="#用户权限" class="headerlink" title="用户权限"></a>用户权限</h4><p>使用ls -l可查看文件的属性字段，文件属性字段总共有10个字母组成，第一个字母表示文件类型，如果这个字母是一个减号”-”,则说明该文件是一个普通文件。字母”d”表示该文件是一个目录，字母”d”,是dirtectory(目录)的缩写。 后面的9个字母为该文件的权限标识，3个为一组，分别表示文件所属用户、用户所在组、其它用户的读写和执行权限； 例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[/home/weber#]ls -l /etc/group</span><br><span class="line">-rwxrw-r-- colin king 725 2013-11-12 15:37 /home/colin/a</span><br></pre></td></tr></table></figure>
+
+<p>表示这个文件对文件拥有者colin这个用户可读写、可执行；对colin所在的组（king）可读可写；对其它用户只可读；</p>
+<h5 id="更改读写权限"><a href="#更改读写权限" class="headerlink" title="更改读写权限"></a>更改读写权限</h5><p>使用chmod命令更改文件的读写权限，更改读写权限有两种方法，一种是字母方式，一种是数字方式</p>
+<p>字母方式:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$chmod userMark(+|-)PermissionsMark</span><br></pre></td></tr></table></figure>
+
+<p>userMark取值：</p>
+<ul>
+<li>u：用户</li>
+<li>g：组</li>
+<li>o：其它用户</li>
+<li>a：所有用户</li>
+</ul>
+<p>PermissionsMark取值：</p>
+<ul>
+<li>r:读</li>
+<li>w：写</li>
+<li>x：执行</li>
+</ul>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$chmod a+x main         对所有用户给文件main增加可执行权限</span><br><span class="line">$chmod g+w blogs        对组用户给文件blogs增加可写权限</span><br></pre></td></tr></table></figure>
+
+<p>数字方式：</p>
+<p>数字方式直接设置所有权限，相比字母方式，更加简洁方便；</p>
+<p>使用三位八进制数字的形式来表示权限，第一位指定属主的权限，第二位指定组权限，第三位指定其他用户的权限，每位通过4(读)、2(写)、1(执行)三种数值的和来确定权限。如6(4+2)代表有读写权，7(4+2+1)有读、写和执行的权限。</p>
+<p>例如:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$chmod 740 main     将main的用户权限设置为rwxr-----</span><br></pre></td></tr></table></figure>
+
+<h5 id="更改文件或目录的拥有者"><a href="#更改文件或目录的拥有者" class="headerlink" title="更改文件或目录的拥有者"></a>更改文件或目录的拥有者</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$chown username dirOrFile</span><br></pre></td></tr></table></figure>
+
+<p>使用-R选项递归更改该目下所有文件的拥有者:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$chown -R weber server/</span><br></pre></td></tr></table></figure>
+
+<h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><p>bashrc与profile都用于保存用户的环境信息，bashrc用于交互式non-loginshell，而profile用于交互式login shell。</p>
+<p>&#x2F;etc&#x2F;profile，&#x2F;etc&#x2F;bashrc 是系统全局环境变量设定</p>
+<p><del>&#x2F;.profile，</del>&#x2F;.bashrc用户目录下的私有环境变量设定</p>
+<p>当登入系统获得一个shell进程时，其读取环境设置脚本分为三步:</p>
+<ol>
+<li>首先读入的是全局环境变量设置文件&#x2F;etc&#x2F;profile，然后根据其内容读取额外的文档，如&#x2F;etc&#x2F;profile.d和&#x2F;etc&#x2F;inputrc</li>
+<li>读取当前登录用户Home目录下的文件<del>&#x2F;.bash_profile，其次读取</del>&#x2F;.bash_login，最后读取~&#x2F;.profile，这三个文档设定基本上是一样的，读取有优先关系</li>
+<li>读取~&#x2F;.bashrc</li>
+</ol>
+<p><del>&#x2F;.profile与</del>&#x2F;.bashrc的区别:</p>
+<ul>
+<li>这两者都具有个性化定制功能</li>
+<li>~&#x2F;.profile可以设定本用户专有的路径，环境变量，等，它只能登入的时候执行一次</li>
+<li>~&#x2F;.bashrc也是某用户专有设定文档，可以设定路径，命令别名，每次shell script的执行都会使用它一次</li>
+</ul>
+<p>例如，我们可以在这些环境变量中设置自己经常进入的文件路径，以及命令的快捷方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">.bashrc</span><br><span class="line">alias m=&#x27;more&#x27;</span><br><span class="line">alias cp=&#x27;cp -i&#x27;</span><br><span class="line">alias mv=&#x27;mv -i&#x27;</span><br><span class="line">alias ll=&#x27;ls -l&#x27;</span><br><span class="line">alias lsl=&#x27;ls -lrt&#x27;</span><br><span class="line">alias lm=&#x27;ls -al|more&#x27;</span><br><span class="line"></span><br><span class="line">log=/opt/applog/common_dir</span><br><span class="line">unit=/opt/app/unittest/common</span><br><span class="line"></span><br><span class="line">.bash_profile</span><br><span class="line">. /opt/app/tuxapp/openav/config/setenv.prod.sh.linux</span><br><span class="line">export PS1=&#x27;$PWD#&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>通过上述设置，我们进入log目录就只需要输入cd $log即可；</p>
+<h3 id="8-系统管理及IPC资源管理"><a href="#8-系统管理及IPC资源管理" class="headerlink" title="8.系统管理及IPC资源管理"></a>8.系统管理及IPC资源管理</h3><h4 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h4><h5 id="查询系统版本"><a href="#查询系统版本" class="headerlink" title="查询系统版本"></a>查询系统版本</h5><p>查看Linux系统版本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$uname -a</span><br><span class="line">$lsb_release -a</span><br></pre></td></tr></table></figure>
+
+<p>查看Unix系统版本：操作系统版本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$more /etc/release</span><br></pre></td></tr></table></figure>
+
+<h5 id="查询硬件信息"><a href="#查询硬件信息" class="headerlink" title="查询硬件信息"></a>查询硬件信息</h5><p>查看CPU使用情况:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sar -u 5 10</span><br></pre></td></tr></table></figure>
+
+<p>查询CPU信息:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$cat /proc/cpuinfo</span><br></pre></td></tr></table></figure>
+
+<p>查看CPU的核的个数:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$cat /proc/cpuinfo | grep processor | wc -l</span><br></pre></td></tr></table></figure>
+
+<p>查看内存信息:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$cat /proc/meminfo</span><br></pre></td></tr></table></figure>
+
+<p>显示内存page大小（以KByte为单位）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$pagesize</span><br></pre></td></tr></table></figure>
+
+<p>显示架构:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$arch</span><br></pre></td></tr></table></figure>
+
+<h5 id="设置系统时间"><a href="#设置系统时间" class="headerlink" title="设置系统时间"></a>设置系统时间</h5><p>显示当前系统时间:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$date</span><br></pre></td></tr></table></figure>
+
+<p>设置系统日期和时间(格式为2014-09-15 17:05:00):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$date -s 2014-09-15 17:05:00</span><br><span class="line">$date -s 2014-09-15</span><br><span class="line">$date -s 17:05:00</span><br></pre></td></tr></table></figure>
+
+<p>设置时区:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">选择时区信息。命令为：tzselect</span><br><span class="line">根据系统提示，选择相应的时区信息。</span><br></pre></td></tr></table></figure>
+
+<p>强制把系统时间写入CMOS（这样，重启后时间也正确了）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$clock -w</span><br></pre></td></tr></table></figure>
+
+<p>显示当前系统时间:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$date</span><br></pre></td></tr></table></figure>
+
+<p>设置系统日期和时间(格式为2014-09-15 17:05:00):</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$date -s 2014-09-15 17:05:00</span><br><span class="line">$date -s 2014-09-15</span><br><span class="line">$date -s 17:05:00</span><br></pre></td></tr></table></figure>
+
+<p>设置时区:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">选择时区信息。命令为：tzselect</span><br><span class="line">根据系统提示，选择相应的时区信息。</span><br></pre></td></tr></table></figure>
+
+<p>强制把系统时间写入CMOS（这样，重启后时间也正确了）:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$clock -w</span><br></pre></td></tr></table></figure>
+
+<h4 id="IPC资源管理"><a href="#IPC资源管理" class="headerlink" title="IPC资源管理"></a>IPC资源管理</h4><h5 id="IPC资源查询"><a href="#IPC资源查询" class="headerlink" title="IPC资源查询"></a>IPC资源查询</h5><p>查看系统使用的IPC资源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ipcs</span><br><span class="line"></span><br><span class="line">------ Shared Memory Segments --------</span><br><span class="line">key        shmid      owner      perms      bytes      nattch     status</span><br><span class="line"></span><br><span class="line">------ Semaphore Arrays --------</span><br><span class="line">key        semid      owner      perms      nsems</span><br><span class="line">0x00000000 229376     weber      600        1</span><br><span class="line"></span><br><span class="line">------ Message Queues --------</span><br><span class="line">key        msqid      owner      perms      used-bytes   messages</span><br></pre></td></tr></table></figure>
+
+<p>查看系统使用的IPC共享内存资源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ipcs -m</span><br></pre></td></tr></table></figure>
+
+<p>查看系统使用的IPC队列资源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ipcs -q</span><br></pre></td></tr></table></figure>
+
+<p>查看系统使用的IPC信号量资源:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ipcs -s</span><br></pre></td></tr></table></figure>
+
+<p>应用示例：查看IPC资源被谁占用</p>
+<p>有个IPCKEY：51036 ，需要查询其是否被占用；</p>
+<ol>
+<li><ul>
+<li><p>首先通过计算器将其转为十六进制:</p>
+<p>   51036 -&gt; c75c</p>
+</li>
+</ul>
+</li>
+<li><p>如果知道是被共享内存占用:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ipcs -m | grep c75c</span><br><span class="line">0x0000c75c 40403197   tdea3    666        536870912  2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果不确定，则直接查找:</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ipcs | grep c75c</span><br><span class="line">0x0000c75c 40403197   tdea3    666        536870912  2</span><br><span class="line">0x0000c75c 5079070    tdea3    666        4</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h5 id="检测和设置系统资源限制"><a href="#检测和设置系统资源限制" class="headerlink" title="检测和设置系统资源限制"></a>检测和设置系统资源限制</h5><p>显示当前所有的系统资源limit 信息:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit – a</span><br></pre></td></tr></table></figure>
+
+<p>对生成的 core 文件的大小不进行限制:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit – c unlimited</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他工具"><a href="#其他工具" class="headerlink" title="其他工具"></a>其他工具</h3><h4 id="tar工具"><a href="#tar工具" class="headerlink" title="tar工具"></a>tar工具</h4><p>在Linux平台，tar是主要的打包工具。tar命令通常用来把文件和目录压缩为一个文件（ tarball 或 tar, gzip 和 bzip）。</p>
+<p><strong>Tar选项：</strong></p>
+<ul>
+<li>c – 创建压缩文件</li>
+<li>x – 解压文件</li>
+<li>v – 显示进度.</li>
+<li>f – 文件名.</li>
+<li>t – 查看压缩文件内容.</li>
+<li>j – 通过bzip2归档</li>
+<li>z –通过gzip归档</li>
+<li>r – 在压缩文件中追加文件或目录</li>
+<li>W – 验证压缩文件</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">解压后文件名为原压缩包名字</span></span><br><span class="line">tar xvf 压缩包</span><br></pre></td></tr></table></figure>
+
+<h4 id="locate定位文件"><a href="#locate定位文件" class="headerlink" title="locate定位文件"></a>locate定位文件</h4><p>linux会把系统内所有的文件都记录在一个数据库文件中，使用locate+文件名的方法会在linux系统维护的这个数据库中去查找目标，相比find命令去遍历磁盘查找的方式，效率会高很多，比较推荐使用这种方法。</p>
+<p>因为该数据库默认是一天更新一次的，所有使用locate命令有可能<strong>找不到最近新建的文件</strong>。这时就需要手动更新数据库,命令很简单，直接在终端中输入sudo updatedb就可以进行更新，更新速度还是比较快的，所以在搜索文件的时候建议使用locate命令。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">locate 文件名</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="dd工具"><a href="#dd工具" class="headerlink" title="dd工具"></a>dd工具</h4><p><strong>dd命令</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=xxx of=xxx bs=num seek=num</span><br></pre></td></tr></table></figure>
+
+<p>dd：用指定大小的块拷贝一个文件，并在拷贝的同时进行指定的转换。注意：指定数字的地方若如下列字符结尾，则乘以相应的数字：b&#x3D;512；c&#x3D;1；k&#x3D;1024；w&#x3D;2。</p>
+<p><strong>参数注释：</strong></p>
+<ol>
+<li>if&#x3D;文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if&#x3D;input file &gt;</li>
+<li>of&#x3D;文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of&#x3D;output file &gt;</li>
+<li>ibs&#x3D;bytes：一次读入bytes个字节，即指定一个块大小为bytes个字节。<br> obs&#x3D;bytes：一次输出bytes个字节，即指定一个块大小为bytes个字节。<br> bs&#x3D;bytes：同时设置读入&#x2F;输出的块大小为bytes个字节。</li>
+<li>cbs&#x3D;bytes：一次转换bytes个字节，即指定转换缓冲区大小。</li>
+<li>skip&#x3D;blocks：从输入文件开头跳过blocks个块后再开始复制。</li>
+<li>seek&#x3D;blocks：从输出文件开头跳过blocks个块后再开始复制。<br> 注意：一般只用当输出文件是磁盘或磁带时才有效，即备份到磁盘或磁带时才有效。</li>
+<li>count&#x3D;blocks：仅拷贝blocks个块，块大小等于ibs指定的字节数。</li>
+<li>conv&#x3D;conversion：用指定的参数转换文件。<br> ascii：转换ebcdic为ascii<br>  ebcdic：转换ascii为ebcdic<br> ibm：转换ascii为alternate ebcdic<br> block：把每一行转换为长度为cbs，不足部分用空格填充<br> unblock：使每一行的长度都为cbs，不足部分用空格填充<br> lcase：把大写字符转换为小写字符<br> ucase：把小写字符转换为大写字符<br> swab：交换输入的每对字节<br>  noerror：出错时不中止<br>  notrunc：不截短输出文件<br> sync：将每一个输入块填充到ibs个字节，不足部分用空（NUL）字符补齐。</li>
+</ol>
+<p><strong>&#x2F;dev&#x2F;null和&#x2F;dev&#x2F;zero的区别</strong></p>
+<p>&#x2F;dev&#x2F;null是一个伪文件，可以看做”黑洞”， 它等价于一个只写文件，全部写入它的内容都会永远丢失，而尝试从它那儿读取内容则什么也读不到。</p>
+<p>&#x2F;dev&#x2F;zero是一个输入设备，该设备无穷尽地提供0，主要的用处是用来建立一个指定长度用于初始化的空文件，就像临时交换文件，可以用它来初始化文件。 </p>
+<h4 id="wget工具"><a href="#wget工具" class="headerlink" title="wget工具"></a>wget工具</h4><p>wget是一个从网络上自动下载文件的自由工具。它支持HTTP，HTTPS和FTP协议，可以使用HTTP代理。</p>
+<p>简单用法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://地址</span><br></pre></td></tr></table></figure>
+
+<h4 id="回收站"><a href="#回收站" class="headerlink" title="回收站"></a>回收站</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">trash-empty 清空回收站</span><br><span class="line">trash-empty days 删除回收站里面超过指定天数的文件</span><br><span class="line">foo文件会被放入回收站(trashcan)</span><br><span class="line">trash-list 列出回收站里面的文件</span><br><span class="line">restore-trash 恢复指定的文件</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h4><h5 id="查看系统版本命令："><a href="#查看系统版本命令：" class="headerlink" title="查看系统版本命令："></a>查看系统版本命令：</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure>
+
+<h5 id="Ubuntu系统扩容"><a href="#Ubuntu系统扩容" class="headerlink" title="Ubuntu系统扩容"></a>Ubuntu系统扩容</h5><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Lem0n_Tree/article/details/120705140">https://blog.csdn.net/Lem0n_Tree/article/details/120705140</a></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%99%9A%E6%8B%9F%E6%9C%BA&spm=1001.2101.3001.7020">虚拟机</a>修改磁盘大小，查看磁盘</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-1708953089999.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-1708953089999"></p>
+<p>从上图看到，磁盘容量已经识别为100G，但<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%88%86%E5%8C%BA%E8%A1%A8&spm=1001.2101.3001.7020">分区表</a>记录的容量仍然是50G（红色字体提示)</p>
+<ol start="2">
+<li>修复分区表</li>
+</ol>
+<p>查看分区情况，会立即提示空间未全部使用，提示输入Fix修复分区表</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo parted -l</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543131.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543131"></p>
+<ol start="3">
+<li>扩容分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cfdisk</span><br></pre></td></tr></table></figure>
+
+<p>上下选中要扩容的分区，左右选择<strong>Resize</strong>后回车，会自动填写可用的总容量，也可以手动写入扩容后的总容量，回车后选择<strong>Write</strong>再次回车保存，退出。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543142.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543142"></p>
+<p>这里是分配99G全部</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543143.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543143"></p>
+<p>保存输入<strong>yes</strong>后按<strong>q</strong>退出</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543154.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543154"></p>
+<ol start="4">
+<li>扩容文件系统</li>
+</ol>
+<p>此时可看到磁盘已经扩容，但文件系统大小仍然是扩容前的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pvs</span><br><span class="line">lsblk</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543165.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543165"></p>
+<p>重置pv大小，再次查看大小容量已经变为更新了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo pvresize /dev/sda3</span><br><span class="line">sudo pvs</span><br><span class="line">sudo pvdisplay</span><br><span class="line"><span class="comment">#显示存在的卷组</span></span><br><span class="line">sudo vgdisplay </span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_19,color_FFFFFF,t_70,g_se,x_16.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_19,color_FFFFFF,t_70,g_se,x_16"></p>
+<p>free空间分配</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo lvextend -l +100%free /dev/mapper/ubuntu--vg-ubuntu--lv</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/732635170d50411db2493b1446534a9c.png" alt="732635170d50411db2493b1446534a9c"></p>
+<p>更新文件系统，查看已经成功扩容</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/linux-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543166-1708953418502.png" alt="watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBATGVtbl9UcmVl,size_20,color_FFFFFF,t_70,g_se,x_16-16557150543166-1708953418502"></p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/02/27/linux-%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B/">linux应用编程</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/02/26/C%E8%AF%AD%E8%A8%80-%E5%85%B3%E9%94%AE%E5%AD%97/">C语言-关键字</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
