@@ -231,7 +231,7 @@
 </tbody></table>
 <h3 id="ARM体系结构特点"><a href="#ARM体系结构特点" class="headerlink" title="ARM体系结构特点"></a>ARM体系结构特点</h3><p>主要参考”ARM体系结构与编程_唐振明“。</p>
 <p>ARM 内核采用精简指令集结构（Reduced Instruction Set Computer，RISC）体系结构。RISC技术产生于 20 世纪 70 年代，其设计目标是创建一种能以每个时钟周期执行一条指令的速度很快的计算机。RISC 的设计重点在于降低由硬件执行的指令复杂度，这是因为软件比硬件容易提供更大的灵活性和更高的智能。与其相对的传统复杂指令级计算机（CISC）则更侧重于硬件执行指令的功能性，这使 CISC 指令变得更复杂。</p>
-<style>.peyxrdcmkfye{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312215004407.png" class="peyxrdcmkfye lazy" alt="image-20240312215004407">
+<style>.qipmlfvejqyi{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312215004407.png" class="qipmlfvejqyi lazy" alt="image-20240312215004407">
 
 <p>（1）Load&#x2F;Store 体系结构</p>
 <p>Load&#x2F;Store 体系结构也称为寄存器&#x2F;寄存器体系结构或者 RR 系统结构。在这类结构中，操作数和运算结果不是通过主存储器直接取回而是借用大量标量和矢量寄存器来取回的。与 RR体系结构相反，还有一种存储器&#x2F;存储器体系结构，在这种体系结构中，源操作数的中间值和最后的运算结果是直接从主存储器中取回的，这类结构的缩写符号是 SS 体系结构。</p>
@@ -287,7 +287,7 @@
 <p>●　31个通用寄存器，包括程序计数器（PC）在内。这些寄存器都是32位寄存器。</p>
 <p>●　6个状态寄存器。这些寄存器都是32位寄存器，但目前只使用了其中12位。</p>
 <p>ARM处理器共有7种不同的处理器模式，在每一种处理器模式中有一组相应的寄存器组。任意时刻（也就是任意的处理器模式下），可见的寄存器包括15个通用寄存器（R0～R14）、一个或两个状态寄存器及程序计数器（PC）。在所有的寄存器中，有些是各模式共用的同一个物理寄存器；有一些寄存器是各模式自己拥有的独立的物理寄存器。</p>
-<style>.zmukkxinwefk{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312211626917.png" class="zmukkxinwefk lazy" alt="image-20240312211626917">
+<style>.gqhcdroeudsx{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312211626917.png" class="gqhcdroeudsx lazy" alt="image-20240312211626917">
 
 <p><strong>通用寄存器</strong></p>
 <p>通用寄存器可以分为下面3类：</p>
@@ -330,7 +330,7 @@
 <p>●　通过跳转指令，程序可以跳转到特定的地址标号处执行，或者跳转到特定的子程序处执行。其中，B指令用于执行跳转操作；BL指令在执行跳转操作的同时，保存子程序的返回地址；BX指令在执行跳转操作的同时，根据目标地址的最低位可以将程序状态切换到Thumb状态；BLX指令执行3个操作，跳转到目标地址处执行，保存子程序的返回地址，根据目标地址的最低位可以将程序状态切换到Thumb状态。</p>
 <p>●　当异常中断发生时，系统执行完当前指令后，将跳转到相应的异常中断处理程序处执行。在异常中断处理程序执行完成后，程序返回到发生中断的指令的下一条指令处执行。在进入异常中断处理程序时，要保存被中断的程序的执行现场，在从异常中断处理程序退出时，要恢复被中断的程序的执行现场。</p>
 <p><strong>ARM中异常中断的种类</strong></p>
-<style>.kcssebqwfbdf{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312213451807.png" class="kcssebqwfbdf lazy" alt="image-20240312213451807">
+<style>.pksinvmvjlwp{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/image-20240312213451807.png" class="pksinvmvjlwp lazy" alt="image-20240312213451807">
 
 <p><strong>ARM处理器对异常中断的响应过程</strong></p>
 <p>（1）保存处理器当前状态、中断屏蔽位以及各条件标志位。这是通过将当前程序状态寄存器CPSR的内容保存到将要执行的异常中断对应的SPSR寄存器中实现的。各异常中断有自己的物理SPSR寄存器。</p>
