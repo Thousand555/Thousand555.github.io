@@ -1,0 +1,432 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>Blog</title>
+
+  
+    <meta name="description" content="title: linux-开发板其他移植date: 2024-03-17 13:52:14tags: linux驱动 buildroot其他移植Qt添加过程12345#配置cd buildroot-2017.08make menuconfig#编译time make  添加QT配置：     触摸配置先输入 ts_test 指令测试能否正常画线，能正常画线就代表能触摸，也就不用再配置了。如果不能触">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blog">
+<meta property="og:url" content="http://example.com/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="title: linux-开发板其他移植date: 2024-03-17 13:52:14tags: linux驱动 buildroot其他移植Qt添加过程12345#配置cd buildroot-2017.08make menuconfig#编译time make  添加QT配置：     触摸配置先输入 ts_test 指令测试能否正常画线，能正常画线就代表能触摸，也就不用再配置了。如果不能触">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/image-20240317165231306.png">
+<meta property="og:image" content="http://example.com/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/image-20240317165915992.png">
+<meta property="og:image" content="http://example.com/picture/Pasted%20image%2020230713114201.png">
+<meta property="article:published_time" content="2024-03-17T05:52:14.059Z">
+<meta property="article:modified_time" content="2024-03-17T09:29:05.221Z">
+<meta property="article:author" content="baimin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/image-20240317165231306.png">
+  
+  
+  
+  
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#buildroot%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D"><span class="toc-text">buildroot其他移植</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Qt"><span class="toc-text">Qt</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%87%E7%A8%8B"><span class="toc-text">添加过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A6%E6%91%B8%E9%85%8D%E7%BD%AE"><span class="toc-text">触摸配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qt%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="toc-text">Qt环境变量配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="toc-text">字库配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95-Qt-%E8%83%BD%E5%90%A6%E6%AD%A3%E5%B8%B8%E8%BF%90%E8%A1%8C"><span class="toc-text">测试 Qt 能否正常运行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#alsa%E9%9F%B3%E9%A2%91%E5%B7%A5%E5%85%B7"><span class="toc-text">alsa音频工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tinyalsa%E9%9F%B3%E9%A2%91%E5%B7%A5%E5%85%B7"><span class="toc-text">tinyalsa音频工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mplayer%E8%A7%86%E9%A2%91%E5%B7%A5%E5%85%B7"><span class="toc-text">mplayer视频工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ntp%E7%BD%91%E7%BB%9C%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">ntp网络时间同步</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95"><span class="toc-text">测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#curl%E7%BD%91%E7%BB%9C%E5%B7%A5%E5%85%B7"><span class="toc-text">curl网络工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lvgl%E7%A7%BB%E6%A4%8D"><span class="toc-text">lvgl移植</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%BC%89%E8%8E%B7%E5%8F%96%E6%BA%90%E7%A0%81"><span class="toc-text">1）获取源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%BC%89%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E5%A4%B9%E5%B9%B6%E8%A7%A3%E5%8E%8B%E6%BA%90%E7%A0%81"><span class="toc-text">2）创建文件夹并解压源码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%EF%BC%89%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">3）修改配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%EF%BC%89%E7%BC%96%E5%86%99main%E7%A8%8B%E5%BA%8F%E5%92%8CMakefile"><span class="toc-text">4）编写main程序和Makefile</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%EF%BC%89%E7%BC%96%E8%AF%91"><span class="toc-text">5）编译</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%97%AE%E9%A2%98"><span class="toc-text">6) 问题</span></a></li></ol></li></ol></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/"><span class="title">linux-全志V3s移植uboot kernel rootfile记录</span></a><a class="item title" href="/2024/02/27/linux-%E5%BA%94%E7%94%A8%E7%BC%96%E7%A8%8B/"><span class="title">linux-应用编程</span></a><a class="item title" href="/2024/03/12/ARM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84/"><span class="title">ARM体系结构</span></a><a class="item title" href="/2024/02/26/linux-%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/"><span class="title">linux-基础命令使用</span></a><a class="item title" href="/2024/03/11/cpp-%E5%B8%B8%E7%94%A8STL%E8%AE%B0%E5%BD%95/"><span class="title">cpp常用STL记录</span></a><a class="item title" href="/2024/03/10/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/"><span class="title">数据结构与算法</span></a><a class="item title" href="/2024/03/08/C%E8%AF%AD%E8%A8%80-%E5%9F%BA%E7%A1%80/"><span class="title">C语言基础</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a><a class="item title" href="/2024/03/02/%E4%BB%A3%E7%A0%81%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/"><span class="title">代码命名规范</span></a><a class="item title" href="/2024/02/27/Visual-Studio%E7%9A%84%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E8%A7%A3%E9%87%8A/"><span class="title">Visual Studio的属性配置解释</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-17T05:52:14.059Z">2024-03-17</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-17T09:29:05.221Z">2024-03-17</time></span></div></div>
+</div>
+
+    
+  </div>
+  </div><article class="md-text content"><p>title: linux-开发板其他移植<br>date: 2024-03-17 13:52:14<br>tags: linux驱动</p>
+<h2 id="buildroot其他移植"><a href="#buildroot其他移植" class="headerlink" title="buildroot其他移植"></a>buildroot其他移植</h2><h3 id="Qt"><a href="#Qt" class="headerlink" title="Qt"></a>Qt</h3><h4 id="添加过程"><a href="#添加过程" class="headerlink" title="添加过程"></a>添加过程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置</span></span><br><span class="line"><span class="built_in">cd</span> buildroot-2017.08</span><br><span class="line">make menuconfig</span><br><span class="line"><span class="comment">#编译</span></span><br><span class="line">time make</span><br></pre></td></tr></table></figure>
+
+<p>添加QT配置：</p>
+
+
+
+
+<h4 id="触摸配置"><a href="#触摸配置" class="headerlink" title="触摸配置"></a>触摸配置</h4><p>先输入 ts_test 指令测试能否正常画线，能正常画线就代表能触摸，也就不用再配置了。如果不能触摸可能是它默认指向的事件不对，需要调整，在&#x2F;etc&#x2F;profile 文件里加入以下内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// eventX X 可能取值 0 1 … </span><br><span class="line"><span class="built_in">export</span> TSLIB_TSDEVICE=/dev/input/event1</span><br><span class="line">// 若不能触摸，加入这个环境变量</span><br><span class="line"><span class="built_in">export</span> QT_QPA_FB_TSLIB=1 </span><br></pre></td></tr></table></figure>
+<h4 id="Qt环境变量配置"><a href="#Qt环境变量配置" class="headerlink" title="Qt环境变量配置"></a>Qt环境变量配置</h4><p>在&#x2F;etc&#x2F;profile 文件里加入以下内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打开配置文件</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加环境变量内容： </span></span><br><span class="line"><span class="built_in">export</span> QT_QPA_PLATFORM=linuxfb</span><br></pre></td></tr></table></figure>
+<h4 id="字库配置"><a href="#字库配置" class="headerlink" title="字库配置"></a>字库配置</h4><p>将 windows 下的（路径 C:\Windows\Fonts）下的中文字库放到新建一 个&#x2F;usr&#x2F;share&#x2F;fonts&#x2F;目录下,在&#x2F;etc&#x2F;profile 文件里加入以下内容：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> QT_QPA_FONTDIR= /usr/share/fonts</span><br></pre></td></tr></table></figure>
+<p>使能 Qt 运行环境变量</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="测试-Qt-能否正常运行"><a href="#测试-Qt-能否正常运行" class="headerlink" title="测试 Qt 能否正常运行"></a>测试 Qt 能否正常运行</h5><p>查看buildroot生成根文件output&#x2F;build&#x2F;qt5base-5.9.1&#x2F;examples&#x2F;widgets&#x2F;widgets目录下的示例文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> output/build/qt5base-5.9.1/examples/widgets/widgets</span><br><span class="line"><span class="built_in">cd</span> output/build/qt5base-5.9.1/examples/widgets/widgets</span><br></pre></td></tr></table></figure>
+
+<p>随便选择一个示例进行编译，这里选择analogclock示例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入analogclock目录</span></span><br><span class="line"><span class="built_in">cd</span> analogclock</span><br><span class="line"><span class="comment">#执行qmake，生成Makefile文件，绝对路径</span></span><br><span class="line">~/buildroot-2017.08/output/build/qt5base-5.9.1/bin/qmake</span><br><span class="line"><span class="comment">#make编译</span></span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>将生成后的analogclock文件传输至开发板运行。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先传输到宿主机，docker环境下直接传到开发板会失败</span></span><br><span class="line">scp analogclock thousand@192.168.248.130:/home/thousand</span><br><span class="line"><span class="comment">#传输到开发板</span></span><br><span class="line">scp analogclock root@192.168.123.66:/</span><br></pre></td></tr></table></figure>
+<p>开发板运行analogclock程序，运行正常。</p>
+<blockquote>
+<p>若不配置qt环境变量，也可以执行“.&#x2F;analogclock -platform linuxfb”运行程序</p>
+</blockquote>
+<p>其他：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#如果添加了qt的触摸包，输入以下命令测试</span></span><br><span class="line">ts_test</span><br><span class="line"><span class="comment">#如果添加了qt的例程包，测试：</span></span><br><span class="line">/usr/lib/qt/examples/widgets/animation/animatedtiles/animatedtiles</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="alsa音频工具"><a href="#alsa音频工具" class="headerlink" title="alsa音频工具"></a>alsa音频工具</h3><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Jun626/article/details/100036595">https://blog.csdn.net/Jun626/article/details/100036595</a></p>
+<p>buildroot添加alsa：</p>
+
+
+
+<p>编译，测试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看设备</span></span><br><span class="line">arecord -l</span><br><span class="line"><span class="comment">#调节设备，音量</span></span><br><span class="line">alsamixer</span><br><span class="line"><span class="comment">#录音</span></span><br><span class="line"><span class="comment">#使能设备</span></span><br><span class="line">amixer -c 0 cset numid=12 2</span><br><span class="line"><span class="comment">#开始记录</span></span><br><span class="line">arecord -D hw:0,0 -d 3 -f S16_LE -r 16000 tmp.wav</span><br><span class="line"><span class="comment">#播放</span></span><br><span class="line">amixer -c 0 sset <span class="string">&#x27;Headphone&#x27;</span>,0 50% unmute</span><br><span class="line">speaker-test -twav -c2</span><br><span class="line">atest</span><br><span class="line">aplay  tmp.wav</span><br></pre></td></tr></table></figure>
+
+<h3 id="tinyalsa音频工具"><a href="#tinyalsa音频工具" class="headerlink" title="tinyalsa音频工具"></a>tinyalsa音频工具</h3><p><a target="_blank" rel="noopener" href="https://liefyuan.blog.csdn.net/article/details/117395026">https://liefyuan.blog.csdn.net/article/details/117395026</a></p>
+<h3 id="mplayer视频工具"><a href="#mplayer视频工具" class="headerlink" title="mplayer视频工具"></a>mplayer视频工具</h3><p>参考过程：</p>
+<p><a target="_blank" rel="noopener" href="https://liefyuan.blog.csdn.net/article/details/117395159">https://liefyuan.blog.csdn.net/article/details/117395159</a></p>
+<p><strong>配置buildroot的mplayer和alsa：</strong></p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/image-20240317165231306.png" class="lazy" title="image-20240317165231306">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/17/linux-%E5%BC%80%E5%8F%91%E6%9D%BF%E5%85%B6%E4%BB%96%E7%A7%BB%E6%A4%8D/image-20240317165915992.png" class="lazy" title="image-20240317165915992">
+
+<p><strong>编译：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编译</span></span><br><span class="line">time make</span><br><span class="line"></span><br><span class="line"><span class="comment">#重新写入根文件系统</span></span><br></pre></td></tr></table></figure>
+
+<p>测试，准备一段mp4或avi格式的视频，复制到根文件系统：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置声音</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#播放</span></span><br><span class="line">mplayer -x 800 -y 480 -zoom -framedrop xxx.mp4</span><br></pre></td></tr></table></figure>
+
+<h3 id="ntp网络时间同步"><a href="#ntp网络时间同步" class="headerlink" title="ntp网络时间同步"></a>ntp网络时间同步</h3><h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>buildroot中时区设置：</p>
+<style>.zxllksehnwje{zoom:67%;}</style>
+
+<p>添加ntp组件包：</p>
+<style>.fgieberrujrc{zoom:67%;}</style>
+
+<p><strong>编译：</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time make</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#根文件系统中执行配置命令</span></span><br><span class="line"><span class="built_in">cp</span> /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime</span><br><span class="line"><span class="built_in">cat</span> timezone</span><br><span class="line"></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line">ntpdate us.pool.ntp.org</span><br><span class="line"><span class="comment">#查看当前时间</span></span><br><span class="line"><span class="built_in">date</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>1、编译遇到” Please port gnulib freadahead.c to your platform” 的问题：</p>
+<p>参考： <a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_38018715/article/details/121866822">https://blog.csdn.net/m0_38018715/article/details/121866822</a></p>
+<p>进入文件夹 buildroot&#x2F;output&#x2F;build&#x2F;host-m4-xxxxxx，执行命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s/IO_ftrylockfile/IO_EOF_SEEN/&#x27;</span> lib/*.c</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;#define _IO_IN_BACKUP 0x100&quot;</span> &gt;&gt; lib/stdio-impl.h</span><br></pre></td></tr></table></figure>
+<p>2、应用程序获取的时间比真实时间少8小时由于时区问题，修改时区后有另外一个需要注意的地方：程序中通过 timer(NULL)获取的系统秒数会比正常时间 少 8*3600秒，编写查询时间函数时要注意自行添加。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">time_t</span> timep;</span><br><span class="line">    time (&amp;timep);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>,asctime(gmtime(&amp;timep)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者，程序中设置时区：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 设置时区为北京</span></span><br><span class="line">    setenv(<span class="string">&quot;TZ&quot;</span>, <span class="string">&quot;Asia/Shanghai&quot;</span>, <span class="number">1</span>);</span><br><span class="line">    tzset();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取当前系统时间</span></span><br><span class="line">    <span class="type">time_t</span> current_time = time(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将时间转换为字符串格式</span></span><br><span class="line">    <span class="type">char</span>* time_string = ctime(&amp;current_time);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印当前时间</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Current system time in Beijing: %s&quot;</span>, time_string);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="curl网络工具"><a href="#curl网络工具" class="headerlink" title="curl网络工具"></a>curl网络工具</h3><p>在buildroot中包含了libcurl和openssl的库，可以使用里面的库，勾选以下选择：</p>
+
+
+
+
+
+
+<p>编译后，移植根文件系统到开发板或者nfs挂载，可在根文件系统”&#x2F;usr&#x2F;lib”中查看其中的动态库：</p>
+
+
+<p>不过，这时候的根文件系统中没有curl应用程序，只有动态库文件，需要分别对buildroot的“out&#x2F;build&#x2F;”目录下的openssl和libcurl源码进行编译，最后把得到的curl程序移植到根文件系统中：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#先将openssl和libcurl编译好的文件安装到各自源码目录下的output目录：</span></span><br><span class="line"><span class="comment">#1、安装openssl</span></span><br><span class="line"><span class="built_in">cd</span> /home/thousand/licheepi/buildroot-2017.08/output/build/openssl-1.0.2l</span><br><span class="line"><span class="built_in">mkdir</span> output</span><br><span class="line">./config no-asm shared --prefix=/home/thousand/licheepi/buildroot-2017.08/output/build/openssl-1.0.2l/output --cross-compile-prefix=arm-linux-gnueabihf-</span><br><span class="line">vi Makefile</span><br><span class="line"><span class="comment"># 删除所有的-m64</span></span><br><span class="line">make -j16</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">#2、安装libcurl</span></span><br><span class="line"><span class="built_in">cd</span> /home/thousand/licheepi/buildroot-2017.08/output/build/libcurl-7.55.0</span><br><span class="line"><span class="built_in">mkdir</span> output</span><br><span class="line">./configure --prefix=/home/thousand/licheepi/buildroot-2017.08/output/build/libcurl-7.55.0/output --host=arm-linux-gnueabihf CC=arm-linux-gnueabihf-gcc --with-ssl=/home/thousand/licheepi/buildroot-2017.08/output/build/openssl-1.0.2l/output </span><br><span class="line">make -j16</span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line"><span class="comment">#若需在命令行直接使用curl，还要把得到的curl程序移植到根文件系统&quot;/usr/bin&quot;目录中,这里在开发板的linux shell界面使用scp传输：</span></span><br><span class="line">scp xxx@192.168.x.x:/home/thousand/licheepi/buildroot-2017.08/output/build/libcurl-7.55.0/output/bin/* /usr/bin</span><br><span class="line"><span class="comment">#若是nfs挂载根文件系统，则直接拷贝：cp -r output/bin/* ~/licheepi/nfs/rootfs/usr/bin</span></span><br><span class="line"><span class="comment">#测试</span></span><br><span class="line">curl -V</span><br><span class="line">curl http://www.linux.com</span><br><span class="line"></span><br><span class="line"><span class="comment">#此时curl动态库只支持http，不支持https协议，尽管前面已经配置好了openssl再编译，但得到的curl依旧不支持，还需要将output/lib中的动态库移植到根文件系统（尽管根文件系统中已有curl的动态库，但缺少了和openssl相关的部分）</span></span><br><span class="line"><span class="comment">#若是nfs挂载根文件系统，则直接拷贝：</span></span><br><span class="line"><span class="built_in">cp</span> -r xxx/libcurl-7.55.0/output/lib/* /usr/lib</span><br><span class="line"><span class="comment">#测试，此时除了缺少https的ca证书，其他一切正常</span></span><br><span class="line">curl -V</span><br><span class="line">curl -k https://www.baidu.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="lvgl移植"><a href="#lvgl移植" class="headerlink" title="lvgl移植"></a>lvgl移植</h2><p>参考：<br><a target="_blank" rel="noopener" href="https://gitee.com/socbis/linux-lvgl">https://gitee.com/socbis/linux-lvgl</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/h451884098/article/details/120119545">https://blog.csdn.net/h451884098/article/details/120119545</a></p>
+<h4 id="1）获取源码"><a href="#1）获取源码" class="headerlink" title="1）获取源码"></a>1）获取源码</h4><p>lvgl核心控件库: 从此处获取源码 lvgl，选择版本 Release v8.0.1.<br><a target="_blank" rel="noopener" href="https://github.com/lvgl/lvgl/releases/tag/v8.0.1">https://github.com/lvgl/lvgl/releases/tag/v8.0.1</a><br>显示和触摸接口层 : 关联图形库与硬件，源码 lv_drivers，选择版本 v8.0.<br><a target="_blank" rel="noopener" href="https://github.com/lvgl/lv_drivers/tree/v8.0.0">https://github.com/lvgl/lv_drivers/tree/v8.0.0</a><br>lv_demo 源码 : 源码 lv_demos, 同样选择版本 v8.0.1（非必要，这里用来验证移植效果）<br><a target="_blank" rel="noopener" href="https://github.com/lvgl/lv_demos/tree/v8.0.1">https://github.com/lvgl/lv_demos/tree/v8.0.1</a></p>
+<h4 id="2）创建文件夹并解压源码"><a href="#2）创建文件夹并解压源码" class="headerlink" title="2）创建文件夹并解压源码"></a>2）创建文件夹并解压源码</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> lvgl_linux</span><br><span class="line"><span class="built_in">cd</span> lvgl_linux</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压</span></span><br><span class="line">tar xvf lvgl-8.0.1.tar.gz</span><br><span class="line">unzip lv_drivers-release-v8.0.zip</span><br><span class="line">unzip lv_demos-release-v8.0.zip</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重命名解压后的文件夹</span></span><br><span class="line"><span class="built_in">mv</span> lvgl-8.0.1 lvgl</span><br><span class="line"><span class="built_in">mv</span> lv_drivers-release-v8.0 lv_drivers</span><br><span class="line"><span class="built_in">mv</span> lv_demos-release-v8.0 lv_demos</span><br><span class="line"></span><br><span class="line"><span class="comment"># delete zip tar</span></span><br><span class="line"><span class="built_in">rm</span> lv_drivers-release-v8.0.zip lv_demos-release-v8.0.zip lvgl-8.0.1.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">lv_demos  lv_drivers  lvgl</span><br></pre></td></tr></table></figure>
+
+<h4 id="3）修改配置文件"><a href="#3）修改配置文件" class="headerlink" title="3）修改配置文件"></a>3）修改配置文件</h4><ul>
+<li><p>核心库配置文件 : lv_conf.h</p>
+</li>
+<li><p>驱动配置文件 : lv_drv_conf.h</p>
+</li>
+<li><p>demo配置文件 : lv_demo_conf.h</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基于配置模板创建</span></span><br><span class="line"><span class="built_in">cp</span> lvgl/lv_conf_template.h lv_conf.h</span><br><span class="line"><span class="built_in">cp</span> lv_drivers/lv_drv_conf_template.h lv_drv_conf.h</span><br><span class="line"><span class="built_in">cp</span> lv_demos/lv_demo_conf_template.h lv_demo_conf.h</span><br><span class="line"></span><br><span class="line"><span class="built_in">ls</span></span><br><span class="line">lv_conf.h  lv_demo_conf.h  lv_demos  lv_drivers  lv_drv_conf.h  lvgl</span><br></pre></td></tr></table></figure>
+<p><strong>修改：</strong>使能，将3个文件开头的 “if 0” 改为 “if 1” &#x2F;<em>Set it to “1” to enable content</em>&#x2F;：</p>
+</li>
+<li><p>修改 lv_drv_conf.h：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  define USE_FBDEV           1</span></span><br><span class="line"><span class="comment">#  define USE_EVDEV           1</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改 lv_demo_conf.h :</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#define LV_USE_DEMO_WIDGETS        1</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改 lv_conf.h :</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extern uint32_t custom_tick_get(void);</span><br></pre></td></tr></table></figure>
+<p><strong>配置 Tick interface ：</strong></p>
+</li>
+</ul>
+
+
+<p><strong>使能 12，16 号字体:</strong></p>
+
+
+<p><strong>设置堆大小:</strong></p>
+<p>使用 lvgl 内建内存分配方案: 配置堆大小，实测 2KB 无法启动demo，给 2MB</p>
+
+
+<p>使用 linux 系统内存分配：使能宏 define LV_MEM_CUSTOM 1 即可</p>
+
+
+<h4 id="4）编写main程序和Makefile"><a href="#4）编写main程序和Makefile" class="headerlink" title="4）编写main程序和Makefile"></a>4）编写main程序和Makefile</h4><p>main.c 参考自: <a target="_blank" rel="noopener" href="https://github.com/lvgl/lv_port_linux_frame_buffer/blob/release/v8.2/main.c">https://github.com/lvgl/lv_port_linux_frame_buffer/blob/release/v8.2/main.c</a></p>
+<p>修改：</p>
+
+
+
+
+
+
+<p>Makefile 参考自:<a target="_blank" rel="noopener" href="https://github.com/lvgl/lv_port_linux_frame_buffer/blob/release/v8.2/Makefile">https://github.com/lvgl/lv_port_linux_frame_buffer/blob/release/v8.2/Makefile</a></p>
+<p>Makefile 做如下修改:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CC = arm-linux-gnueabihf-gcc</span><br><span class="line"></span><br><span class="line">include $(LVGL_DIR)/lv_demos/lv_demo.mk</span><br><span class="line"></span><br><span class="line"><span class="comment"># CSRCS +=$(LVGL_DIR)/mouse_cursor_icon.c</span></span><br></pre></td></tr></table></figure>
+<h4 id="5）编译"><a href="#5）编译" class="headerlink" title="5）编译"></a>5）编译</h4><p>make 生成 .&#x2F;demo：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/picture/Pasted%20image%2020230713114201.png"></p>
+<h4 id="6-问题"><a href="#6-问题" class="headerlink" title="6) 问题"></a>6) 问题</h4><p>使用lv_port_linux_frame_buffer下对应的lvgl和lvgl_driver版本（v8.2版）编译后的demo，加载到开发板运行出现以下错误，暂不知原因：</p>
+
+
+<p>解决参考： <a target="_blank" rel="noopener" href="https://gitee.com/already_use/lvgl_linux_arm">https://gitee.com/already_use/lvgl_linux_arm</a></p>
+
+
+<p>修改“lvgl_linux_arm&#x2F;lv_port_linux_frame_buffer&#x2F;lv_drivers&#x2F;display&#x2F;<strong>fbdev.c</strong>”文件，屏蔽代码：</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/14/linux-%E5%85%A8%E5%BF%97V3s%E7%A7%BB%E6%A4%8Duboot-kernel-rootfile%E8%AE%B0%E5%BD%95/">linux-全志V3s移植uboot kernel rootfile记录</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
