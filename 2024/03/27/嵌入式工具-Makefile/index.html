@@ -1,0 +1,655 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>嵌入式工具-makefile - Blog</title>
+
+  
+    <meta name="description" content="资料来源推荐 https:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2015&#x2F;02&#x2F;make.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_38391755&#x2F;article&#x2F;details&#x2F;80380786 全面 书籍《跟我一起写Makefile》，整理：https:&#x2F;&#x2F;haoel.blog.csdn.net&#x2F;article&#x2F;details&#x2F;2886 https:&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式工具-makefile">
+<meta property="og:url" content="http://example.com/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-Makefile/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="资料来源推荐 https:&#x2F;&#x2F;www.ruanyifeng.com&#x2F;blog&#x2F;2015&#x2F;02&#x2F;make.html https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_38391755&#x2F;article&#x2F;details&#x2F;80380786 全面 书籍《跟我一起写Makefile》，整理：https:&#x2F;&#x2F;haoel.blog.csdn.net&#x2F;article&#x2F;details&#x2F;2886 https:&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-27T08:54:07.000Z">
+<meta property="article:modified_time" content="2024-03-28T02:17:34.646Z">
+<meta property="article:author" content="baimin">
+<meta property="article:tag" content="嵌入式工具">
+<meta name="twitter:card" content="summary">
+  
+  
+  
+  <meta name="keywords" content="嵌入式工具">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90"><span class="toc-text">资料来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81make%E3%80%81Makefile%E5%92%8C-mk%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">一、make、Makefile和.mk的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#make"><span class="toc-text">make</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Makefile%E3%80%81-mk"><span class="toc-text">Makefile、.mk</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Makefile%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F"><span class="toc-text">二、Makefile文件的格式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%A6%82%E8%BF%B0"><span class="toc-text">2.1 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%9B%AE%E6%A0%87%EF%BC%88target%EF%BC%89"><span class="toc-text">2.2 目标（target）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%EF%BC%88prerequisites%EF%BC%89"><span class="toc-text">2.3 前置条件（prerequisites）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%91%BD%E4%BB%A4%EF%BC%88commands%EF%BC%89"><span class="toc-text">2.4 命令（commands）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Makefile%E6%96%87%E4%BB%B6%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="toc-text">三、Makefile文件的语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%B3%A8%E9%87%8A"><span class="toc-text">3.1 注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%9B%9E%E5%A3%B0%EF%BC%88echoing%EF%BC%89"><span class="toc-text">3.2 回声（echoing）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="toc-text">3.3 通配符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="toc-text">3.4 模式匹配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E5%8F%98%E9%87%8F%E5%92%8C%E8%B5%8B%E5%80%BC%E7%AC%A6"><span class="toc-text">3.5 变量和赋值符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F%EF%BC%88Implicit-Variables%EF%BC%89"><span class="toc-text">3.6 内置变量（Implicit Variables）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-%E8%87%AA%E5%8A%A8%E5%8F%98%E9%87%8F%EF%BC%88Automatic-Variables%EF%BC%89"><span class="toc-text">3.7 自动变量（Automatic Variables）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-8-%E5%88%A4%E6%96%AD%E5%92%8C%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.8 判断和循环</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-9-%E5%87%BD%E6%95%B0"><span class="toc-text">3.9 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Makefile-%E7%9A%84%E5%AE%9E%E4%BE%8B"><span class="toc-text">四、Makefile 的实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%85%B6%E4%BB%96%E7%9F%A5%E8%AF%86%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">五、其他知识（重要）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%89%A7%E8%A1%8C"><span class="toc-text">默认执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%8E%A8%E5%AF%BC"><span class="toc-text">自动推导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%85%B6%E5%AE%83%E7%9A%84Makefile%EF%BC%88-mk%EF%BC%89"><span class="toc-text">引用其它的Makefile（.mk）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%90%E5%90%AB%E8%A7%84%E5%88%99%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-text">隐含规则使用的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%BC%8F%E8%A7%84%E5%88%99"><span class="toc-text">定义模式规则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E5%88%86%E6%9E%90%E3%80%90%E9%87%8D%E8%A6%81%EF%BC%81%E3%80%91"><span class="toc-text">实战分析【重要！】</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/"><span class="title">八股文-C语言</span></a><a class="item title" href="/2024/03/31/RT-Thread%EF%BC%9ASTM32%E7%A7%BB%E6%A4%8D%E8%AE%B0%E5%BD%95/"><span class="title">RT-Thread：STM32移植记录</span></a><a class="item title" href="/2024/03/31/STM32-VSCode%E5%92%8COpenOCD%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="title">STM32-VSCode和OpenOCD环境配置</span></a><a class="item title" href="/2024/03/26/LVGL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"><span class="title">LVGL学习记录</span></a><a class="item title" href="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统</span></a><a class="item title active" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-Makefile/"><span class="title">嵌入式工具-makefile</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-gcc/"><span class="title">嵌入式工具-gcc</span></a><a class="item title" href="/2024/03/27/%E5%BC%80%E5%8F%91%E6%9D%BF%E6%9C%8D%E5%8A%A1%E5%99%A8-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"><span class="title">开发板服务器-个人博客网站</span></a><a class="item title" href="/2024/03/25/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8ESTM32%E5%92%8CRT-Thread%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E8%AF%AD%E9%9F%B3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于STM32和RT-Thread的智能家居语音控制系统</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-27T08:54:07.000Z">2024-03-27</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-28T02:17:34.646Z">2024-03-28</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>嵌入式工具-makefile</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h2 id="资料来源"><a href="#资料来源" class="headerlink" title="资料来源"></a>资料来源</h2><p><strong>推荐</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2015/02/make.html">https://www.ruanyifeng.com/blog/2015/02/make.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_38391755/article/details/80380786">https://blog.csdn.net/weixin_38391755/article/details/80380786</a></p>
+<p><strong>全面</strong></p>
+<p>书籍《跟我一起写Makefile》，整理：<a target="_blank" rel="noopener" href="https://haoel.blog.csdn.net/article/details/2886">https://haoel.blog.csdn.net/article/details/2886</a></p>
+<p><a target="_blank" rel="noopener" href="https://chegva.com/3761.html">https://chegva.com/3761.html</a></p>
+<h2 id="一、make、Makefile和-mk的概念"><a href="#一、make、Makefile和-mk的概念" class="headerlink" title="一、make、Makefile和.mk的概念"></a>一、make、Makefile和.mk的概念</h2><h3 id="make"><a href="#make" class="headerlink" title="make"></a>make</h3><p>make这个词，英语的意思是”制作”。make命令直接用了这个意思，就是要做出某个文件。比如，要做出文件a.txt，就可以执行下面的命令。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make a.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>但是，如果你真的输入这条命令，它并不会起作用。因为make命令本身并不知道，如何做出a.txt，需要有人告诉它，如何调用其他命令完成这个目标。</p>
+<p>比如，假设文件 a.txt 依赖于 b.txt 和 c.txt ，是后面两个文件连接（cat命令）的产物。那么，make 需要知道下面的规则。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.txt: b.txt c.txt</span><br><span class="line">	<span class="built_in">cat</span> b.txt c.txt &gt; a.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>也就是说，make a.txt 这条命令的背后，实际上分成两步：第一步，确认 b.txt 和 c.txt 必须已经存在，第二步使用 cat 命令 将这个两个文件合并，输出为新文件。</p>
+<p>像这样的规则，都写在一个叫做Makefile的文件中，make命令依赖这个文件进行构建。Makefile文件也可以写为makefile， 或者用命令行参数指定为其他文件名。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ make -f rules.txt</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">$ make --file=rules.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码指定make命令依据rules.txt文件中的规则，进行构建。</p>
+<p>总之，make只是一个根据指定的Shell命令进行构建的工具。它的规则很简单，你规定要构建哪个文件、它依赖哪些源文件，当那些文件有变动时，如何重新构建它。</p>
+<h3 id="Makefile、-mk"><a href="#Makefile、-mk" class="headerlink" title="Makefile、.mk"></a>Makefile、.mk</h3><p>make命令执行时，需要一个makefile文件，以告诉make命令需要怎么样的去编译和链接程序。<strong>makefile说明make make解释makefile</strong>。</p>
+<p>Makefile带来的好处就是——“自动化编译”，一旦写好，只需要一个make命令，整个工程完全自动编译，极大的提高了软件开发的效率。</p>
+<p>不同产商的make各不相同，也有不同的语法，一般使用的是GNU的make。</p>
+<p>在Makefile使用include关键字可以把别的Makefile包含进来，一般命名为xxx.mk，也可以其他命名。</p>
+<h2 id="二、Makefile文件的格式"><a href="#二、Makefile文件的格式" class="headerlink" title="二、Makefile文件的格式"></a>二、Makefile文件的格式</h2><p>构建规则都写在Makefile文件里面，要学会如何make命令，就必须学会如何编写Makefile文件。</p>
+<h3 id="2-1-概述"><a href="#2-1-概述" class="headerlink" title="2.1 概述"></a>2.1 概述</h3><p>Makefile文件由一系列规则（rules）构成。每条规则的形式如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;target&gt; : &lt;prerequisites&gt; </span><br><span class="line">[tab]  &lt;commands&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面第一行冒号前面的部分，叫做”目标”（target），冒号后面的部分叫做”前置条件”（prerequisites）；第二行必须由一个tab键起首，后面跟着”命令”（commands）。</p>
+<p>“目标”是必需的，不可省略；”前置条件”和”命令”都是可选的，但是两者之中必须至少存在一个。</p>
+<p>每条规则就明确两件事：构建目标的前置条件是什么，以及如何构建。下面就详细讲解，每条规则的这三个组成部分。</p>
+<h3 id="2-2-目标（target）"><a href="#2-2-目标（target）" class="headerlink" title="2.2 目标（target）"></a>2.2 目标（target）</h3><p>一个目标（target）就构成一条规则。目标通常是文件名，指明make命令所要构建的对象，比如上文的 a.txt 。目标可以是一个文件名，也可以是多个文件名，之间用空格分隔。</p>
+<p>除了文件名，目标还可以是某个操作的名字，这称为”伪目标”（phony target）。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clean:</span><br><span class="line">   <span class="built_in">rm</span> *.o</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码的目标是clean，它不是文件名，而是一个操作的名字，属于”伪目标 “，作用是删除对象文件。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make  clean</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>但是，如果当前目录中，正好有一个文件叫做clean，那么这个命令不会执行。因为make发现clean文件已经存在，就认为没有必要重新构建了，就不会执行指定的rm命令。</p>
+<p>为了避免这种情况，可以明确声明clean是”伪目标”，写法如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.PHONY: clean</span><br><span class="line">clean:</span><br><span class="line">     <span class="built_in">rm</span> *.o temp</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>声明clean是”伪目标”之后，make就不会去检查是否存在一个叫做clean的文件，而是每次运行都执行对应的命令。像.PHONY这样的内置目标名还有不少，可以查看<a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Special-Targets.html#Special-Targets">手册</a>。</p>
+<p>如果make命令运行时没有指定目标，默认会执行Makefile文件的<strong>第一个</strong>目标。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码执行Makefile文件的第一个目标。</p>
+<h3 id="2-3-前置条件（prerequisites）"><a href="#2-3-前置条件（prerequisites）" class="headerlink" title="2.3 前置条件（prerequisites）"></a>2.3 前置条件（prerequisites）</h3><p>前置条件通常是一组文件名，之间用空格分隔。它指定了”目标”是否重新构建的判断标准：只要有一个前置文件不存在，或者有过更新（前置文件的last-modification时间戳比目标的时间戳新），”目标”就需要重新构建。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">result.txt: source.txt</span><br><span class="line">	<span class="built_in">cp</span> source.txt result.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码中，构建 result.txt 的前置条件是 source.txt 。如果当前目录中，source.txt 已经存在，那么<code>make result.txt</code>可以正常运行，否则必须再写一条规则，来生成 source.txt 。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source.txt:</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;this is the source&quot;</span> &gt; source.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码中，source.txt后面没有前置条件，就意味着它跟其他文件都无关，只要这个文件还不存在，每次调用<code>make source.txt</code>，它都会生成。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make result.txt</span><br><span class="line">$ make result.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面命令连续执行两次<code>make result.txt</code>。第一次执行会先新建 source.txt，然后再新建 result.txt。第二次执行，make发现 source.txt 没有变动（时间戳晚于 result.txt），就不会执行任何操作，result.txt 也不会重新生成。</p>
+<p>如果需要生成多个文件，往往采用下面的写法。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span>: file1 file2 file3</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码中，source 是一个伪目标，只有三个前置文件，没有任何对应的命令。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make <span class="built_in">source</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>执行<code>make source</code>命令后，就会一次性生成 file1，file2，file3 三个文件。这比下面的写法要方便很多。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ make file1</span><br><span class="line">$ make file2</span><br><span class="line">$ make file3</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="2-4-命令（commands）"><a href="#2-4-命令（commands）" class="headerlink" title="2.4 命令（commands）"></a>2.4 命令（commands）</h3><p>命令（commands）表示如何更新目标文件，由一行或多行的Shell命令组成。它是构建”目标”的具体指令，它的运行结果通常就是生成目标文件。</p>
+<p>每行命令之前必须有一个tab键。如果想用其他键，可以用内置变量.RECIPEPREFIX声明。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.RECIPEPREFIX = &gt;</span><br><span class="line">all:</span><br><span class="line">&gt; <span class="built_in">echo</span> Hello, world</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码用.RECIPEPREFIX指定，大于号（&gt;）替代tab键。所以，每一行命令的起首变成了大于号，而不是tab键。</p>
+<p>需要注意的是，<u>每行命令在一个单独的shell中执行</u>。这些Shell之间没有继承关系。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var-lost:</span><br><span class="line">	<span class="built_in">export</span> foo=bar</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;foo=[$<span class="variable">$foo</span>]&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码执行后（<code>make var-lost</code>），取不到foo的值。因为两行命令在两个不同的进程执行。一个解决办法是将两行命令写在一行，中间用分号分隔。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var-kept:</span><br><span class="line">	<span class="built_in">export</span> foo=bar; <span class="built_in">echo</span> <span class="string">&quot;foo=[$<span class="variable">$foo</span>]&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>另一个解决办法是在换行符前加反斜杠转义。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var-kept:</span><br><span class="line">	<span class="built_in">export</span> foo=bar; \</span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;foo=[$<span class="variable">$foo</span>]&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>最后一个方法是加上<code>.ONESHELL:</code>命令。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.ONESHELL:</span><br><span class="line">var-kept:</span><br><span class="line">	<span class="built_in">export</span> foo=bar; </span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;foo=[$<span class="variable">$foo</span>]&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="三、Makefile文件的语法"><a href="#三、Makefile文件的语法" class="headerlink" title="三、Makefile文件的语法"></a>三、Makefile文件的语法</h2><h3 id="3-1-注释"><a href="#3-1-注释" class="headerlink" title="3.1 注释"></a>3.1 注释</h3><p>井号（#）在Makefile中表示注释。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这是注释</span></span><br><span class="line">result.txt: source.txt</span><br><span class="line">	<span class="comment"># 这是注释</span></span><br><span class="line">	<span class="built_in">cp</span> source.txt result.txt <span class="comment"># 这也是注释</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-2-回声（echoing）"><a href="#3-2-回声（echoing）" class="headerlink" title="3.2 回声（echoing）"></a>3.2 回声（echoing）</h3><p>正常情况下，make会打印每条命令，然后再执行，这就叫做回声（echoing）。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:</span><br><span class="line">	<span class="comment"># 这是测试</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>执行上面的规则，会得到下面的结果。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ make <span class="built_in">test</span></span><br><span class="line"><span class="comment"># 这是测试</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>在命令的前面加上@，就可以关闭回声。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:</span><br><span class="line">	@<span class="comment"># 这是测试</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>现在再执行<code>make test</code>，就不会有任何输出。</p>
+<p>由于在构建过程中，需要了解当前在执行哪条命令，所以通常只在注释和纯显示的echo命令前面加上@。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:</span><br><span class="line">	@<span class="comment"># 这是测试</span></span><br><span class="line">	@<span class="built_in">echo</span> TODO</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-3-通配符"><a href="#3-3-通配符" class="headerlink" title="3.3 通配符"></a>3.3 通配符</h3><p>通配符（wildcard）用来指定一组符合条件的文件名。Makefile 的通配符与 Bash 一致，主要有星号（*）、问号（？）和 […] 。比如， *.o 表示所有后缀名为o的文件。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clean:</span><br><span class="line">     <span class="built_in">rm</span> -f *.o</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-4-模式匹配"><a href="#3-4-模式匹配" class="headerlink" title="3.4 模式匹配"></a>3.4 模式匹配</h3><p>make命令允许对文件名，进行类似正则运算的匹配，主要用到的匹配符是%。比如，假定当前目录下有 f1.c 和 f2.c 两个源码文件，需要将它们编译为对应的对象文件。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%.o: %.c</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>等同于下面的写法。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f1.o: f1.c</span><br><span class="line">f2.o: f2.c</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>使用匹配符%，可以将大量同类型的文件，只用一条规则就完成构建。</p>
+<h3 id="3-5-变量和赋值符"><a href="#3-5-变量和赋值符" class="headerlink" title="3.5 变量和赋值符"></a>3.5 变量和赋值符</h3><p>Makefile 允许使用等号自定义变量。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">txt = Hello World</span><br><span class="line"><span class="built_in">test</span>:</span><br><span class="line">	@<span class="built_in">echo</span> $(txt)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码中，变量 txt 等于 Hello World。调用时，变量需要放在 $( ) 之中。</p>
+<p><u>调用Shell变量，需要在美元符号前，再加一个美元符号</u>，这是因为make命令会对美元符号转义。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:</span><br><span class="line">	@<span class="built_in">echo</span> $<span class="variable">$HOME</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>有时，变量的值可能指向另一个变量。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v1 = $(v2)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码中，变量 v1 的值是另一个变量 v2。这时会产生一个问题，v1 的值到底在定义时扩展（静态扩展），还是在运行时扩展（动态扩展）？如果 v2 的值是动态的，这两种扩展方式的结果可能会差异很大。</p>
+<p>为了解决类似问题，Makefile一共提供了四个赋值运算符 （&#x3D;、:&#x3D;、？&#x3D;、+&#x3D;），它们的区别请看<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/448910/makefile-variable-assignment">StackOverflow</a>。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">VARIABLE = value</span><br><span class="line"><span class="comment"># 在执行时扩展，允许递归扩展。</span></span><br><span class="line"></span><br><span class="line">VARIABLE := value</span><br><span class="line"><span class="comment"># 在定义时扩展。</span></span><br><span class="line"></span><br><span class="line">VARIABLE ?= value</span><br><span class="line"><span class="comment"># 只有在该变量为空时才设置值。</span></span><br><span class="line"></span><br><span class="line">VARIABLE += value</span><br><span class="line"><span class="comment"># 将值追加到变量的尾端。</span></span><br><span class="line"></span><br><span class="line">例：</span><br><span class="line">1、“=”</span><br><span class="line">“=”赋值：make会将整个makefile展开后，再决定变量的值。也就是说，变量的值将会是整个makefile中最后被指定的值。如例：</span><br><span class="line">x = foo</span><br><span class="line">y = $(x) bar</span><br><span class="line">x = ABC</span><br><span class="line">在上例中，y的值将会是 ABC bar ，而不是 foo bar 。</span><br><span class="line"></span><br><span class="line">2、“:=”</span><br><span class="line">“:=”赋值：“:”表示变量的值决定于它在makefile中的位置，而不是整个makefile展开后的最终值。</span><br><span class="line">x := foo</span><br><span class="line">y := $(x) bar</span><br><span class="line">x := abc</span><br><span class="line">在上例中，y的值将会是 foo bar ，而不是 abc bar 。</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-6-内置变量（Implicit-Variables）"><a href="#3-6-内置变量（Implicit-Variables）" class="headerlink" title="3.6 内置变量（Implicit Variables）"></a>3.6 内置变量（Implicit Variables）</h3><p>make命令提供一系列内置变量，比如，$(CC) 指向当前使用的编译器，$(make) 指向当前使用的make工具。这主要是为了跨平台的兼容性，详细的内置变量清单见<a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html">手册</a>。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">output:</span><br><span class="line">	$(CC) -o output input.c</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-7-自动变量（Automatic-Variables）"><a href="#3-7-自动变量（Automatic-Variables）" class="headerlink" title="3.7 自动变量（Automatic Variables）"></a>3.7 自动变量（Automatic Variables）</h3><p>make命令还提供一些自动变量，它们的值与当前规则有关。主要有以下几个。</p>
+<p><strong>（1）$@</strong></p>
+<p>$@指代当前目标，就是Make命令当前构建的那个目标。比如，<code>make foo</code>的 ​$@ 就指代foo。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.txt b.txt: </span><br><span class="line">	<span class="built_in">touch</span> <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>等同于下面的写法。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a.txt:</span><br><span class="line">	<span class="built_in">touch</span> a.txt</span><br><span class="line">b.txt:</span><br><span class="line">	<span class="built_in">touch</span> b.txt</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（2）$&lt;</strong></p>
+<p>$&lt; 指代第一个前置条件。比如，规则为 t: p1 p2，那么​$&lt; 就指代p1。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.txt: b.txt c.txt</span><br><span class="line">    <span class="built_in">cp</span> $&lt; <span class="variable">$@</span> </span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>等同于下面的写法。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a.txt: b.txt c.txt</span><br><span class="line">	<span class="built_in">cp</span> b.txt a.txt </span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（3）$?</strong></p>
+<p>$? 指代比目标更新的所有前置条件，之间以空格分隔。比如，规则为 t: p1 p2，其中 p2 的时间戳比 t 新，$?就指代p2。</p>
+<p><strong>（4）$^</strong></p>
+<p>$^ 指代所有前置条件，之间以空格分隔。比如，规则为 t: p1 p2，那么 ​$^ 就指代 p1 p2 。</p>
+<p><strong>（5）$*</strong></p>
+<p>$* 指代匹配符 % 匹配的部分， 比如% 匹配 f1.txt 中的f1 ，​$* 就表示 f1。</p>
+<p><strong>（6）$(@D) 和 $(@F)</strong></p>
+<p>$(@D) 和 $(@F) 分别指向 $@ 的目录名和文件名。比如，$@是 src&#x2F;input.c，那么$(@D) 的值为 src ，$(@F) 的值为 input.c。</p>
+<p><strong>（7）$(&lt;D) 和 $(&lt;F)</strong></p>
+<p>$(&lt;D) 和 $(&lt;F) 分别指向 $&lt; 的目录名和文件名。</p>
+<p>所有的自动变量清单，请看<a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html">手册</a>。下面是自动变量的一个例子。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dest/%.txt: src/%.txt</span><br><span class="line">	@[ -d dest ] || <span class="built_in">mkdir</span> dest</span><br><span class="line">	<span class="built_in">cp</span> $&lt; <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码将 src 目录下的 txt 文件，拷贝到 dest 目录下。首先判断 dest 目录是否存在，如果不存在就新建，然后，$&lt; 指代前置文件（src&#x2F;%.txt）， ​$@ 指代目标文件（dest&#x2F;%.txt）。</p>
+<h3 id="3-8-判断和循环"><a href="#3-8-判断和循环" class="headerlink" title="3.8 判断和循环"></a>3.8 判断和循环</h3><p>Makefile使用 Bash 语法，完成判断和循环。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ifeq ($(CC),gcc)</span><br><span class="line">	libs=$(libs_for_gcc)</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	libs=$(normal_libs)</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码判断当前编译器是否 gcc ，然后指定不同的库文件。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">LIST = one two three</span><br><span class="line">all:</span><br><span class="line"> <span class="keyword">for</span> i <span class="keyword">in</span> $(LIST); <span class="keyword">do</span> \</span><br><span class="line">     <span class="built_in">echo</span> $<span class="variable">$i</span>; \</span><br><span class="line"> <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 等同于</span></span><br><span class="line"></span><br><span class="line">all:</span><br><span class="line"> <span class="keyword">for</span> i <span class="keyword">in</span> one two three; <span class="keyword">do</span> \</span><br><span class="line">     <span class="built_in">echo</span> <span class="variable">$i</span>; \</span><br><span class="line"> <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码的运行结果。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">one</span><br><span class="line">two</span><br><span class="line">three</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="3-9-函数"><a href="#3-9-函数" class="headerlink" title="3.9 函数"></a>3.9 函数</h3><p>Makefile 还可以使用函数，格式如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="keyword">function</span> arguments)</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line"><span class="variable">$&#123;function arguments&#125;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>Makefile提供了许多<a target="_blank" rel="noopener" href="https://www.gnu.org/software/make/manual/html_node/Functions.html">内置函数</a>，可供调用。下面是几个常用的内置函数。</p>
+<p><strong>（1）shell 函数</strong></p>
+<p>shell 函数用来执行 shell 命令</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srcfiles := $(shell <span class="built_in">echo</span> src/&#123;00..99&#125;.txt)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（2）wildcard 函数</strong></p>
+<p>wildcard 函数用来在 Makefile 中，替换 Bash 的通配符。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">srcfiles := $(wildcard src/*.txt)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（3）subst 函数</strong></p>
+<p>subst 函数用来文本替换，格式如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(subst from,to,text)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>下面的例子将字符串”feet on the street”替换成”fEEt on the strEEt”。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(subst ee,EE,feet on the street)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>下面是一个稍微复杂的例子。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">comma:= ,</span><br><span class="line">empty:=</span><br><span class="line"><span class="comment"># space变量用两个空变量作为标识符，当中是一个空格</span></span><br><span class="line">space:= $(empty) $(empty)</span><br><span class="line">foo:= a b c</span><br><span class="line">bar:= $(subst $(space),$(comma),$(foo))</span><br><span class="line"><span class="comment"># bar is now `a,b,c&#x27;.</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（4）patsubst函数</strong></p>
+<p>patsubst 函数用于模式匹配的替换，格式如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(patsubst pattern,replacement,text)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>下面的例子将文件名”x.c.c bar.c”，替换成”x.c.o bar.o”。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(patsubst %.c,%.o,x.c.c bar.c)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><strong>（5）替换后缀名</strong></p>
+<p>替换后缀名函数的写法是：变量名 + 冒号 + 后缀名替换规则。它实际上patsubst函数的一种简写形式。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">min: $(OUTPUT:.js=.min.js)</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码的意思是，将变量OUTPUT中的后缀名 .js 全部替换成 .min.js 。</p>
+<h2 id="四、Makefile-的实例"><a href="#四、Makefile-的实例" class="headerlink" title="四、Makefile 的实例"></a>四、Makefile 的实例</h2><p><strong>（1）执行多个目标</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.PHONY: cleanall cleanobj cleandiff</span><br><span class="line"></span><br><span class="line">cleanall : cleanobj cleandiff</span><br><span class="line">     <span class="built_in">rm</span> program</span><br><span class="line"></span><br><span class="line">cleanobj :</span><br><span class="line">     <span class="built_in">rm</span> *.o</span><br><span class="line"></span><br><span class="line">cleandiff :</span><br><span class="line">     <span class="built_in">rm</span> *.diff</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面代码可以调用不同目标，删除不同后缀名的文件，也可以调用一个目标（cleanall），删除所有指定类型的文件。</p>
+<p><strong>（2）编译C语言项目</strong></p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">edit : main.o kbd.o command.o display.o </span><br><span class="line"> cc -o edit main.o kbd.o command.o display.o</span><br><span class="line"></span><br><span class="line">main.o : main.c defs.h</span><br><span class="line"> cc -c main.c</span><br><span class="line">kbd.o : kbd.c defs.h command.h</span><br><span class="line"> cc -c kbd.c</span><br><span class="line">command.o : command.c defs.h command.h</span><br><span class="line"> cc -c command.c</span><br><span class="line">display.o : display.c defs.h</span><br><span class="line"> cc -c display.c</span><br><span class="line"></span><br><span class="line">clean :</span><br><span class="line">  <span class="built_in">rm</span> edit main.o kbd.o command.o display.o</span><br><span class="line"></span><br><span class="line">.PHONY: edit clean</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="五、其他知识（重要）"><a href="#五、其他知识（重要）" class="headerlink" title="五、其他知识（重要）"></a>五、其他知识（重要）</h2><h3 id="默认执行"><a href="#默认执行" class="headerlink" title="默认执行"></a>默认执行</h3><p>在默认的方式下，也就是只输入make命令，会依次进行：</p>
+<ol>
+<li>make会在当前目录下找名字叫“Makefile”或“makefile”的文件；</li>
+<li>如果找到，它会找文件中的第一个目标文件（target）；</li>
+<li>先判断（target）所依赖的文件是否存在，make会在当前文件中找到该依赖文件的依赖性，按照其依赖逐次生成相应的文件（即递归）；</li>
+<li>若（target）所依赖的文件的修改时间要比（target）这个文件新，或者（target）不存在，那么就会执行后面所定义的命令来生成这个文件；</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在找寻的过程中，如果出现错误，比如最后被依赖的文件找不到，那么make就会直接退出，并报错。而对于所定义的命令的错误，或是编译不成功，make根本不理。</span><br><span class="line">make只管文件的依赖性，即，如果在我找了依赖关系之后，冒号后面的文件还是不在，那么make不工作。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="自动推导"><a href="#自动推导" class="headerlink" title="自动推导"></a>自动推导</h3><p>GNU的make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
+<p>  make只要看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个whatever.o，那么whatever.c，就会是whatever.o的依赖文件。并且 cc -c whatever.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。</p>
+<p>比如：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">main.o : main.c defs.h</span><br><span class="line">	cc -c main.c</span><br><span class="line">kbd.o : kbd.c defs.h command.h</span><br><span class="line">	cc -c kbd.c</span><br><span class="line">command.o : command.c defs.h command.h</span><br><span class="line">	cc -c command.c</span><br><span class="line">display.o : display.c defs.h buffer.h</span><br><span class="line">	cc -c display.c</span><br><span class="line">insert.o : insert.c defs.h buffer.h</span><br><span class="line">	cc -c insert.c</span><br><span class="line">search.o : search.c defs.h buffer.h</span><br><span class="line">	cc -c search.c</span><br><span class="line">files.o : files.c defs.h buffer.h command.h</span><br><span class="line">	cc -c files.c</span><br><span class="line">utils.o : utils.c defs.h</span><br><span class="line">	cc -c utils.c</span><br></pre></td></tr></table></figure>
+
+<p>可以简写为：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">main.o : defs.h</span><br><span class="line">kbd.o : defs.h command.h</span><br><span class="line">command.o : defs.h command.h</span><br><span class="line">display.o : defs.h buffer.h</span><br><span class="line">insert.o : defs.h buffer.h</span><br><span class="line">search.o : defs.h buffer.h</span><br><span class="line">files.o : defs.h buffer.h command.h</span><br><span class="line">utils.o : defs.h</span><br></pre></td></tr></table></figure>
+
+<p>也可以简写成这种风格，不过文件的依赖关系不是特别清晰：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">objects = main.o kbd.o command.o display.o \</span><br><span class="line">	insert.o search.o files.o utils.o</span><br><span class="line"></span><br><span class="line"><span class="variable">$(objects)</span> : defs.h</span><br><span class="line">kbd.o command.o files.o : command.h</span><br><span class="line">display.o insert.o search.o files.o : buffer.h</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="引用其它的Makefile（-mk）"><a href="#引用其它的Makefile（-mk）" class="headerlink" title="引用其它的Makefile（.mk）"></a>引用其它的Makefile（.mk）</h3><p><strong>在include前面可以有一些空字符，但是绝不能是[Tab]键开始。include和可以用一个或多个空格隔开。</strong></p>
+<p>例如，有这样几个Makefile：a.mk、b.mk、c.mk，还有一个文件叫foo.make，以及一个变量$(bar)，其包含了e.mk和f.mk，那么，下面的语句：</p>
+  <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> foo.make *.mk <span class="variable">$(bar)</span></span><br></pre></td></tr></table></figure>
+
+<p>等价于：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span> foo.make a.mk b.mk c.mk e.mk f.mk</span><br></pre></td></tr></table></figure>
+
+<p>make命令开始时，会把找寻include所指出的其它Makefile，并把其内容安置在<u>当前的位置</u>。如果文件都没有指定绝对路径或是相对路径的话，make会在<strong>当前目录</strong>下首先寻找，如果当前目录下没有找到，那么，make还会在下面的几个目录下找：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.如果make执行时，有“-I”或“--include-dir”参数，那么make就会在这个参数所指定的目录下去寻找。</span><br><span class="line"></span><br><span class="line">2.如果目录/include（一般是：/usr/local/bin或/usr/include）存在的话，make也会去找。</span><br></pre></td></tr></table></figure>
+
+<p>如果有文件没有找到的话，make会生成一条警告信息，但不会马上出现致命错误；</p>
+<p>它会继续载入其它的文件，一旦完成makefile的读取，make会再重试这些没有找到，或是不能读取的文件，如果还是不行，make才会出现一条致命信息。</p>
+<p>如果你想让make不理那些无法读取的文件，而继续执行，你可以在include前加一个减号“-”。如：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">-include</span>&lt;filename&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="隐含规则使用的变量"><a href="#隐含规则使用的变量" class="headerlink" title="隐含规则使用的变量"></a>隐含规则使用的变量</h3><p>隐含规则中使用的变量分成两种：一种是命令相关的，如“CC”；一种是参数<br>相的关，如“CFLAGS”。</p>
+<p><strong>1、关于命令的变量。</strong></p>
+<ul>
+<li>CC<br>  C语言编译程序。默认命令是“cc”。</li>
+<li>AS<br>  汇编语言编译程序。默认命令是“as”</li>
+<li>CXX<br>  C++语言编译程序。默认命令是“g++”。</li>
+<li>CPP<br>  C程序的预处理器（输出是标准输出设备）。默认命令是“$(CC) –E”。</li>
+</ul>
+<p><strong>2、关于命令参数的变量</strong></p>
+<p>下面的这些变量都是相关上面的命令的参数。如果没有指明其默认值，那么其默认值都是空。</p>
+<ul>
+<li>CFLAGS<br>  C语言编译器参数。</li>
+<li>LDFLAGS<br>  链接器参数。（如：“ld”）</li>
+<li>ASFLAGS<br>  汇编语言编译器参数。（当明显地调用“.s”或“.S”文件时）。</li>
+<li>CXXFLAGS<br>  C++语言编译器参数。</li>
+<li>CPPFLAGS<br>  C预处理器参数。（ C 和 Fortran 编译器也会用到）。</li>
+</ul>
+<h3 id="定义模式规则"><a href="#定义模式规则" class="headerlink" title="定义模式规则"></a>定义模式规则</h3><p>可以使用模式规则来定义一个隐含规则。一个模式规则就好像一个一般的规则，只是在规则中，目标的定义需要有”%”字符。”%”的意思是表示一个或多个任意字符。在依赖目标中同样可以使用”%”，只是依赖目标中的”%”的取值，取决于其目标。</p>
+<p>有一点需要注意的是，”%”的展开发生在变量和函数的展开之后，变量和函数的展开发生在make载入Makefile时，而模式规则中的”%”则发生在运行时。</p>
+<p>模式规则中，至少在规则的目标定义中要包含”%”，否则，就是一般的规则。目标中的”%”定义表示对文件名的匹配，”%”表示长度任意的非空字符串。例如：”%.c”表示以”.c”结尾的文件名（文件名的长度至少为3），而”s.%.c”则表示以”s.”开头，”.c”结尾的文件名（文件名的长度至少为 5）。</p>
+<p>下面这个例子表示了,把所有的[.c]文件都编译成[.o]文件。其中，”$@”表示所有的目标的挨个值，”$&lt;”表示了所有依赖目标的挨个值，这些奇怪的变量叫”自动化变量”</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%.o : %.c</span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$(CFLAGS)</span> <span class="variable">$(CPPFLAGS)</span> <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
+
+<p>自动化变量加上”D”或是”F”的含义，例如：</p>
+<ul>
+<li>$(@D)<br>  表示”$@”的目录部分（不以斜杠作为结尾），如果”​$@”值是”dir&#x2F;foo.o”，那么”$(@D)”就是”dir”，而如果”$@”中没有包含斜杠的话，其值就是”.”（当前目录）。</li>
+<li>$(@F)<br>  表示”$@”的文件部分，如果”$@”值是”dir&#x2F;foo.o”，那么”$(@F)”就是”foo.o”，”​$(@F)”相当于函数”​$(notdir $@)”。</li>
+</ul>
+<p>其他的同理。</p>
+<h2 id="实战分析【重要！】"><a href="#实战分析【重要！】" class="headerlink" title="实战分析【重要！】"></a>实战分析【重要！】</h2><p>来源：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/jzcn/p/17012331.html">https://www.cnblogs.com/jzcn/p/17012331.html</a></p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Makefile</span></span><br><span class="line"><span class="comment"># 编译的.o文件和.c文件在同一路径下</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"> </span><br><span class="line"><span class="variable">$(info &quot;start...&quot;)</span></span><br><span class="line"><span class="comment"># 可执行文件名</span></span><br><span class="line">PROJECT_NAME = app</span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 项目路径 #####################################</span></span><br><span class="line">PROJECT_PATH ?= $&#123;shell pwd&#125;</span><br><span class="line">OBJ_DIR := <span class="variable">$(PROJECT_PATH)</span>/build</span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 设置编译器，默认使用GCC #####################################</span></span><br><span class="line">CC ?= gcc</span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 所需头文件的路径 #####################################</span></span><br><span class="line">CFLAGS += -I<span class="variable">$(PROJECT_PATH)</span>/lib/inc</span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 编译和链接参数 #####################################</span></span><br><span class="line">CFLAGS ?= -O3 -g0 -Wall -Wshadow -Wundef -Wmissing-prototypes</span><br><span class="line">LDFLAGS ?= -lm</span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 收集需要编译的源文件 #####################################</span></span><br><span class="line">CSRCS += <span class="variable">$(PROJECT_PATH)</span>/application/main.c</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$(PROJECT_PATH)</span>/lib/lib.mk</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">##################################### 将文件名替换为.o文件 #####################################</span></span><br><span class="line">CXX_OBJCTS = <span class="variable">$(<span class="built_in">patsubst</span>  %.c, <span class="variable">$(OBJ_DIR)</span>/%.o, $(<span class="built_in">notdir</span> <span class="variable">$(CSRCS)</span>)</span>)</span><br><span class="line">SOURSE_DIR = <span class="variable">$(<span class="built_in">dir</span> <span class="variable">$(CSRCS)</span>)</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">vpath</span> %.c <span class="variable">$(SOURSE_DIR)</span></span><br><span class="line"> </span><br><span class="line"><span class="variable">$(OBJ_DIR)</span>/%.o: %.c</span><br><span class="line">	@<span class="variable">$(CC)</span> <span class="variable">$(CFLAGS)</span> -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line">	<span class="comment">#@echo &quot;CC $&lt;&quot;</span></span><br><span class="line"> </span><br><span class="line"><span class="section">all: <span class="variable">$(CXX_OBJCTS)</span></span></span><br><span class="line">	@<span class="variable">$(CC)</span> -o <span class="variable">$(PROJECT_NAME)</span>  <span class="variable">$(CXX_OBJCTS)</span> <span class="variable">$(LDFLAGS)</span></span><br><span class="line"> </span><br><span class="line"><span class="section">clean: </span></span><br><span class="line">	@rm -f <span class="variable">$(PROJECT_NAME)</span> <span class="variable">$(CXX_OBJCTS)</span></span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>查找所有.c文件</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式一</span></span><br><span class="line">CSRCS += $(PROJECT_PATH)/application/main.c</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式二</span></span><br><span class="line">CXX_SOURCES = $(foreach dir,$(CSRCS), $(wildcard $(dir)/*.c))</span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong>方式一是直接将所有的 .c 文件追加到 CSRCS 变量中，方式二是将搜索路径下的所有 .c 文件，并追加到 CSRCS 变量中。</p>
+</li>
+<li><p>将所有的 .c 文件换成 .o 文件</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式一</span></span><br><span class="line">COBJS = $(CSRCS:.c=.o)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式二</span></span><br><span class="line">COBJS= $(patsubst  %.c, %.o, $(CSRCS))</span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong>方式一和方式二原理都是一样的，其目的是将所有的 .c 文件换成 .o 文件而已</p>
+</li>
+<li><p>生成 .o 文件</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">/%</span><span class="language-bash">.o: %.c</span></span><br><span class="line"><span class="meta prompt_">	@$</span><span class="language-bash">(CC) $(CFLAGS) -c $&lt; -o <span class="variable">$@</span></span></span><br><span class="line"><span class="meta prompt_">	#</span><span class="language-bash">@<span class="built_in">echo</span> <span class="string">&quot;CC $&lt;&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong>第2点只是将 .c 文件 换成了 .o 文件名，得到的只是文件名称而已，这里才是根据相应的目标生成 .o 文件</p>
+</li>
+<li><p>链接成可执行文件<br> 将所有的 .o 文件链接成可执行文件</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">@$</span><span class="language-bash">(CC) -o $(PROJECT_NAME)  $(CXX_OBJCTS) $(LDFLAGS)</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理所有的 .o 文件</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@rm -f $(PROJECT_NAME) $(CXX_OBJCTS)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>注意：</strong>以上就是 make 的编译流程，但是编译生成的 .o 文件和.c 文件是在同一目录下的，不满足我们的需求，接着网下看</p>
+<ol>
+<li><p>将所有的 .o 文件放到指定目录下</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CXX_OBJCTS = $(patsubst  %.c, $(OBJ_DIR)/%.o, $(notdir $(CSRCS)))</span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong> notdir $(CSRCS) 函数是去掉文件路径，只保留文件名，如此便可以在替换后缀的时候，在文件前面加上指定路径</p>
+</li>
+<li><p>完成指定路径下的所有 .o 文件的目标</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">(OBJ_DIR)/%.o: %.c</span></span><br><span class="line"><span class="meta prompt_">	@$</span><span class="language-bash">(CC) $(CFLAGS) -c $&lt; -o <span class="variable">$@</span></span></span><br><span class="line"><span class="meta prompt_">	#</span><span class="language-bash">@<span class="built_in">echo</span> <span class="string">&quot;CC $&lt;&quot;</span></span></span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong>这里的作用在源文件中查找能制作目标的文件，因为这里的目标和源文件不在同一目录下，所以需要完成第8点的操作</p>
+</li>
+<li><p>vpath 和 VPATH<br> 这里我也不是很理解，在自动目标中需要将源文件路径加入 vpath 或 VPATH 中，如下所示：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式一</span></span><br><span class="line">VPATH += :$(SRC_DIR)</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">方式二</span></span><br><span class="line">SOURSE_DIR = $(dir $(CSRCS))</span><br><span class="line">vpath %.c $(SOURSE_DIR)</span><br></pre></td></tr></table></figure>
+
+<p> <strong>注意：</strong>函数 dir 的作用是提取所有文件的路径</p>
+</li>
+</ol>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/31/STM32-VSCode%E5%92%8COpenOCD%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">STM32-VSCode和OpenOCD环境配置</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-gcc/">嵌入式工具-gcc</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>

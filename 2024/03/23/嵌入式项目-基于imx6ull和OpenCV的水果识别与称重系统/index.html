@@ -1,0 +1,553 @@
+
+<!DOCTYPE html><html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8" theme-name="Stellar" theme-version="1.26.8">
+  
+  <meta name="generator" content="Hexo 7.1.1">
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统 - Blog</title>
+
+  
+    <meta name="description" content="简介利用imx6ull开发板，通过摄像头拍摄水果照片输入到系统中，经相关识别算法检测后，称重传感器对水果进行称重，屏幕显示相关结果，扬声器辅以相关语音提示，最终计算价格并在数据库中记录结账的信息。 系统架构模块组成.ylcipeuqjtmx{zoom:67%;}      工作流程.vewomfjlwlcp{zoom:67%;}    技术使用技术栈：Linux系统移植、Linux驱动移植与开发、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统">
+<meta property="og:url" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="简介利用imx6ull开发板，通过摄像头拍摄水果照片输入到系统中，经相关识别算法检测后，称重传感器对水果进行称重，屏幕显示相关结果，扬声器辅以相关语音提示，最终计算价格并在数据库中记录结账的信息。 系统架构模块组成.ylcipeuqjtmx{zoom:67%;}      工作流程.vewomfjlwlcp{zoom:67%;}    技术使用技术栈：Linux系统移植、Linux驱动移植与开发、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324153734781.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240330194147804.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324181823362.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324192811419.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193520598.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193152051.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193302372.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325083810252.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325095718854.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324165548768.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170102584.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170223832.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170240448.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170704480.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324180011764.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325142730042.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185250769.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185433027.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324190427418.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324200305022.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324172525763.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324175143896.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185710244.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324192036938.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/LVGL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/image-20240328200147084.png">
+<meta property="og:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240328201958201.png">
+<meta property="article:published_time" content="2024-03-23T07:30:03.000Z">
+<meta property="article:modified_time" content="2024-03-30T11:41:52.193Z">
+<meta property="article:author" content="baimin">
+<meta property="article:tag" content="嵌入式项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324153734781.png">
+  
+  
+  
+  <meta name="keywords" content="嵌入式项目">
+
+  <!-- feed -->
+  
+
+  <link rel="stylesheet" href="/css/main.css?v=1.26.8">
+
+  
+    <link rel="shortcut icon" href="https://www.bing.com/images/search?view=detailV2&ccid=NBTs1th0&id=8DD1BA6653D365AD9ED73A5DDABEB32BB98F5D43&thid=OIP.NBTs1th0_7FYxpGGQJ-IDAAAAA&mediaurl=https%3a%2f%2fimg.ixintu.com%2fdownload%2fjpg%2f202001%2f3fcd67ac5c089ae3a8f72fd2b3508c93.jpg!ys&exph=250&expw=250&q=%e5%8d%9a%e5%ae%a2icon&simid=607990421440448215&FORM=IRPRST&ck=1141C8513F997CB92989E285F56C3350&selectedIndex=22&itb=0">
+  
+
+  
+
+  
+  
+</head>
+<body>
+
+<div class="l_body content tech" id="start" layout="post" ><aside class="l_left"><div class="sidebar-container">
+
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="{config.avatar}" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.12/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">Blog</div><div class="sub normal cap">Thousand的日常记录</div><div class="sub hover cap" style="opacity:0"> Thousand's Daily</div></a></div></header>
+
+<div class="nav-area">
+<div class="search-wrapper" id="search-wrapper"><form class="search-form"><a class="search-button" onclick="document.getElementById(&quot;search-input&quot;).focus();"><svg t="1705074644177" viewBox="0 0 1025 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1560" width="200" height="200"><path d="M1008.839137 935.96571L792.364903 719.491476a56.783488 56.783488 0 0 0-80.152866 0 358.53545 358.53545 0 1 1 100.857314-335.166073 362.840335 362.840335 0 0 1-3.689902 170.145468 51.248635 51.248635 0 1 0 99.217358 26.444296 462.057693 462.057693 0 1 0-158.255785 242.303546l185.930047 185.725053a51.248635 51.248635 0 0 0 72.568068 0 51.248635 51.248635 0 0 0 0-72.978056z" p-id="1561"></path><path d="M616.479587 615.969233a50.428657 50.428657 0 0 0-61.498362-5.534852 174.655348 174.655348 0 0 1-177.525271 3.484907 49.403684 49.403684 0 0 0-58.833433 6.76482l-3.074918 2.869923a49.403684 49.403684 0 0 0 8.609771 78.10292 277.767601 277.767601 0 0 0 286.992355-5.739847 49.403684 49.403684 0 0 0 8.404776-76.667958z" p-id="1562"></path></svg></a><input type="text" class="search-input" id="search-input" placeholder="站内搜索"></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div>
+
+
+<nav class="menu dis-select"><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a><a class="nav-item" title="undefined" href="/" style="color:1BCDFC"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.879 2.879C5 3.757 5 5.172 5 8v8c0 2.828 0 4.243.879 5.121C6.757 22 8.172 22 11 22h2c2.828 0 4.243 0 5.121-.879C19 20.243 19 18.828 19 16V8c0-2.828 0-4.243-.879-5.121C17.243 2 15.828 2 13 2h-2c-2.828 0-4.243 0-5.121.879M8.25 17a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 0 1.5H9a.75.75 0 0 1-.75-.75M9 12.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5zM8.25 9A.75.75 0 0 1 9 8.25h6a.75.75 0 0 1 0 1.5H9A.75.75 0 0 1 8.25 9" clip-rule="evenodd"/><path fill="currentColor" d="M5.235 4.058C5 4.941 5 6.177 5 8v8c0 1.823 0 3.058.235 3.942L5 19.924c-.975-.096-1.631-.313-2.121-.803C2 18.243 2 16.828 2 14v-4c0-2.829 0-4.243.879-5.121c.49-.49 1.146-.707 2.121-.803zm13.53 15.884C19 19.058 19 17.822 19 16V8c0-1.823 0-3.059-.235-3.942l.235.018c.975.096 1.631.313 2.121.803C22 5.757 22 7.17 22 9.999v4c0 2.83 0 4.243-.879 5.122c-.49.49-1.146.707-2.121.803z" opacity=".5"/></svg></a></nav>
+</div>
+<div class="widgets">
+
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E7%BB%84%E6%88%90"><span class="toc-text">模块组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%BF%E7%94%A8"><span class="toc-text">技术使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E9%93%BE"><span class="toc-text">工具链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#uboot%E7%BC%96%E8%AF%91"><span class="toc-text">uboot编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kernel%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%BC%96%E8%AF%91"><span class="toc-text">kernel配置与编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rootfs%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%BC%96%E8%AF%91"><span class="toc-text">rootfs配置与编译</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">其他软件包</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#openssh"><span class="toc-text">openssh</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python"><span class="toc-text">Python</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#OpenCV"><span class="toc-text">OpenCV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#https"><span class="toc-text">https</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SD%E5%8D%A1%E7%83%A7%E5%BD%95"><span class="toc-text">SD卡烧录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA"><span class="toc-text">分区</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uboot%E7%83%A7%E5%BD%95"><span class="toc-text">uboot烧录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#kernel%E5%92%8Cdtbs%E6%8B%B7%E8%B4%9D"><span class="toc-text">kernel和dtbs拷贝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rootfs%E6%8B%B7%E8%B4%9D"><span class="toc-text">rootfs拷贝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%BF%90%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="toc-text">系统运行测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE"><span class="toc-text">系统设置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E7%BD%AE"><span class="toc-text">网络设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AFssh"><span class="toc-text">开启ssh</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#USB%E9%A9%B1%E5%8A%A8"><span class="toc-text">USB驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LCD%E6%98%BE%E7%A4%BA%E9%A9%B1%E5%8A%A8"><span class="toc-text">LCD显示驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E9%A9%B1%E5%8A%A8"><span class="toc-text">音频驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%A9%B1%E5%8A%A8"><span class="toc-text">网络驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%B0%E9%87%8D%E4%BC%A0%E6%84%9F%E5%99%A8%E9%A9%B1%E5%8A%A8"><span class="toc-text">称重传感器驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E5%AE%B9%E8%A7%A6%E6%91%B8%E5%B1%8F%E9%A9%B1%E5%8A%A8"><span class="toc-text">电容触摸屏驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E9%87%87%E9%9B%86"><span class="toc-text">图像采集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%91%84%E5%83%8F%E5%A4%B4%E9%87%87%E9%9B%86"><span class="toc-text">摄像头采集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2"><span class="toc-text">图像格式转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E8%AF%86%E5%88%AB"><span class="toc-text">水果识别识别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E9%87%8F%E7%A7%B0%E9%87%8F"><span class="toc-text">重量称量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%8C%E9%9D%A2%E6%98%BE%E7%A4%BA"><span class="toc-text">界面显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5"><span class="toc-text">语音播报</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%BE%85%E6%9C%BA%E4%B8%8E%E5%94%A4%E9%86%92"><span class="toc-text">系统待机与唤醒</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%A7%BB%E6%A4%8D%E7%9B%B8%E5%85%B3"><span class="toc-text">系统移植相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81configure-error-you-should-not-run-configure-as-root"><span class="toc-text">1、configure: error: you should not run configure as root</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E5%86%85%E6%A0%B8%E5%90%AF%E5%8A%A8%E5%90%8E%E5%9C%A8%E2%80%9CStarting-network-OK%E2%80%9D%E5%92%8C%E2%80%9Drandom-nonblocking-pool-is-initialized%E2%80%9D%E4%B9%8B%E9%97%B4%E5%8D%A1%E5%BE%88%E4%B9%85%E6%89%8D%E8%BF%9B%E5%85%A5%E7%B3%BB%E7%BB%9F"><span class="toc-text">2、内核启动后在“Starting network:OK”和”random:nonblocking pool is initialized”之间卡很久才进入系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A9%B1%E5%8A%A8%E7%9B%B8%E5%85%B3"><span class="toc-text">驱动相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E7%9B%B8%E5%85%B3"><span class="toc-text">应用开发相关</span></a></li></ol></div></div></widget>
+
+
+
+
+
+
+
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/"><span class="title">八股文-C语言</span></a><a class="item title" href="/2024/03/31/RT-Thread%EF%BC%9ASTM32%E7%A7%BB%E6%A4%8D%E8%AE%B0%E5%BD%95/"><span class="title">RT-Thread：STM32移植记录</span></a><a class="item title" href="/2024/03/31/STM32-VSCode%E5%92%8COpenOCD%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="title">STM32-VSCode和OpenOCD环境配置</span></a><a class="item title" href="/2024/03/26/LVGL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"><span class="title">LVGL学习记录</span></a><a class="item title active" href="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-Makefile/"><span class="title">嵌入式工具-makefile</span></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-gcc/"><span class="title">嵌入式工具-gcc</span></a><a class="item title" href="/2024/03/27/%E5%BC%80%E5%8F%91%E6%9D%BF%E6%9C%8D%E5%8A%A1%E5%99%A8-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"><span class="title">开发板服务器-个人博客网站</span></a><a class="item title" href="/2024/03/25/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8ESTM32%E5%92%8CRT-Thread%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E8%AF%AD%E9%9F%B3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于STM32和RT-Thread的智能家居语音控制系统</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a></div></widget>
+</div>
+<footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
+</div></aside><div class="l_main" id="main">
+
+
+
+
+
+<div class="article banner top">
+  <div class="content">
+    
+<div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
+<span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-03-23T07:30:03.000Z">2024-03-23</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-03-30T11:41:52.193Z">2024-03-30</time></span></div></div>
+</div>
+
+    
+    <div class="bottom">
+      <div class="text-area">
+        <h1 class="text title"><span>嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统</span></h1>
+      </div>
+    </div>
+    
+  </div>
+  </div><article class="md-text content"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>利用imx6ull开发板，通过摄像头拍摄水果照片输入到系统中，经相关识别算法检测后，称重传感器对水果进行称重，屏幕显示相关结果，扬声器辅以相关语音提示，最终计算价格并在数据库中记录结账的信息。</p>
+<h1 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h1><h2 id="模块组成"><a href="#模块组成" class="headerlink" title="模块组成"></a>模块组成</h2><style>.ylcipeuqjtmx{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324153734781.png" class="ylcipeuqjtmx lazy" alt="image-20240324153734781">
+
+
+
+
+
+<h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><style>.vewomfjlwlcp{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240330194147804.png" class="vewomfjlwlcp lazy" alt="image-20240330194147804">
+
+
+
+<h2 id="技术使用"><a href="#技术使用" class="headerlink" title="技术使用"></a>技术使用</h2><p>技术栈：Linux系统移植、Linux驱动移植与开发、Linux C应用编程、<del>Linux网络编程</del>、imx6ull ARM SoC应用、lvgl应用、数据库应用等。</p>
+<p>其他工具：cmake、gdb调试器、arm-linux-gnueabihf-gcc交叉编译器</p>
+<h1 id="硬件设计"><a href="#硬件设计" class="headerlink" title="硬件设计"></a>硬件设计</h1><p>硬件组成：</p>
+<ul>
+<li>正点原子imx6ull mini开发板</li>
+<li>USB摄像头</li>
+<li>RGB屏幕</li>
+<li>称重传感器</li>
+<li>音频模块（待定…）</li>
+</ul>
+<h1 id="Linux系统移植"><a href="#Linux系统移植" class="headerlink" title="Linux系统移植"></a>Linux系统移植</h1><h2 id="工具链"><a href="#工具链" class="headerlink" title="工具链"></a>工具链</h2><p>使用“gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf”。</p>
+<h2 id="uboot编译"><a href="#uboot编译" class="headerlink" title="uboot编译"></a>uboot编译</h2><p>使用正点原子imx6ull的默认uboot配置，仅负责启动kernel：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> uboot-imx-2016.03/</span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean</span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- mx6ull_14x14_ddr512_emmc_defconfig</span><br><span class="line">make V=1 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j12</span><br></pre></td></tr></table></figure>
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324181823362.png" class="lazy" title="image-20240324181823362">
+
+
+
+<h2 id="kernel配置与编译"><a href="#kernel配置与编译" class="headerlink" title="kernel配置与编译"></a>kernel配置与编译</h2><p>使用正点原子kernel的默认配置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- distclean</span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- imx_alientek_emmc_defconfig</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由于正点原子的内核源码默认没有开启<strong>UVC设备类</strong>驱动，需要自己添加：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig</span><br></pre></td></tr></table></figure>
+
+<style>.lswrvnoulzoe{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324192811419.png" class="lswrvnoulzoe lazy" alt="image-20240324192811419">
+
+
+
+
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193520598.png" class="lazy" title="image-20240324193520598">
+
+<style>.kguscyqgxsqm{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193152051.png" class="kguscyqgxsqm lazy" alt="image-20240324193152051">
+
+<style>.ewrgsjtltxuv{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324193302372.png" class="ewrgsjtltxuv lazy" alt="image-20240324193302372">
+
+
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#编译</span></span><br><span class="line">make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- all -j16</span><br></pre></td></tr></table></figure>
+
+<p>后面系统启动，插入USB摄像头，会有相关提示，&#x2F;dev目录下会出现video1设备。若只有一个&#x2F;dev&#x2F;video0设备，则内核的USB驱动配置出错。</p>
+<style>.cvtegniweerl{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325083810252.png" class="cvtegniweerl lazy" alt="image-20240325083810252">
+
+
+
+<style>.msqgjrmnkwkf{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325095718854.png" class="msqgjrmnkwkf lazy" alt="image-20240325095718854">
+
+<h2 id="rootfs配置与编译"><a href="#rootfs配置与编译" class="headerlink" title="rootfs配置与编译"></a>rootfs配置与编译</h2><p>使用buildroot工具构建rootfs：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#进入配置界面</span></span><br><span class="line"><span class="built_in">cd</span> buildroot-2019.02.6/</span><br><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h3><p><strong>Target options</strong>配置：</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324165548768.png" class="lazy" title="image-20240324165548768">
+
+<p><strong>Toolchain</strong>配置</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170102584.png" class="lazy" title="image-20240324170102584">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170223832.png" class="lazy" title="image-20240324170223832">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170240448.png" class="lazy" title="image-20240324170240448">
+
+<p><strong>System configuration</strong>根据自己习惯设置：</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324170704480.png" class="lazy" title="image-20240324170704480">
+
+
+
+<p>编译测试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make</span><br></pre></td></tr></table></figure>
+
+<p>若出现问题参考文档后面的<strong>问题记录</strong>部分。</p>
+<h3 id="其他软件包"><a href="#其他软件包" class="headerlink" title="其他软件包"></a>其他软件包</h3><p>相关软件包包括：</p>
+<ul>
+<li>openssh</li>
+<li>Python</li>
+<li>OpenCV</li>
+<li>http&#x2F;https</li>
+</ul>
+<h4 id="openssh"><a href="#openssh" class="headerlink" title="openssh"></a>openssh</h4><p>添加<strong>ssh</strong>功能方便后续进行“网络根文件系统启动”，如图：</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324180011764.png" class="lazy" title="image-20240324180011764">
+
+
+
+<h4 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h4><h4 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h4><h4 id="https"><a href="#https" class="headerlink" title="https"></a>https</h4><h2 id="SD卡烧录"><a href="#SD卡烧录" class="headerlink" title="SD卡烧录"></a>SD卡烧录</h2><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq153471503/article/details/126775959">https://blog.csdn.net/qq153471503/article/details/126775959</a></p>
+<h3 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h3><style>.qmwiixggcqww{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240325142730042.png" class="qmwiixggcqww lazy" alt="image-20240325142730042">
+
+<p>将一张SD卡分成了三部分：</p>
+<ul>
+<li>第一部分：分区格式为<strong>原始格式</strong>，用于存放uboot；</li>
+<li>第二部分：扇区起始地址默认2048，大小为50MB，分区格式为<strong>FAT</strong>，用于存放内核和设备树；</li>
+<li>第三部分：大小为SD卡剩余的空间，分区格式为<strong>Ext3或Ext4</strong>，用于存放rootfs文件系统。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看tf卡的设备</span></span><br><span class="line">sudo fdisk -l</span><br><span class="line"><span class="comment">#若ubuntu只有一个盘且无分区(sdb1…表示sd卡中的分区)，则设备为/dev/sdb</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#进入tf卡设备</span></span><br><span class="line">sudo fdisk /dev/sdb</span><br><span class="line"><span class="comment">#删除分区：d</span></span><br><span class="line"><span class="comment">#添加分区：n</span></span><br><span class="line"><span class="comment">#查看分区：p</span></span><br><span class="line"><span class="comment">#保存操作：w</span></span><br><span class="line"><span class="comment">#注：修改后，需要用w保存修改。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#按p检查是否存在原分区，有的话按d删除</span></span><br><span class="line"><span class="comment">#删除原分区后，按n新建两个分区，第一个分区大小根据zImage和设备树文件等大小；第二个分区用尽剩余容量。</span></span><br><span class="line"><span class="comment">#按w写入修改后的信息，再按p检查结果是否有误，最后按q退出</span></span><br></pre></td></tr></table></figure>
+
+<p>设置sdb1分区格式为FAT：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.vfat /dev/sdb1</span><br></pre></td></tr></table></figure>
+
+<p>设置sdb2分区格式为Ext3或Ext4都可以：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext3 /dev/sdb2</span><br><span class="line">sudo mkfs.ext4 /dev/sdb2</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="uboot烧录"><a href="#uboot烧录" class="headerlink" title="uboot烧录"></a>uboot烧录</h3><p>将得到的u-boot.imx文件拷贝：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">dd</span> <span class="keyword">if</span>=u-boot.imx of=/dev/sdb bs=1k seek=1 conv=fsync</span><br></pre></td></tr></table></figure>
+
+<h3 id="kernel和dtbs拷贝"><a href="#kernel和dtbs拷贝" class="headerlink" title="kernel和dtbs拷贝"></a>kernel和dtbs拷贝</h3><p>创建挂载点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> /mountpoint</span><br></pre></td></tr></table></figure>
+
+<p>挂载分区一：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sdb1 /mountpoint</span><br></pre></td></tr></table></figure>
+
+<p>使用cp命令将zImage和相关*.dtb文件拷贝进&#x2F;mountpoint目录，然后取消挂载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> linux-imx-4.1.15/</span><br><span class="line">sudo <span class="built_in">cp</span> <span class="built_in">arch</span>/arm/boot/zImage /mountpoint</span><br><span class="line">sudo <span class="built_in">cp</span> <span class="built_in">arch</span>/arm/boot/dts/imx6ull-alientek-emmc.dtb /mountpoint</span><br><span class="line"></span><br><span class="line">sudo <span class="built_in">sync</span></span><br><span class="line">sudo umount /mountpoint</span><br></pre></td></tr></table></figure>
+
+<h3 id="rootfs拷贝"><a href="#rootfs拷贝" class="headerlink" title="rootfs拷贝"></a>rootfs拷贝</h3><p>挂载分区二：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sdb2 /mountpoint</span><br></pre></td></tr></table></figure>
+
+<p>解压文件系统文件系统包rootfs.tar：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> buildroot-2019.02.6</span><br><span class="line">sudo tar -xf output/images/rootfs.tar -C /mountpoint</span><br></pre></td></tr></table></figure>
+
+<p>然后取消挂载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">sync</span></span><br><span class="line">sudo umount /mountpoint</span><br></pre></td></tr></table></figure>
+
+<h2 id="系统运行测试"><a href="#系统运行测试" class="headerlink" title="系统运行测试"></a>系统运行测试</h2><p>上电启动开发板，设置uboot启动参数，检查是否正确启动内核与系统：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置</span></span><br><span class="line">setenv bootargs <span class="string">&#x27;console=ttymxc0,115200 root=/dev/mmcblk0p2 rootwait rw&#x27;</span></span><br><span class="line">setenv bootcmd <span class="string">&#x27;fatload mmc 0:1 80800000 zImage; fatload mmc 0:1 83000000 imx6ull-alientek-emmc.dtb; bootz 80800000 - 83000000;&#x27;</span></span><br><span class="line">saveenv</span><br><span class="line"><span class="comment">#启动</span></span><br><span class="line">boot</span><br></pre></td></tr></table></figure>
+
+<p>可以开启网络和tftp功能，方便开发阶段进行调试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#uboot网络配置</span></span><br><span class="line">setenv ipaddr 192.168.123.66			<span class="comment">#设置开发板IP地址</span></span><br><span class="line">setenv netmask 255.255.255.0			<span class="comment">#子网掩码配置</span></span><br><span class="line">setenv ethaddr  b8:ae:1d:01:00:00		<span class="comment">#设置网卡mac地址，48bit 的地址不和其他重复即可</span></span><br><span class="line"></span><br><span class="line">setenv gatewayip 192.168.123.1			<span class="comment">#设置网关</span></span><br><span class="line">setenv serverip 192.168.123.166			<span class="comment">#设置tftp服务IP地址</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#tftp传输文件，前面设置serverip变量后主机ip地址可省略</span></span><br><span class="line">tftpboot [内存地址] [[主机ip地址:]文件名]</span><br><span class="line"><span class="comment">#uboot加载设备树到内存中</span></span><br><span class="line">tftp 80800000 imx6ull-alientek-emmc.dtb</span><br><span class="line"><span class="comment">#uboot加载内核到内存中</span></span><br><span class="line">tftp 83000000 zImage</span><br><span class="line"><span class="comment">#启动kernel</span></span><br><span class="line">setenv bootargs <span class="string">&#x27;console=ttymxc0,115200 root=/dev/mmcblk0p2 rootwait rw&#x27;</span></span><br><span class="line">bootz 80800000 - 83000000</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="系统设置"><a href="#系统设置" class="headerlink" title="系统设置"></a>系统设置</h2><h3 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h3><p>检查系统的网卡：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+
+<style>.rqsiwlwaxsio{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185250769.png" class="rqsiwlwaxsio lazy" alt="image-20240324185250769">
+
+<p>网络设置，在“&#x2F;etc&#x2F;init.d&#x2F;rcS”文件中加入：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ifconfig eth0 up</span><br><span class="line">ifconfig eth0 192.168.123.66 netmask 255.255.255.0</span><br><span class="line">route add default gw 192.168.123.1</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;nameserver 192.168.123.1&quot;</span> &gt; /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+
+<style>.ljihwthhpwiu{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185433027.png" class="ljihwthhpwiu lazy" alt="image-20240324185433027">
+
+<p>重启系统后，检查网络：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reboot</span><br><span class="line">ping www.baidu.com</span><br></pre></td></tr></table></figure>
+
+<style>.oyhkfthtqjgt{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324190427418.png" class="oyhkfthtqjgt lazy" alt="image-20240324190427418">
+
+<h3 id="开启ssh"><a href="#开启ssh" class="headerlink" title="开启ssh"></a>开启ssh</h3><p>uboot启动kernel进入linux系统后，ssh无法正常工作。修改&#x2F;etc&#x2F;ssh&#x2F;sshd_config文件，修改对应的内容为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes</span><br><span class="line">PermitEmptyPasswords yes</span><br></pre></td></tr></table></figure>
+
+<p>重启后，ssh连接正常。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ubuntu新建ssh_tets.txt文件</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;ssh test.&quot;</span> &gt;&gt; ssh_test.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#开发板系统重启后，利用ssh的scp进行传输文件</span></span><br><span class="line">reboot</span><br><span class="line">scp thousand@192.168.123.166:/home/thousand/ssh_test.txt ./</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="驱动移植与开发"><a href="#驱动移植与开发" class="headerlink" title="驱动移植与开发"></a>驱动移植与开发</h1><p>该系统涉及的相关驱动包括：</p>
+<ul>
+<li>usb（官方内核自带）</li>
+<li>显示屏eLCDIF（官方内核自带）</li>
+<li>音频接口（官方内核自带）</li>
+<li>网络接口（官方内核自带）</li>
+<li>传感器ADC或者IIO（移植）</li>
+<li>电容屏触摸（官方内核自带）</li>
+</ul>
+<p>大部分直接使用正点原子官方自带的驱动，称重传感器的ADC或者IIO等驱动需要自己移植。</p>
+<h2 id="USB驱动"><a href="#USB驱动" class="headerlink" title="USB驱动"></a>USB驱动</h2><p>略</p>
+<h2 id="LCD显示驱动"><a href="#LCD显示驱动" class="headerlink" title="LCD显示驱动"></a>LCD显示驱动</h2><p>略</p>
+<h2 id="音频驱动"><a href="#音频驱动" class="headerlink" title="音频驱动"></a>音频驱动</h2><p>略</p>
+<h2 id="网络驱动"><a href="#网络驱动" class="headerlink" title="网络驱动"></a>网络驱动</h2><p>略</p>
+<h2 id="称重传感器驱动"><a href="#称重传感器驱动" class="headerlink" title="称重传感器驱动"></a>称重传感器驱动</h2><p>若称重传感器输出的是模拟量信号，则需要使用imx6ull的内部ADC；若传感器内部集成了ADC，对外提供IIC或SPI接口，则使用Linux的IIO子系统获取相应的数值。</p>
+<p>这里使用内置ADC的称重传感器，ADC为HX711转换芯片，故传感器驱动使用Linux的IIO驱动框架，开发相应驱动，获取传感器的数值。</p>
+<h2 id="电容触摸屏驱动"><a href="#电容触摸屏驱动" class="headerlink" title="电容触摸屏驱动"></a>电容触摸屏驱动</h2><p>略</p>
+<h1 id="应用开发"><a href="#应用开发" class="headerlink" title="应用开发"></a>应用开发</h1><p>应用程序分为各模块进行开发，整体以LVGL框架为中心，响应其他需要显示的任务，如待机息屏、拍摄显示、识别结果、结账结果、提示和其他需显示信息，辅以音频对各模块状态进行提示，最后的结果存储到数据库中。</p>
+<p>软件采用多线程设计，各工作任务相互联系，完成整个工作流程。</p>
+<p>其他功能补充：为开发板添加OTA远程自动升级等。</p>
+<h2 id="图像采集"><a href="#图像采集" class="headerlink" title="图像采集"></a>图像采集</h2><p>主要是应用v4l2框架，驱动USB摄像头采集原始数据，将原始YUV数据转换成RGB数据进行下一步处理。</p>
+<h3 id="摄像头采集"><a href="#摄像头采集" class="headerlink" title="摄像头采集"></a>摄像头采集</h3><p>USB摄像头用的是UVC（USB Video Class）标准类，免驱。v4l2（Video for linux2）是linux提供的视频设备编程API。</p>
+<style>.ipvqlzloxfih{zoom: 50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324200305022.png" class="ipvqlzloxfih lazy" alt="image-20240324200305022">
+
+
+
+<h3 id="图像格式转换"><a href="#图像格式转换" class="headerlink" title="图像格式转换"></a>图像格式转换</h3><p>USB摄像头一般都支持输出YUV数据，YUV是一种颜色空间，通常需要转成RGB使用（bmp保存或LCD显示，等），其中YUYV是YUV的一种，也叫YUV422。</p>
+<p>这里把YUV422转成RGB565，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hp0773/article/details/8813987%E3%80%82">https://blog.csdn.net/hp0773/article/details/8813987。</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="meta">#<span class="keyword">define</span> RANGE_LIMIT(x) (x &gt; 255 ? 255 : (x &lt; 0 ? 0 : x))</span></span><br><span class="line"> </span><br><span class="line"><span class="type">void</span> <span class="title function_">YUV422ToRGB565</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* inbuf, <span class="type">void</span>* outbuf, <span class="type">int</span> width, <span class="type">int</span> height)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> rows, cols;</span><br><span class="line">	<span class="type">int</span> y, u, v, r, g, b;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> *yuv_buf;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">short</span> *rgb_buf;</span><br><span class="line">	<span class="type">int</span> y_pos,u_pos,v_pos;</span><br><span class="line"> </span><br><span class="line">	yuv_buf = (<span class="type">unsigned</span> <span class="type">char</span> *)inbuf;</span><br><span class="line">	rgb_buf = (<span class="type">unsigned</span> <span class="type">short</span> *)outbuf;</span><br><span class="line"> </span><br><span class="line">	y_pos = <span class="number">0</span>;</span><br><span class="line">	u_pos = <span class="number">1</span>;</span><br><span class="line">	v_pos = <span class="number">3</span>;</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">for</span> (rows = <span class="number">0</span>; rows &lt; height; rows++) &#123;</span><br><span class="line">		<span class="keyword">for</span> (cols = <span class="number">0</span>; cols &lt; width; cols++) &#123;</span><br><span class="line">			y = yuv_buf[y_pos];</span><br><span class="line">			u = yuv_buf[u_pos] - <span class="number">128</span>;</span><br><span class="line">			v = yuv_buf[v_pos] - <span class="number">128</span>;</span><br><span class="line"> </span><br><span class="line">			<span class="comment">// R = Y + 1.402*(V-128)</span></span><br><span class="line">			<span class="comment">// G = Y - 0.34414*(U-128)</span></span><br><span class="line">			<span class="comment">// B = Y + 1.772*(U-128)</span></span><br><span class="line">			r = RANGE_LIMIT(y + v + ((v * <span class="number">103</span>) &gt;&gt; <span class="number">8</span>));</span><br><span class="line">			g = RANGE_LIMIT(y - ((u * <span class="number">88</span>) &gt;&gt; <span class="number">8</span>) - ((v * <span class="number">183</span>) &gt;&gt; <span class="number">8</span>));</span><br><span class="line">			b = RANGE_LIMIT(y + u + ((u * <span class="number">198</span>) &gt;&gt; <span class="number">8</span>));</span><br><span class="line"> </span><br><span class="line">			*rgb_buf++ = (((r &amp; <span class="number">0xf8</span>) &lt;&lt; <span class="number">8</span>) | ((g &amp; <span class="number">0xfc</span>) &lt;&lt; <span class="number">3</span>) | ((b &amp; <span class="number">0xf8</span>) &gt;&gt; <span class="number">3</span>));</span><br><span class="line"> </span><br><span class="line">			y_pos += <span class="number">2</span>;</span><br><span class="line"> </span><br><span class="line">			<span class="keyword">if</span> (cols &amp; <span class="number">0x01</span>) &#123;</span><br><span class="line">				u_pos += <span class="number">4</span>;</span><br><span class="line">				v_pos += <span class="number">4</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="水果识别识别"><a href="#水果识别识别" class="headerlink" title="水果识别识别"></a>水果识别识别</h3><p>使用本地实现的OpenCV识别水果程序或者在线识别接口，进行识别水果。</p>
+<h2 id="重量称量"><a href="#重量称量" class="headerlink" title="重量称量"></a>重量称量</h2><p>通过ADC驱动，读取称量传感器的测量值，计算得到相应的重量。</p>
+<h2 id="界面显示"><a href="#界面显示" class="headerlink" title="界面显示"></a>界面显示</h2><p>屏幕界面包含两部分内容，一个是摄像头拍摄的图片显示，另一个是提示信息。这里使用LVGL库进行UI界面设计和显示。</p>
+<h2 id="语音播报"><a href="#语音播报" class="headerlink" title="语音播报"></a><del>语音播报</del></h2><p>由于开发板无音频模块，该部分暂不实现。</p>
+<h2 id="系统待机与唤醒"><a href="#系统待机与唤醒" class="headerlink" title="系统待机与唤醒"></a>系统待机与唤醒</h2><p>为降低系统功耗，在未执行称量相关工作任务时，系统处于待机状态；当系统需工作时，可通过称重传感器或者摄像头画面的变化唤醒系统。</p>
+<h1 id="测试与调试"><a href="#测试与调试" class="headerlink" title="测试与调试"></a>测试与调试</h1><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h1><h2 id="系统移植相关"><a href="#系统移植相关" class="headerlink" title="系统移植相关"></a>系统移植相关</h2><h3 id="1、configure-error-you-should-not-run-configure-as-root"><a href="#1、configure-error-you-should-not-run-configure-as-root" class="headerlink" title="1、configure: error: you should not run configure as root"></a>1、configure: error: you should not run configure as root</h3><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324172525763.png" class="lazy" title="image-20240324172525763">
+
+<p>按提示设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 解决：修改顶层Makefile ，添加环境变量</span><br><span class="line">vi Makefile</span><br><span class="line"><span class="built_in">export</span> FORCE_UNSAFE_CONFIGURE=1</span><br></pre></td></tr></table></figure>
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324175143896.png" class="lazy" title="image-20240324175143896">
+
+
+
+
+
+<h3 id="2、内核启动后在“Starting-network-OK”和”random-nonblocking-pool-is-initialized”之间卡很久才进入系统"><a href="#2、内核启动后在“Starting-network-OK”和”random-nonblocking-pool-is-initialized”之间卡很久才进入系统" class="headerlink" title="2、内核启动后在“Starting network:OK”和”random:nonblocking pool is initialized”之间卡很久才进入系统"></a>2、内核启动后在“Starting network:OK”和”random:nonblocking pool is initialized”之间卡很久才进入系统</h3><p>i.MX6ULL平台，buildroot 创建的 sshd ，在调试过程中出现sshd在开机自启动的过程中卡顿现象（等待时间较久），观察打印信息发现，sshd一定等待直到以下代码出现才能正常启动。</p>
+<blockquote>
+<p>random:nonblocking pool is initialized</p>
+</blockquote>
+<p>在此过程中，nonblocking pool 的初始化要 2 分钟，而启动sshd并不需要等待nonblockingpool 初始化。</p>
+<style>.gfuyfikpuqxf{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324185710244.png" class="gfuyfikpuqxf lazy" alt="image-20240324185710244">
+
+
+
+<p>解决参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/665567369%EF%BC%8C%E4%BF%AE%E6%94%B9%E5%86%85%E6%A0%B8%E6%96%87%E4%BB%B6%E2%80%9C/drivers/char/random.c%E2%80%9D">https://zhuanlan.zhihu.com/p/665567369，修改内核文件“/drivers/char/random.c”</a> 约 900 行处的代码：</p>
+<style>.pjiadcgxvbxr{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240324192036938.png" class="pjiadcgxvbxr lazy" alt="image-20240324192036938">
+
+
+
+<p>其他方法，可以尝试换个高版本的buildroot。</p>
+<h2 id="驱动相关"><a href="#驱动相关" class="headerlink" title="驱动相关"></a>驱动相关</h2><h2 id="应用开发相关"><a href="#应用开发相关" class="headerlink" title="应用开发相关"></a>应用开发相关</h2><p>1、编译报错：has incomplete type 不完全的类型</p>
+<p>在包含 linux&#x2F;videodev2.h 时 timestamp 报错，出现不完全类型field ‘xxx’ has incomplete type。可能是由于出现与系统重复的头文件导致，也有可能是编译标准的选择。</p>
+<p>在确定不是头文件重复后，可在Makefile的编译参数中，修改<code>-std=c99</code>为<code>-std=gnu99</code>：</p>
+<img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="LVGL学习记录/image-20240328200147084.png" alt="image-20240328200147084" style="zoom:67%;" />
+
+<p>2、编译报错：undefined reference to &#96;pthread_create’问题</p>
+<p>pthread不是Linux下的默认的库，也就是在链接的时候，无法找到phread库中哥函数的入口地址，于是链接会失败。</p>
+<p>解决：在gcc编译的时候，附加要加 -pthread参数即可解决。这里在Makefile中的LDFLAGS目标添加编译参数<code>-pthread</code>：</p>
+<style>.nndawqusyfik{zoom:50%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/image-20240328201958201.png" class="nndawqusyfik lazy" alt="image-20240328201958201">
+
+<p>3、Segmentation Fault问题</p>
+
+<div class="article-footer fs14">
+    <section id="license">
+      <div class="header"><span>许可协议</span></div>
+      <div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div>
+    </section>
+    </div>
+</article>
+<div class="related-wrap" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2024/03/25/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8ESTM32%E5%92%8CRT-Thread%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E8%AF%AD%E9%9F%B3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/">嵌入式项目-基于STM32和RT-Thread的智能家居语音控制系统</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2024/03/18/%E5%AD%98%E5%82%A8%E5%99%A8%E5%8C%BA%E5%88%AB-ROM%E3%80%81RAM%E3%80%81FLASH%E3%80%81DDR%E7%AD%89/">存储器区别(ROM、RAM、FLASH、DDR等)</a></div></section></div>
+
+
+
+
+
+
+<footer class="page-footer footnote"><hr><div class="text"><p>本站由 <a href="/">baimin</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8">Stellar 1.26.8</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+<div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11c0-3.771 0-5.657 1.172-6.828C4.343 3 6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172C22 5.343 22 7.229 22 11v2c0 3.771 0 5.657-1.172 6.828C19.657 21 17.771 21 14 21h-4c-3.771 0-5.657 0-6.828-1.172C2 18.657 2 16.771 2 13z"/><path id="sep" stroke-linecap="round" d="M5.5 10h6m-5 4h4m4.5 7V3"/></g></svg>
+  </button>
+</div>
+<div class="main-mask" onclick="sidebar.toggle()"></div></div></div><div class="scripts">
+<script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.26.8';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.26.8';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js","memos":"/js/plugins/memos.js","marked":"/js/plugins/marked.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/vanilla-lazyload/17.8.4/lazyload.min.js","transition":"fade"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@10.3/swiper-bundle.min.css","js":"https://unpkg.com/swiper@10.3/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.bootcdn.net/ajax/libs/scrollReveal.js/4.0.9/scrollreveal.min.js","distance":"16px","duration":800,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","flying_pages":"https://cdn.bootcdn.net/ajax/libs/flying-pages/2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.umd.min.js","css":"https://cdn.bootcdn.net/ajax/libs/fancyapps-ui/5.0.22/fancybox/fancybox.min.css","selector":null});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.copycode = Object.assign({"enable":true,"js":"/js/plugins/copycode.js","default_text":"Copy","success_text":"Copied","toast":"复制成功"});
+  }
+</script>
+
+<!-- required -->
+<script src="/js/main.js?v=1.26.8" async></script>
+
+<!-- optional -->
+
+
+
+
+
+
+<!-- inject -->
+
+</div></body></html>
