@@ -19,21 +19,30 @@
   <title>八股文-C语言 - Blog</title>
 
   
-    <meta name="description" content="The website is about some information recorded by myself.">
+    <meta name="description" content="编译简述编译运行一段代码的过程 源程序是指未经编译的，按照一定的程序设计语言规范书写的，人类可读的文本文件，源程序就是所写好的代码。  可执行程序，即常说的.exe程序，可以执行程序，完成计算机功能。 在C语言中，.c文件就是所谓的源文件。  源程序到可执行程序的过程。在这个过程中，会发生如下的变化：   .c文件生成.exe文件的过程总共是经历了预处理，编译，汇编，链接，这四个过程。 1、预处理">
 <meta property="og:type" content="article">
 <meta property="og:title" content="八股文-C语言">
 <meta property="og:url" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="The website is about some information recorded by myself.">
+<meta property="og:description" content="编译简述编译运行一段代码的过程 源程序是指未经编译的，按照一定的程序设计语言规范书写的，人类可读的文本文件，源程序就是所写好的代码。  可执行程序，即常说的.exe程序，可以执行程序，完成计算机功能。 在C语言中，.c文件就是所谓的源文件。  源程序到可执行程序的过程。在这个过程中，会发生如下的变化：   .c文件生成.exe文件的过程总共是经历了预处理，编译，汇编，链接，这四个过程。 1、预处理">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/063ee4699231e33a1252fbe5ddbbc98c.jpeg">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100054921.png">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100514468.png">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100551578.png">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100734179.png">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100814547.png">
+<meta property="og:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620092854360.png">
 <meta property="article:published_time" content="2024-04-09T00:46:51.000Z">
-<meta property="article:modified_time" content="2024-04-09T00:46:51.041Z">
+<meta property="article:modified_time" content="2024-07-16T12:01:37.499Z">
 <meta property="article:author" content="baimin">
+<meta property="article:tag" content="C语言">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/063ee4699231e33a1252fbe5ddbbc98c.jpeg">
   
   
   
-  
+  <meta name="keywords" content="C语言">
 
   <!-- feed -->
   
@@ -64,6 +73,7 @@
 </div>
 <div class="widgets">
 
+<widget class="widget-wrapper toc single" id="data-toc" collapse="false"><div class="widget-header dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E5%AD%97%E8%8A%82%E5%AF%B9%E9%BD%90"><span class="toc-text">4字节对齐</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3"><span class="toc-text">预处理相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81typedef%E4%B8%8Edefine"><span class="toc-text">1、typedef与define</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81-include-filename-h-%E5%92%8C-include-%E2%80%9Cfilename-h%E2%80%9D"><span class="toc-text">2、#include &lt; filename. h&gt;和#include “filename. h”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">3、头文件的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E6%A0%87%E5%87%86%E5%AE%8F%E5%87%BD%E6%95%B0"><span class="toc-text">4、标准宏函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5%EF%BC%8C%E6%89%93%E5%8D%B0%E5%87%BA1-1000%E7%9A%84%E6%95%B4%E6%95%B0"><span class="toc-text">不使用流程控制语句，打印出1~1000的整数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">关键字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E2%80%9D-%E2%80%9C%E5%92%8C%E2%80%9D"><span class="toc-text">关键字”#“和”##</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97volatile"><span class="toc-text">关键字volatile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97static"><span class="toc-text">关键字static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97extern%E2%80%9DC%E2%80%9D"><span class="toc-text">关键字extern”C”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97const"><span class="toc-text">关键字const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#define%E5%92%8Cconst%E5%AE%9A%E4%B9%89%E5%B8%B8%E9%87%8F"><span class="toc-text">#define和const定义常量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new-delete%E4%B8%8Emalloc-free%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">new&#x2F;delete与malloc&#x2F;free的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#delete%E5%92%8Cdelete-%E5%8C%BA%E5%88%AB"><span class="toc-text">delete和delete[]区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#assert%E5%AE%8F"><span class="toc-text">assert宏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sizeof%E5%92%8Cstrlen"><span class="toc-text">sizeof和strlen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#struct%E4%B8%8Eunion%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">struct与union的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A6%E5%80%BC%E5%92%8C%E5%8F%B3%E5%80%BC"><span class="toc-text">左值和右值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%AD%E8%B7%AF%E6%B1%82%E5%80%BC"><span class="toc-text">短路求值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#a%E5%92%8Ca-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">++a和a++的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%92%8C%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">全局变量和静态变量的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%8F%AF%E4%B8%8D%E5%8F%AF%E4%BB%A5%E5%AE%9A%E4%B9%89%E5%9C%A8%E5%8F%AF%E8%A2%AB%E5%A4%9A%E4%B8%AA-C%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%9A%84%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="toc-text">全局变量可不可以定义在可被多个.C文件包含的头文件中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%83%BD%E5%90%A6%E5%92%8C%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E9%87%8D%E5%90%8D"><span class="toc-text">局部变量能否和全局变量重名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E9%92%88"><span class="toc-text">指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E6%8C%87%E9%92%88%E5%92%8C%E6%8C%87%E9%92%88%E6%95%B0%E7%BB%84"><span class="toc-text">数组指针和指针数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88%E5%92%8C%E6%8C%87%E9%92%88%E5%87%BD%E6%95%B0"><span class="toc-text">函数指针和指针函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E7%BB%84%E5%90%8D%E5%92%8C%E6%8C%87%E9%92%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">数组名和指针的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E8%BF%9B%E8%A1%8C%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%90%8E%E4%B8%8E%E5%9C%B0%E5%9D%80%E8%BF%9B%E8%A1%8C%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">指针进行强制类型转换后与地址进行加法运算，结果是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%B8%B8%E9%87%8F%E5%92%8C%E5%B8%B8%E9%87%8F%E6%8C%87%E9%92%88"><span class="toc-text">指针常量和常量指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E5%92%8C%E5%BC%95%E7%94%A8"><span class="toc-text">指针和引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8E%E6%8C%87%E9%92%88"><span class="toc-text">野指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">智能指针</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="toc-text">位操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E4%B8%AA%E5%87%BD%E6%95%B0%E5%9C%A8main%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%89%8D%E5%85%88%E8%BF%90%E8%A1%8C"><span class="toc-text">写个函数在main函数执行前先运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E6%98%AF%E6%80%8E%E4%B9%88%E8%BF%9B%E8%A1%8C%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84"><span class="toc-text">C语言是怎么进行函数调用的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-%E5%87%BD%E6%95%B0%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E9%97%AE%E9%A2%98"><span class="toc-text">void 函数的返回值问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98"><span class="toc-text">内存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">C语言中内存分配的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E4%B8%8E%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">堆与栈的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%88%E5%9C%A8C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">栈在C语言中的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%8E%8B%E6%A0%88%E9%A1%BA%E5%BA%8F"><span class="toc-text">C语言函数参数压栈顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="toc-text">内存泄漏</span></a></li></ol></li></ol></div></div></widget>
 
 
 
@@ -71,8 +81,7 @@
 
 
 
-
-<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title active" href="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/"><span class="title">八股文-C语言</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/31/RT-Thread%EF%BC%9ASTM32%E7%A7%BB%E6%A4%8D%E8%AE%B0%E5%BD%95/"><span class="title">RT-Thread：STM32移植记录</span></a><a class="item title" href="/2024/03/31/STM32-VSCode%E5%92%8COpenOCD%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="title">STM32-VSCode和OpenOCD环境配置</span></a><a class="item title" href="/2024/03/26/LVGL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"><span class="title">LVGL学习记录</span></a><a class="item title" href="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统</span></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-Makefile/"><span class="title">嵌入式工具-makefile</span></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-gcc/"><span class="title">嵌入式工具-gcc</span></a><a class="item title" href="/2024/03/27/%E5%BC%80%E5%8F%91%E6%9D%BF%E6%9C%8D%E5%8A%A1%E5%99%A8-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"><span class="title">开发板服务器-个人博客网站</span></a><a class="item title" href="/2024/03/25/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8ESTM32%E5%92%8CRT-Thread%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E8%AF%AD%E9%9F%B3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于STM32和RT-Thread的智能家居语音控制系统</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a></div></widget>
+<widget class="widget-wrapper post-list"><div class="widget-header dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><a class="item title" href="/2024/03/23/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8Eimx6ull%E5%92%8COpenCV%E7%9A%84%E6%B0%B4%E6%9E%9C%E8%AF%86%E5%88%AB%E4%B8%8E%E7%A7%B0%E9%87%8D%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于imx6ull和OpenCV的水果识别与称重系统</span></a><a class="item title active" href="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/"><span class="title">八股文-C语言</span><svg class="active-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M21 11.098v4.993c0 3.096 0 4.645-.734 5.321c-.35.323-.792.526-1.263.58c-.987.113-2.14-.907-4.445-2.946c-1.02-.901-1.529-1.352-2.118-1.47a2.225 2.225 0 0 0-.88 0c-.59.118-1.099.569-2.118 1.47c-2.305 2.039-3.458 3.059-4.445 2.945a2.238 2.238 0 0 1-1.263-.579C3 20.736 3 19.188 3 16.091v-4.994C3 6.81 3 4.666 4.318 3.333C5.636 2 7.758 2 12 2c4.243 0 6.364 0 7.682 1.332C21 4.665 21 6.81 21 11.098" opacity=".5"/><path fill="currentColor" d="M9 5.25a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z"/></svg></a><a class="item title" href="/2024/03/31/RT-Thread%EF%BC%9ASTM32%E7%A7%BB%E6%A4%8D%E8%AE%B0%E5%BD%95/"><span class="title">RT-Thread：STM32移植记录</span></a><a class="item title" href="/2024/03/31/STM32-VSCode%E5%92%8COpenOCD%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"><span class="title">STM32-VSCode和OpenOCD环境配置</span></a><a class="item title" href="/2024/03/26/LVGL%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/"><span class="title">LVGL学习记录</span></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-Makefile/"><span class="title">嵌入式工具-makefile</span></a><a class="item title" href="/2024/03/27/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B7%A5%E5%85%B7-gcc/"><span class="title">嵌入式工具-gcc</span></a><a class="item title" href="/2024/03/27/%E5%BC%80%E5%8F%91%E6%9D%BF%E6%9C%8D%E5%8A%A1%E5%99%A8-%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%BD%91%E7%AB%99/"><span class="title">开发板服务器-个人博客网站</span></a><a class="item title" href="/2024/03/25/%E5%B5%8C%E5%85%A5%E5%BC%8F%E9%A1%B9%E7%9B%AE-%E5%9F%BA%E4%BA%8ESTM32%E5%92%8CRT-Thread%E7%9A%84%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85%E8%AF%AD%E9%9F%B3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F/"><span class="title">嵌入式项目-基于STM32和RT-Thread的智能家居语音控制系统</span></a><a class="item title" href="/2024/03/03/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E4%BC%A0%E7%BB%9F%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/"><span class="title">数字图像传统分割方法</span></a></div></widget>
 </div>
 <footer class="footer dis-select"><div class="social-wrap"><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/08a41b181ce68.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3845874.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/3616429.svg"/></a><a class="social" href="https://" target="_blank" rel="external nofollow noopener noreferrer"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/placeholder/social/942ebbf1a4b91.svg"/></a></div></footer>
 </div></aside><div class="l_main" id="main">
@@ -86,7 +95,7 @@
     
 <div class="top bread-nav footnote"><div class="left"><div class="flex-row" id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a>
 <span class="sep"></span><a class="cap breadcrumb" href="/">文章</a></div>
-<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-04-09T00:46:51.000Z">2024-04-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-04-09T00:46:51.041Z">2024-04-09</time></span></div></div>
+<div class="flex-row" id="post-meta"><span class="text created">发布于：<time datetime="2024-04-09T00:46:51.000Z">2024-04-09</time></span><span class="sep updated"></span><span class="text updated">更新于：<time datetime="2024-07-16T12:01:37.499Z">2024-07-16</time></span></div></div>
 </div>
 
     
@@ -97,7 +106,555 @@
     </div>
     
   </div>
-  </div><article class="md-text content">
+  </div><article class="md-text content"><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><strong>简述编译运行一段代码的过程</strong></p>
+<p>源程序是指未经编译的，按照一定的程序设计语言规范书写的，人类可读的文本文件，源程序就是所写好的代码。</p>
+<p> 可执行程序，即常说的.exe程序，可以执行程序，完成计算机功能。</p>
+<p>在C语言中，.c文件就是所谓的源文件。</p>
+<p> 源程序到可执行程序的过程。在这个过程中，会发生如下的变化：</p>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/063ee4699231e33a1252fbe5ddbbc98c.jpeg" class="lazy" title="img">
+
+<p>.c文件生成.exe文件的过程总共是经历了<strong>预处理，编译，汇编，链接</strong>，这四个过程。</p>
+<p>1、预处理（预编译）</p>
+<p>第一步发生的是预编译，使用-E指令会使程序只进行到预编译指令。经过预编译指令后的会生成一个.i文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc test.c -E &gt; test.i</span><br></pre></td></tr></table></figure>
+
+<p>在预编译的过程中，主要处理源代码中的预处理指令：<strong>引入头文件、去除注释、处理所有的条件编译指令（#ifdef,#ifndef,#else,#elif,#endif）、宏的替换、添加行号和保留所有的编译器指令</strong>。</p>
+<p>当进行预编译以后的文件中将不再存在宏，所有的宏都已经被替代。<strong>当想要判断宏是否正确或者头文件包含是否正确时，也可以通过预编译来查看</strong>。</p>
+<p>2、编译</p>
+<p><strong>编译过程所进行的是对预处理后的文件进行语法分析，词法分析，语义分析，符号汇总，然后生成汇编代码</strong>。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc test.i -S &gt; test.s</span><br></pre></td></tr></table></figure>
+
+<p>3、汇编</p>
+<p><strong>汇编过程将汇编代码转成二进制文件，二进制文件就可以让机器来读取</strong>。每一条汇编语句都会产生一句机器语言。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc test.s -O &gt; test.o</span><br></pre></td></tr></table></figure>
+
+<p>在这里最终会生成一个重定位目标文件 .o文件，类似windows下的.obj文件。这里生成的目标文件里面就是二进制文件。另外，在这里会形成符号表，给这些符号会分配虚拟地址。</p>
+<p>4、链接</p>
+<p>由汇编程序生成的目标文件并不能立即就被执行，其中可能还有许多没有解决的问题。例如，某个源文件中的函数可能引用了另一个源文件中定义的某个符号（如变量或者函数调用等）；在程序中可能调用了某个库文件中的函数等等。<strong>所有这些问题，都需要经链接程序的处理方能得以解决</strong>。<strong>链接程序的主要工作就是将有关的目标文件彼此相连接，也即将在一个文件中引用的符号同该符号在另外一个文件中的定义连接起来，使得所有的这些目标文件成为一个能够被操作系统装入执行的统一整体</strong>。</p>
+<p> 链接分为静态链接和动态链接：</p>
+<ul>
+<li><p>静态链接：后缀是.a，主要在编译的时候将库文件里面代码搬迁到可执行的文件中；</p>
+</li>
+<li><p>动态链接：后缀是.so,主要在执行的时候需要转换到库文件代码执行；</p>
+</li>
+</ul>
+<p>两种链接的<strong>优缺点</strong>：</p>
+<p> （1）静态的链接产生的可执行的文件体积比较的大；而动态链接的可执行文件的体积比较小；</p>
+<p> （2）动态的链接的编译的效率比较的高；</p>
+<p> （3）静态链接的可执行的文件执行的效率高</p>
+<p> （4）静态链接的可执行的文件的“布局”比较好一点；</p>
+<p>两种链接的<strong>区别</strong>：</p>
+<p>静态链接是指把要调用的函数或者过程<strong>直接链接到可执行文件中</strong>，成为可执行文件的一部分。换句话说，<strong>函数和过程的代码就在程序的exe文件中</strong>，<strong>该文件包含了运行时所需的全部代码</strong>。静态链接的缺点是：当多个程序都<strong>调用相同函数时，内存中就会存在这个函数的多个复制，这样就浪费了内存资源</strong></p>
+<p> 动态链接是相对于静态链接而言的。动态链接调用的函数代码并没有被复制到应用程序的可执行文件中去，而是<strong>仅仅在其中加入了所调用函数的描述信息（往往是一些重定位信息）</strong>。仅当应用程序被<strong>装入内存开始运行时</strong>，在操作系统的管理下，才在应用程序与相应的动态链接库（ dynamic link library,d）之间<strong>建立链接关系</strong>。当要执行调用，dll文件中的函数时，根据链接产生的重定位信息，操作系统才转去执行，dll文件中相应的函数代码。</p>
+<p> 静态链接的执行程序能够在<strong>其他同类操作系统</strong>的机器上直接运行。例如，一个exe文件是在Windows2000系统上静态链接的，那么将该文件直接复制到另一台 Windows2000的机器上，是可以运行的。而动态链接的执行程序则不可以，除非把该exe文件所需的dll文件都一并复制过去，或者对方机器上也有所需的相同版本的dll文件，否则是不能保证正常运行的。</p>
+<p><strong>静态链接库和动态链接库有什么区别</strong></p>
+<p>静态链接库就是使用的lib文件，库中的代码最后需要链接到可执行文件中去，所以静态链接的可执行文件一般比较大一些。</p>
+<p> 动态链接库是一个包含可由多个程序同时使用的代码和数据的库，它包含函数和数据的模块的集合。程序文件（如exe文件或d文件）在运行时加载这些模块（即所需的模块映射到调用进程的地址空间）。</p>
+<p> 静态链接库和动态链接库的相同点是它们都实现了代码的共享，不同点是静态链接库lib文件中的代码被包含在调用的exe文件中，该lib文件中不能再包含其他动态链接库或者静态链接库了。而动态链接库dll文件可以被调用的exe动态地“引用”和“卸载”，该dll文件中可以包含其他动态链接库或者静态链接库。</p>
+<h2 id="4字节对齐"><a href="#4字节对齐" class="headerlink" title="4字节对齐"></a><strong>4</strong>字节对齐</h2><p><strong>什么是字节对齐？</strong></p>
+<p>在现代计算机中，内存空间都是按照字节(byte)划分的。从理论上讲对任何类型的变量的访问可以从任何地址开始，但实际情况是，访问特定类型的变量的时候经常在特定的内存地址访问，这就需要各种类型的数据按照一定规则在空间上排列，而不是顺序地一个接一个地排放，这种所谓的规则就是字节对齐。这么长一段话的意思是说：<strong>字节对齐可以提升存取效率，也就是用空间换时间</strong>。例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"> <span class="type">char</span> a;</span><br><span class="line"> <span class="type">char</span> reserved[<span class="number">3</span>];<span class="comment">//使用空间换时间</span></span><br><span class="line"> <span class="type">int</span> b; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<style>.lddibaorepnp{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100054921.png" class="lddibaorepnp lazy" alt="image-20240620100054921">
+
+<p>注：其中的reserved成员对于程序并没有意义，只是起到了填补空间达到字节对齐的目的。当然，即使不加这个成员，<u>编译器也会自动为我们补齐</u>，加上它只是起到显式提醒。</p>
+<p><strong>为什么需要字节对齐？</strong></p>
+<p>因为各个硬件平台对存储空间的处理上有很大的不同，<u>一些硬件平台对某些特定类型的数据只能从某些特定地址开始存取</u>。比如有些架构的CPU在访问一个没有进行对齐的变量的时候会发生错误，那么在这种架构下编程必须保证字节对齐。其他平台可能没有这种情况，但是最常见的是如果不按照适合其平台要求对数据存放进行对齐，会<u>在存取效率上带来损失</u>。比如有些平台每次读都是从偶地址开始，如果一个int型（假设为32位系统）如果存放在偶地址开始的地方，那么一个读周期就可以读出这32bit，而如果存放在奇地址开始的地方，就需要2个读周期，并对两次读出的结果的高低字节进行拼凑才能得到该32bit数据。显然在读取效率上下降很多。</p>
+<p><strong>几个基本概念</strong></p>
+<ul>
+<li>基本数据类型的自身对齐值</li>
+</ul>
+<p> 例如，char型数据的自身对齐值为1字节，short类型自身对齐值为2字节，int、float、long类型自身对齐值均为4字节，double类型自身对齐值均为8字节。（32位系统）</p>
+<ul>
+<li>结构体或类的自身对齐值</li>
+</ul>
+<p> 其成员中自身对齐值最大的那个值。</p>
+<ul>
+<li>指定对齐值</li>
+</ul>
+<p> 通过预编译指令<code> #pragma pack (value)</code> 来指定的对齐值value。（注：取消自定义对齐值得指令为<code>#pragma pack ()</code>）</p>
+<ul>
+<li>数据成员、结构体和类的有效对齐值</li>
+</ul>
+<p> 其自身对齐值和指定对齐值中较小的那个值。</p>
+<p><strong>例1：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="type">char</span> a;</span><br><span class="line">   <span class="type">short</span> b;</span><br><span class="line">   <span class="type">int</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span></span></span><br><span class="line"><span class="class"> &#123;</span></span><br><span class="line">   <span class="type">short</span> b;</span><br><span class="line">   <span class="type">int</span> c;</span><br><span class="line">   <span class="type">char</span> a;</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>对于结构体A：a是char型数据，占用1字节内存；short型数据，占用2字节内存；int型数据，占用4字节内存。因此，结构体A的自身对齐值为4，sizeof(struct A) &#x3D;8字节。由于<u>结构体类型数据是按顺序存储结构一个接一个向后排列</u>的，于是其存储方式为：</p>
+<style>.ihhgsuuipgye{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100514468.png" class="ihhgsuuipgye lazy" alt="image-20240620100514468">
+
+<p>对于结构体B：同理也是4字节对齐，但是sizeof(struct B) &#x3D;12字节。</p>
+<style>.izhfxmgwkpgn{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100551578.png" class="izhfxmgwkpgn lazy" alt="image-20240620100551578">
+
+<p><strong>例2：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(2) <span class="comment">//指定2字节对齐</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">C</span></span></span><br><span class="line"><span class="class"> &#123;</span></span><br><span class="line">   <span class="type">char</span> a;</span><br><span class="line">   <span class="type">int</span> b;</span><br><span class="line">   <span class="type">short</span> c;</span><br><span class="line"> &#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack() <span class="comment">//取消指定对齐，恢复缺省对齐</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(1) <span class="comment">//指定1字节对齐</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D</span></span></span><br><span class="line"><span class="class"> &#123;</span></span><br><span class="line">   <span class="type">char</span> a;</span><br><span class="line">   <span class="type">int</span> b;</span><br><span class="line">   <span class="type">short</span> c;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack() <span class="comment">//取消指定对齐，恢复缺省对齐</span></span></span><br></pre></td></tr></table></figure>
+
+<p>对于结构体C：由于其自身对齐值为4字节（int b），而指定对齐值为2字节，因此该结构体的有效对齐值为较小的2字节，那么sizeof(struct C) &#x3D; 8 字节。</p>
+<style>.mkcqrwfuwbrh{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100734179.png" class="mkcqrwfuwbrh lazy" alt="image-20240620100734179">
+
+<p>对于结构体D：同理可知，由于其自身对齐值为4字节（int b），而指定对齐值为1字节，因此该结构体的有效对齐值为较小的1字节，那么sizeof(struct D) &#x3D; 7 字节。</p>
+<style>.axipmpeonbyr{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620100814547.png" class="axipmpeonbyr lazy" alt="image-20240620100814547">
+
+
+
+
+
+<h2 id="预处理相关"><a href="#预处理相关" class="headerlink" title="预处理相关"></a>预处理相关</h2><h3 id="1、typedef与define"><a href="#1、typedef与define" class="headerlink" title="1、typedef与define"></a>1、<code>typedef</code>与<code>define</code></h3><table>
+<thead>
+<tr>
+<th align="center">区别</th>
+<th align="center">define</th>
+<th align="center">typedef</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">原理</td>
+<td align="center">预处理指令，<strong>在预改处理时</strong>进行简单而机械的字符串替换，不做正确性检查，不管含义是否正确照样代入，只有在编译已被展开的源程序时，才会发现可能的错误并报错。</td>
+<td align="center">关键字，<strong>在编译时</strong>处理，具有类型检查的功能。它在自己的作用域内给一个已经存在的类型一个别名，但是不能在一个函数定义里面使用标识符typedef。</td>
+</tr>
+<tr>
+<td align="center">功能</td>
+<td align="center">不只是可以为<strong>类型</strong>取别名，还可以定义<strong>常量、变量、编译开关等</strong>。</td>
+<td align="center">typedef用来定义<strong>类型的别名</strong>，这些类型不仅包含内部类型(int、char等)，还包括自定义类型（如 struct)，可以起到使类型易于记忆的功能。</td>
+</tr>
+<tr>
+<td align="center">作用域</td>
+<td align="center">没有作用域的限制，只要是之前预定义过的宏，在以后的程序中都可以使用</td>
+<td align="center">有自己的作用域</td>
+</tr>
+<tr>
+<td align="center">指针</td>
+<td align="center">如下</td>
+<td align="center">如下</td>
+</tr>
+</tbody></table>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> INTPTR1 int*</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span>* INTPTR2;</span><br><span class="line">INTPTR1 pl, p2;</span><br><span class="line">INTPTR2 p3， p4;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，INTPTR1 p1, p2和INTPTR2 p3, p4的效果截然不同。 INTPTR1 pl, p2进行字符串替换后变成int *p1,p2 ，要表达的意义是声明一个<strong>指针变量</strong>p1和一个<strong>整型变量</strong>p2。而 INTPTR2 p3，p4，由于INTPTR2是具有含义的，告诉我们是一个指向整型数据的指针，那么p3和p4都为<strong>指针变量</strong>，这句相当于int *p3，*p4 。从这里可以看出，进行<u>define宏替换是不含任何意义的替换，仅仅为字符串替换</u>；而用 <u>typedef为一种数据类型起的别名带有一定含义</u>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> INTPTR1 int*</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">int</span>* INTPTR2</span><br><span class="line"><span class="type">int</span> a=<span class="number">1</span>;</span><br><span class="line"><span class="type">int</span> b=<span class="number">2</span>;</span><br><span class="line"><span class="type">int</span> c=<span class="number">3</span>;</span><br><span class="line"><span class="type">const</span> INTPTR1 p1=&amp;a;</span><br><span class="line"><span class="type">const</span> INTPTR2 p2=&amp;b;</span><br><span class="line">INTPTR2 <span class="type">const</span> p3=&amp;c;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中， const INTPTR1 p1表示p1是一个<strong>常量指针</strong>，即不可以通过p1去修改p1指向的内容，但是p1可以指向其他内容。而对于 const INTPTR2 p2，由于 INTPTR2表示的是个指针类型，因此用 const去限定，表示封锁了这个指针类型，因此p2是一个<strong>指针常量</strong>，不可使p2再指向其他内容，但可以通过p2修改其当前指向的内容。 INTPTR2 const p3同样声明的是一个<strong>指针常量</strong>。</p>
+<h3 id="2、-include-filename-h-和-include-“filename-h”"><a href="#2、-include-filename-h-和-include-“filename-h”" class="headerlink" title="2、#include &lt; filename. h&gt;和#include “filename. h”"></a>2、#include &lt; filename. h&gt;和#include “filename. h”</h3><p>对于 include&lt; filename. h&gt;，编译器先从<strong>标准库路径</strong>开始搜索 filename.h，使得系统文件调用较快。而对于# include“ filename.h””，编译器先从<strong>用户的工作路径</strong>开始搜索 filename.h，然后去寻找系统路径，使得自定义文件较快。</p>
+<h3 id="3、头文件的作用"><a href="#3、头文件的作用" class="headerlink" title="3、头文件的作用"></a>3、头文件的作用</h3><p>头文件的作用主要表现为以下两个方面：</p>
+<ul>
+<li>通过头文件来调用库功能。出于对源代码保密的考虑，源代码不便（或不准）向用户公布，只要向用户提供头文件和二进制的库即可。用户只需要按照头文件中的接口声明来调用库功能，而不必关心接口是怎么实现的。</li>
+<li>头文件能加强类型安全检查。当某个接口被实现或被使用时，其方式与头文件中的声明不一致，编译器就会指出错误，大大减轻程序员调试、改错的负担。</li>
+</ul>
+<p><strong>在头文件中定义静态变量是否可行？</strong></p>
+<p><strong>不可行</strong>，如果在头文件中定义静态变量，会造成资源浪费的问题，同时也可能引起程序错误。因为如果在使用了该头文件的每个C语言文件中定义静态变量，按照编译的步骤，<strong>在每个头文件中都会单独存在一个静态变量</strong>，从而会引起<strong>空间浪费</strong>或者<strong>程序错误</strong>所以，不推荐在头文件中定义任何变量，当然也包括静态变量。</p>
+<h3 id="4、标准宏函数"><a href="#4、标准宏函数" class="headerlink" title="4、标准宏函数"></a>4、标准宏函数</h3><p>标准宏MN函数，这个宏输入两个参数并返回较小的一个：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MIN(A,B) ((A) &lt;= (B) ? (A) : (B))</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="不使用流程控制语句，打印出1-1000的整数"><a href="#不使用流程控制语句，打印出1-1000的整数" class="headerlink" title="不使用流程控制语句，打印出1~1000的整数"></a>不使用流程控制语句，打印出1~1000的整数</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio. h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> B P,P,P,P,P,P,P,P,P,P</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> P L,L,L,L,L,L,L,L,L,L</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> L I,I,I,I,I,I,I,I,I,I,N</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> I printf（<span class="string">&quot;%3d&quot;</span>，i++）</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> N printf（<span class="string">&quot;n&quot;</span>）</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">1</span>;</span><br><span class="line">    B;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio. h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> A(x) x;x;x;x;x;x;x;x;x;</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span> <span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> n=<span class="number">1</span>;</span><br><span class="line">    A(A(A(<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>， n++));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><h3 id="关键字”-“和”"><a href="#关键字”-“和”" class="headerlink" title="关键字”#“和”##"></a>关键字”#“和”##</h3><p>“#“关键字：将宏定义中的传入参数名转换成用一对双引号括起来参数名字符串。其只能用于有传入参数的宏定义中，且必须置于宏定义体中的参数名前。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> example(instr) printf(<span class="string">&quot;the input string is:\t%s\n&quot;</span>, #instr)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> example1(instr) #instr</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用该宏定义时：</span></span><br><span class="line">example( abc ); <span class="comment">// 在编译时将会展开成：printf(&quot;the input string</span></span><br><span class="line">is:\t%s\n<span class="string">&quot;,&quot;</span>abc<span class="string">&quot;)</span></span><br><span class="line"><span class="string">string str = example1( abc ); // 将会展成：string str=&quot;</span>abc<span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>“##“关键字：将宏定义的多个形参转换成一个实际参数名。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> exampleNum( n ) num##n</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> num9 = <span class="number">9</span>;</span><br><span class="line"><span class="type">int</span> num = exampleNum( <span class="number">9</span> ); <span class="comment">// 将会扩展成 int num = num9</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<ul>
+<li>a当用##连接形参时，##前后的空格可有可无。</li>
+<li>连接后的实际参数名，必须为实际存在的参数名或是编译器已知的宏定义。</li>
+<li>如果##后的参数本身也是一个宏的话，##会阻止这个宏的展开。</li>
+</ul>
+<h3 id="关键字volatile"><a href="#关键字volatile" class="headerlink" title="关键字volatile"></a>关键字volatile</h3><ul>
+<li><strong>并行设备的硬件寄存器</strong>。存储器映射的硬件寄存器通常加volatile，因为寄存器随时可以被外设硬件修改。当声明指向设备寄存器的指针时一定要用volatile，它会告诉编译器不要对存储在这个地址的数据进行假设。</li>
+<li><strong>一个中断服务程序中修改的供其他程序检测的变量</strong>。volatile提醒编译器，它后面所定义的变量随时都有可能改变。因此编译后的程序每次需要存储或读取这个变量的时候，<strong>都会直接从变量地址中读取数据</strong>。如果没有volatile关键字，则编译器可能优化读取和存储，可能暂时使用寄存器中的值，如果这个变量由别的程序更新了的话，将出现不一致的现象。</li>
+<li><strong>多线程应用中被几个任务共享的变量</strong>。单地说就是防止编译器对代码进行优化。例如：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">XBYTE[<span class="number">2</span>]=<span class="number">0x55</span>;</span><br><span class="line">XBYTE[<span class="number">2</span>]=<span class="number">0x56</span>;</span><br><span class="line">XBYTE[<span class="number">2</span>]=<span class="number">0x57</span>;</span><br><span class="line">XBYTE[<span class="number">2</span>]=<span class="number">0x58</span>;</span><br></pre></td></tr></table></figure>
+
+<p>对外部硬件而言，上述四条语句分别表示不同的操作，会产生四种不同的动作，但是编译器却会对上述四条语句进行优化，<strong>认为只有XBYTE[2]&#x3D;0x58</strong>（<strong>即忽略前三条语句，只产生一条机器代码</strong>）。如果键入volatile，编译器会逐一的进行编译并产生相应的机器代码（产生四条代码）。</p>
+<h3 id="关键字static"><a href="#关键字static" class="headerlink" title="关键字static"></a>关键字static</h3><p><strong>作用</strong>：</p>
+<ul>
+<li>在函数体，<strong>只会被初始化一次</strong>，一个被声明为静态的变量在这一函数被调用过程中维持其值不变。</li>
+<li>在模块内（但在<strong>函数体外</strong>），一个被声明为<strong>静态的变量</strong>可以被模块内所用函数访问，但不能被模块外其它函数访问。它是一个<strong>本地的全局变量</strong>（只能被当前文件使用）。</li>
+<li>在模块内，一个被声明为<strong>静态的函数</strong>只可被这一模块内的其它函数调用。那就是，这个函数被限制在声明它的模块的本地范围内使用（<strong>只能被当前文件使用</strong>）。</li>
+</ul>
+<p><strong>为什么static变量只初始化一次？</strong></p>
+<p>对于所有的对象（不仅仅是静态对象），<strong>初始化都只有一次</strong>，而由于静态变量具有“记忆”功能，初始化后，一直都没有被销毁，<strong>都会保存在内存区域中</strong>，所以不会再次初始化。存放在静态区的变量的生命周期一般比较长，它与整个程序“同生死、共存亡”，所以它只需初始化一次。而auto变量，即自动变量，由于它<strong>存放在栈区</strong>，一旦函数调用结束，就会<strong>立刻被销毁</strong>。</p>
+<h3 id="关键字extern”C”"><a href="#关键字extern”C”" class="headerlink" title="关键字extern”C”"></a>关键字extern”C”</h3><p>extern “C”的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern “C”后，会<strong>指示编译器这部分代码按语言的进行编译</strong>，而不是C++的。</p>
+<h3 id="关键字const"><a href="#关键字const" class="headerlink" title="关键字const"></a>关键字const</h3><p><strong>作用</strong>：</p>
+<ol>
+<li>定义变量（局部变量或全局变量）为常量，例如：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">100</span>;<span class="comment">//定义一个常量N</span></span><br><span class="line">N=<span class="number">50</span>; <span class="comment">//错误，常量的值不能被修改</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> n; <span class="comment">//错误，常量在定义的时候必须初始化</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>修饰函数的参数，表示在函数体内不能修改这个参数的值。</p>
+</li>
+<li><p>修饰函数的返回值。</p>
+</li>
+</ol>
+<ul>
+<li>如果给用 const修饰<strong>返回值的类型为指针</strong>，那么函数返回值（即指针）的内容是不<strong>能被修改</strong>的，而且这个返回值只能赋给被 const修饰的指针。例如：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">char</span> <span class="title function_">GetString</span><span class="params">()</span> <span class="comment">//定义一个函数</span></span><br><span class="line"><span class="type">char</span> *str= GetString() <span class="comment">//错误，因为str没有被 const修饰</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> *str=GetString() <span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果用 const修饰<strong>普通的返回值</strong>，如返回int变量，由于这个返回值是一个临时变量，在函数调用</p>
+<p>  结束后这个临时变量的生命周期也就结束了，因此把这些<strong>返回值修饰为const是没有意义</strong>的。</p>
+</li>
+</ul>
+<ol start="4">
+<li>节省空间，避免不必要的内存分配。例如：</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> PI 3.14159<span class="comment">//该宏用来定义常量</span></span></span><br><span class="line"><span class="type">const</span> doulbe Pi=<span class="number">3.14159</span><span class="comment">//此时并未将P放入只读存储器中</span></span><br><span class="line"><span class="type">double</span> i=Pi<span class="comment">//此时为Pi分配内存，以后不再分配</span></span><br><span class="line"><span class="type">double</span> I=PI<span class="comment">//编译期间进行宏替换，分配内存</span></span><br><span class="line"><span class="type">double</span> j=Pi<span class="comment">//没有内存分配再次进行宏替换，又一次分配内存</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>什么情况下使用const关键字？</strong></p>
+<ul>
+<li>修饰一般常量。一般常量是指简单类型的常量，修饰符const可以用在类型说明符前，也可以用在类型说明符后。例如：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> x=<span class="number">2</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> x=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修饰常数组</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="type">const</span> a[<span class="number">8</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> a[<span class="number">8</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修饰常对象</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>：</span></span><br><span class="line"><span class="class"><span class="title">const</span> <span class="title">A</span> <span class="title">a</span>：</span></span><br><span class="line"><span class="class"><span class="title">A</span> <span class="title">const</span> <span class="title">a</span>：</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修饰常指针</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span>*p； <span class="comment">//常量指针，指向常量的指针。即p指向的内存可以变，p指向的数值内容不可变</span></span><br><span class="line"><span class="type">int</span> <span class="type">const</span>*p； <span class="comment">//同上</span></span><br><span class="line"><span class="type">int</span>* <span class="type">const</span> p；<span class="comment">//指针常量，本质是一个常量，而用指针修饰它。 即p指向的内存不可以变，但是p内存位置的数值可以变</span></span><br><span class="line"><span class="type">const</span> <span class="type">int</span>* <span class="type">const</span> p；<span class="comment">//指向常量的常量指针。即p指向的内存和数值都不可变</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修饰常引用</li>
+<li>修饰函数的常参数</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> Fun（<span class="type">const</span> <span class="type">int</span> Var）</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修饰函数的返回值</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> FunI（)；</span><br><span class="line"><span class="type">const</span> MyClass Fun2（）；</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在另一连接文件中引用 const常量</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> i：</span><br><span class="line"><span class="keyword">extern</span> <span class="type">const</span> <span class="type">int</span> j=<span class="number">10</span>；</span><br></pre></td></tr></table></figure>
+
+<h3 id="define和const定义常量"><a href="#define和const定义常量" class="headerlink" title="#define和const定义常量"></a>#define和const定义常量</h3><ul>
+<li><p>const定义常量是有<strong>数据类型</strong>的，而#define宏定义常量却没有。</p>
+</li>
+<li><p>const可以有不同的作用域。</p>
+</li>
+<li><p>编译器可以对const进行类型<strong>安全检查</strong>， 而对后者<strong>只进行字符替换</strong>，没有类型安全检查，并且在字符替换中可能会产生意料不到的错误。</p>
+</li>
+<li><p>有些集成化的调试工具可以对const常量进行调试，但是不能对宏常量进行调试。</p>
+</li>
+</ul>
+<h3 id="new-delete与malloc-free的区别"><a href="#new-delete与malloc-free的区别" class="headerlink" title="new&#x2F;delete与malloc&#x2F;free的区别"></a>new&#x2F;delete与malloc&#x2F;free的区别</h3><ul>
+<li><p>new、delete是C++中的操作符，而malloc和free是标准库函数。</p>
+</li>
+<li><p>对于非内部数据对象来说，只使用malloc是无法完成动态对象要求的，一般在创建对象时需要调用构造函数，对象消亡时，自动的调用析构函数。而malloc、free是库函数而不是运算符，不在编译器控制范围之内，不能够自动调用构造函数和析构函数。而new在为对象申请分配内存空间时，可以自动调用构造函数，同时也可以完成对对象的初始化。同理，delete也可以自动调用析构函数。而mallloc只是做一件事，只是为变量分配了内存，同理，free也只是释放变量的内存。</p>
+</li>
+<li><p>new返回的是指定类型的指针，并且可以自动计算所申请内存的大小。而 malloc需要我们计算申请</p>
+</li>
+</ul>
+<p>内存的大小，并且在返回时强行转换为实际类型的指针。</p>
+<h3 id="delete和delete-区别"><a href="#delete和delete-区别" class="headerlink" title="delete和delete[]区别"></a><strong>delete</strong>和delete[]区别</h3><p>delete 释放new分配的<strong>单个对象</strong>指针指向的内存。 </p>
+<p>delete[] 释放new分配的<strong>对象数组</strong>指针指向的内存。</p>
+<h3 id="assert宏"><a href="#assert宏" class="headerlink" title="assert宏"></a>assert宏</h3><p>assert宏的原型定义在&lt;assert.h&gt;中，其作用是如果它的条件返回错误，则终止程序执行，原型定义：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">assert</span><span class="params">( <span class="type">int</span> expression )</span>;</span><br></pre></td></tr></table></figure>
+
+<p>assert的作用是现计算表达式 expression ，如果其值为假（即为0），那么它先向stderr打印一条出错信息，然后通过调用 abort 来终止程序运行。请看下面的程序清单badptr.c：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">( <span class="type">void</span> )</span></span><br><span class="line">&#123;</span><br><span class="line">       FILE *fp;</span><br><span class="line">       fp = fopen( <span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;w&quot;</span> );<span class="comment">//以可写的方式打开一个文件，如果不存在就创建一个同名文件</span></span><br><span class="line">       assert( fp );                           <span class="comment">//所以这里不会出错</span></span><br><span class="line">       fclose( fp );</span><br><span class="line">       fp = fopen( <span class="string">&quot;noexitfile.txt&quot;</span>, <span class="string">&quot;r&quot;</span> );<span class="comment">//以只读的方式打开一个文件，如果不存在就打开文件失败</span></span><br><span class="line">       assert( fp );                           <span class="comment">//所以这里出错</span></span><br><span class="line">       fclose( fp );                           <span class="comment">//程序永远都执行不到这里来</span></span><br><span class="line">       <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>已放弃使用assert()的缺点是，频繁的调用会极大的影响程序的性能，增加额外的开销。在调试结束后，可以通过在包含#include &lt;assert.h&gt;的语句之前插入 #define NDEBUG 来禁用assert调用，示例代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NDEBUG</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>用法总结与注意事项</strong>：</p>
+<p>1）在函数开始处检验传入参数的合法性如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">resetBufferSize</span><span class="params">(<span class="type">int</span> nNewSize)</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="comment">//功能:改变缓冲区大小,</span></span><br><span class="line"> <span class="comment">//参数:nNewSize 缓冲区新长度</span></span><br><span class="line"> <span class="comment">//返回值:缓冲区当前长度</span></span><br><span class="line"> <span class="comment">//说明:保持原信息内容不变     nNewSize&lt;=0表示清除缓冲区</span></span><br><span class="line"> assert(nNewSize &gt;= <span class="number">0</span>);</span><br><span class="line"> assert(nNewSize &lt;= MAX_BUFFER_SIZE);</span><br><span class="line"> ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2）每个assert只检验一个条件，因为同时检验多个条件时，如果断言失败，无法直观的判断是哪个条件失败，如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//不好：</span></span><br><span class="line">assert(nOffset&gt;=<span class="number">0</span> &amp;&amp; nOffset+nSize&lt;=m_nInfomationSize);</span><br><span class="line"></span><br><span class="line"><span class="comment">//好：</span></span><br><span class="line">assert(nOffset &gt;= <span class="number">0</span>);</span><br><span class="line">assert(nOffset+nSize &lt;= m_nInfomationSize);</span><br></pre></td></tr></table></figure>
+
+<p>3）不能使用改变环境的语句，因为assert只在DEBUG个生效，如果这么做，会使用程序在真正运行时遇到问题，如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//错误：</span></span><br><span class="line">assert(i++ &lt; <span class="number">100</span>);</span><br><span class="line"><span class="comment">//正确：</span></span><br><span class="line">assert(i &lt; <span class="number">100</span>);</span><br><span class="line">i++;</span><br></pre></td></tr></table></figure>
+
+<p>4）assert和后面的语句应空一行，以形成逻辑和视觉上的一致感。</p>
+<p>5）有的地方，assert不能代替条件过滤。</p>
+<p> 以下是使用断言的几个原则： </p>
+<p> （1）使用断言捕捉不应该发生的非法情况。不要混淆非法情况与错误情况之间的区别，后者是必然存在的并且是一定要作出处理的。 </p>
+<p> （2）使用断言对函数的参数进行确认。 </p>
+<p> （3）在编写函数时，要进行反复的考查，并且自问：“我打算做哪些假定？”一旦确定了的假定，就要使用断言对假定进行检查。 </p>
+<p> （4）一般教科书都鼓励程序员们进行防错性的程序设计，但要记住这种编程风格会隐瞒错误。当进行防错性编程时，如果“不可能发生”的事情的确发生了，则要使用断言进行报警。</p>
+<p>ASSERT ()是一个调试程序时经常使用的宏，在程序运行时它计算括号内的表达式，如果表达式为FALSE (0), 程序将报告错误，并终止执行。如果表达式不为0，则继续执行后面的语句。这个宏通常原来判断程序中是否出现了明显非法的数据，如果出现了终止程序以免导致严重后果，同时也便于查找错误。 </p>
+<p><strong>ASSERT只有在Debug版本中才有效，如果编译为Release版本则被忽略。</strong> </p>
+<p> <strong>比较好的在程序中使用assert的地方</strong>：</p>
+<p> <strong>(1)空指针检查</strong></p>
+<p> 例如，针对一个函数的参数进行空指针检查。你可以这样使用：assert (pointer !&#x3D; NULL);，产生的错误会像这样：Assertion ‘pointer !&#x3D; ((void *)0)’ failed。这样，当出现空指针时，你的程序就会退出，并很好的给出错误信息。</p>
+<p> <strong>(2)检查函数参数的值</strong></p>
+<p> 例如，如果一个函数只能在它的一个参数foo为正值的时候被调用，你可以在函数开始时这样写:assert (foo &gt; 0);，这将帮助你检测函数的错误使用，这也给源代码阅读者很清晰的印象，那就是在这里对函数的参数值有限制。</p>
+<h3 id="sizeof和strlen"><a href="#sizeof和strlen" class="headerlink" title="sizeof和strlen"></a>sizeof和strlen</h3><p>strlen与 sizeof的差别表现在以下5个方面：</p>
+<ul>
+<li>sizeof是运算符（是不是被弄糊涂了？事实上， sizeof既是关键字，也是运算符，但不是函数），而strlen是函数。 sizeof后如果是类型，则必须加括号，如果是变量名，则可以不加括弧。</li>
+<li>sizeof运算符的结果类型是 size_t，它在头文件中 typedef为 unsigned int类型。该类型保证能够容纳实现所建立的最大对象的字节大小。</li>
+<li>sizeof可以用类型作为参数， strlen只能用char*作参数，而且必须是以“0结尾的。 sizeof还可以以函数作为参数，如int g（），则 sizeof（g（））的值等于 sizeof（ int的值，在32位计算机下，该值为4。</li>
+<li>大部分编译程序的 sizeof都是在<strong>编译</strong>的时候计算的，所以可以通过 sizeof（x）来定义数组维数。而 strlen则是在<strong>运行期</strong>计算的，用来计算字符串的实际长度，不是类型占内存的大小。例如， charstr[20] &#x3D; “0123456789”，字符数组str是<strong>编译期</strong>大小已经固定的数组，在32位机器下，为sizeof（char）*20&#x3D;20，而其 strlen大小则是在<strong>运行期</strong>确定的，所以其值为字符串的实际长度10。</li>
+<li>当数组作为参数传给函数时，传递的是指针，而不是数组，即传递的是数组的首地址。</li>
+</ul>
+<p><strong>例1</strong>：不使用sizeof，如何求int占用的字节数？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MySizeof(Value) (char *)(&amp;value+1)-(char*)&amp;value</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="type">int</span> i ;</span><br><span class="line"><span class="type">double</span> f;</span><br><span class="line"><span class="type">double</span> *q;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>,MySizeof(i));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>,MySizeof(f));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>,MySizeof(a));</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d\r\n&quot;</span>,MySizeof(q));</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上例中， <code>（char*）&amp; Value </code>返回 Value的地址的第一个字节， <code>（char*）（&amp; Value+1）</code> 返回value的地址的下一个地址的第一个字节，所以它们之差为它所占的字节数。</p>
+<p><strong>例2</strong>：比较：strlen(“\0”)&#x3D;?与sizeof(“\0”)&#x3D;?</p>
+<p><strong>结果比较</strong>：strlen(“\0”) &#x3D;0，sizeof(“\0”)&#x3D;2。</p>
+<p><strong>具体含义</strong>：<strong>strlen</strong>用来计算<strong>字符串的长度</strong>（在C&#x2F;C++中，字符串是以**”\0”<strong>作为结束符的），它从内存的某个位置（可以是字符串开头，中间某个位置，甚至是某个不确定的内存区域）开始扫描直到碰到第一个字符串结束符\0为止，然后返回计数器值。</strong>sizeof<strong>是C语言的关键字，它以</strong>字节的形式<strong>给出了其操作数的</strong>存储大小**，操作数可以是一个表达式或括在括号内的类型名，操作数的存储大小由操作数的类型决定。</p>
+<h3 id="struct与union的区别"><a href="#struct与union的区别" class="headerlink" title="struct与union的区别"></a>struct与union的区别</h3><p>struct（结构体）与 union（联合体）是C语言中两种不同的数据结构，两者都是常见的复合结构，其区别主要表现在以下两个方面。</p>
+<ul>
+<li>结构体与联合体虽然都是由多个不同的数据类型成员组成的，但不同之处在于联合体中所有成员<strong>共用一块地址空间</strong>，即联合体只存放了一个被选中的成员，而结构体中所有成员占用空间是累加的，其所有成员都存在，不同成员会存放在不同的地址。在计算一个<u>结构型变量</u>的总长度时，其内存空间大小等于<strong>所有成员长度之和</strong>（需要考虑字节对齐），而在<u>联合体</u>中，所有成员不能同时占用内存空间，它们不能同时存在，所以<strong>一个联合型变量的长度等于其最长的成员的长度</strong>。</li>
+<li>对于联合体的不同成员赋值，<strong>将会对它的其他成员重写</strong>，原来成员的值就不存在了，而对结构体的不同成员赋值是互不影响的。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> &#123;</span><span class="type">double</span> i; <span class="type">int</span> k[<span class="number">5</span>]; <span class="type">char</span> c;&#125;DATE;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title function_">data</span><span class="params">( <span class="type">int</span> cat; DATE cow;<span class="type">double</span> dog;）too;</span></span><br><span class="line"><span class="params">DATE max;</span></span><br><span class="line"><span class="params"><span class="built_in">printf</span> (<span class="string">&quot;%d&quot;</span>, <span class="keyword">sizeof</span>(too)+<span class="keyword">sizeof</span>(max));</span></span><br></pre></td></tr></table></figure>
+
+<p>以上代码中，假设为32位机器，int型占4个字节， double型占8个字节，char型占1个字节，而DATE是一个联合型变量，联合型变量共用空间，uion里面最大的变量类型是int[5]，所以占用20个字节，它的大小是20，而由于 union中 double占了8个字节，因此 union是要8个字节对齐，所占内存空间为8的倍数。为了实现8个字节对齐，所占空间为24.而data是一个结构体变量，每个变量分开占用空间，依次为 sizeof（int）+ sizeof（DATE）+ sizeof（ double）&#x3D;4+24+8&#x3D;36按照8字节对齐，占用空间为40，所以结果为40+24&#x3D;64。</p>
+<h3 id="左值和右值"><a href="#左值和右值" class="headerlink" title="左值和右值"></a>左值和右值</h3><p>左值是指可以出现在等号左边的变量或表达式，它最重要的特点就是<strong>可写</strong>（可寻址）。也就是说，它的值<strong>可以被修改</strong>，如果一个<strong>变量或表达式的值不能被修改</strong>，那么它就不能作为左值。右值是指<strong>只可以出现在等号右边的变量或表达式</strong>。它最重要的特点是<strong>可读</strong>。一般的使用场景都是把一个右值赋值给一个左值。通常，左值可以作为右值，但是右值不一定是左值。</p>
+<h3 id="短路求值"><a href="#短路求值" class="headerlink" title="短路求值"></a>短路求值</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">6</span>;</span><br><span class="line">    <span class="type">int</span> j = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;<span class="number">0</span>||(j++)&gt;<span class="number">0</span>);</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;%D\r\n&quot;</span>,j);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为1。</p>
+<p>输出为什么不是2，而是1呢？其实，这里就涉及一个短路计算的问题。由于i语句是个条件判断语句，里面是有两个简单语句进行或运算组合的复合语句，因为或运算中，只要参与或运算的两个表达式的值<strong>其中一个为真</strong>，则整个运算结果为真，而由于变量i的值为6，已经大于0了，而该语句已经为true，则<u>不需要执行后续的j+操作</u>来判断真假，所以后续的j++操作不需要执行，j的值仍然为1。</p>
+<p>因为短路计算的问题，对于&amp;&amp;操作，由于在两个表达式的返回值中，如果有一个为假则整个表达式的值都为假，如果前一个语句的返回值为 false，则无论后一个语句的返回值是真是假，整个条件判断都为假，不用执行后一个语句，而a&gt;b的返回值为 false，程序不执行表达式n&#x3D;c&gt;d，所以，n的值保持为初值2。</p>
+<h3 id="a和a-的区别"><a href="#a和a-的区别" class="headerlink" title="++a和a++的区别"></a>++a和a++的区别</h3><p>a++的具体运算过程为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> temp = a;</span><br><span class="line">temp=a+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">return</span> temp;</span><br></pre></td></tr></table></figure>
+
+<p>++a的具体运算过程为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a=a+<span class="number">1</span>;</span><br><span class="line"><span class="keyword">return</span> a;</span><br></pre></td></tr></table></figure>
+
+<p>后置自增运算符需要把原来变量的值复制到一个<strong>临时的存储空间</strong>，等运算结束后才会返回这个临时变量的值，所以<strong>前置自增运算符效率比后置自增要高</strong>。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="全局变量和静态变量的区别"><a href="#全局变量和静态变量的区别" class="headerlink" title="全局变量和静态变量的区别"></a>全局变量和静态变量的区别</h3><ul>
+<li>全局变量的作用域为程序块，而局部变量的作用域为当前函数。</li>
+<li>内存存储方式不同，全局变量（静态全局变量，静态局部变量）分配在全局数据区（静态存储空间），后者分配在栈区。</li>
+<li>生命周期不同。全局变量随主程序创建而创建，随主程序销毁而销毁，局部变量在局部函数内部，甚至局部循环体等内部存在，退出就不存在了。</li>
+<li>使用方式不同。通过声明为全局变量，程序的各个部分都可以用到，而局部变量只能在局部使用。</li>
+</ul>
+<h3 id="全局变量可不可以定义在可被多个-C文件包含的头文件中"><a href="#全局变量可不可以定义在可被多个-C文件包含的头文件中" class="headerlink" title="全局变量可不可以定义在可被多个.C文件包含的头文件中"></a>全局变量可不可以定义在可被多个.C文件包含的头文件中</h3><p>可以，在不同的C文件中以static形式来声明<strong>同名全局变量</strong>。</p>
+<p>可以在不同的C文件中声明同名的全局变量，前提是其中<strong>只能有一个C文件中对此变量赋初值</strong>，此时连接不会出错。</p>
+<h3 id="局部变量能否和全局变量重名"><a href="#局部变量能否和全局变量重名" class="headerlink" title="局部变量能否和全局变量重名"></a>局部变量能否和全局变量重名</h3><p>能，局部会屏蔽全局。</p>
+<p>局部变量可以与全局变量同名，在函数内引用这个变量时，会用到同名的局部变量，而不会用到全局变量。</p>
+<p>对于有些编译器而言，在同一个函数内可以定义多个同名的局部变量，比如在两个循环体内都定义一个同名的局部变量，而那个局部变量的作用域就在那个循环体内。</p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><p><strong>1、解释以下数组</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*(a[<span class="number">1</span>]+<span class="number">1</span>)、*(&amp;a[<span class="number">1</span>][<span class="number">1</span>])、(*(a+<span class="number">1</span>))[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<p>第一个： 因为a[1]是第2行的地址，a[1]+1偏移一个单位（得到第2行第2列的地址），然后解引用取值，得到<code>a[1][1]</code>；</p>
+<p>第二个：[]优先级高，<code>a[1][1]</code>取地址再取值。</p>
+<p>第三个：a+1相当于&amp;a[1]，所以* (a+1）&#x3D;a[1]，因此<code>*(a+1)[1]=a[1][1]</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">5</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">(<span class="type">int</span>*)(&amp;a+<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>对于数组int a[5]；a表示数组首元素的地址，而&amp;a表示数组的首地址。</p>
+<p> a有两层含义：一是a表示数组<strong>首元素的地址</strong>（类型为int*）；二是<strong>a表示一个大小为5的int数组</strong>（重要）<strong>。数组名本身在计算中会自动转化成第一个元素的地址，</strong>但<strong>sizeof测试的时候不做计算，不转化</strong>。由此可以看出，在计算 *（a+1） 的时候，可以把a看成int类型的指针，a+1表示的是数组第二个元素的指针，由此 *(a+1) 的值为2。但是， sizeof（a） 是把a作为一个<strong>数组类型</strong>来测试大小，结果是数组占用的<strong>字节数</strong>，由此 sizeof（a）&#x3D;20</p>
+<p> &amp;a是一个指向<code>int(*)[5]</code>的指针。由于&amp;a是一个指针，那么在32位机器上， sizeof（&amp;a）&#x3D;4 ，但是**&amp;a+1的值取决于&amp;a指向的类型<strong>，由于&amp;a指向<code> int(*)[5]</code> ，所以 &amp;a+1&#x3D;&amp;a+ sizeof(int(*)[5])&#x3D;&amp;a+20 。&amp;a是数组的首地址，由此&amp;a+1表示a向后移动了</strong>5个int**从而指向a[5]，所以ptr指向的是a[5]，由于ptr是 int * 类型，那么ptr-1就指向a[4]，所以 *(ptr-1)&#x3D;a[4]&#x3D;5。</p>
+<p> 由此可知 <code>（int*）&amp;（a+1）</code> 指向了数组a最后一个元素之后的下一个内存单元开始的4个字节 (int *) 内存.</p>
+<p><strong>2、数组下标可以为负数吗？</strong></p>
+<p>可以，因为下标只是给出了一个与<strong>当前地址的偏移量</strong>而已，只要根据这个偏移量能定位得到目标地址即可。下面给出一个下标为负数的示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">int</span> a[<span class="number">5</span>]=&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">    <span class="type">int</span> *p=&amp;a[<span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span>（i=<span class="number">-4</span>；i&lt;=<span class="number">0</span>；i++）</span><br><span class="line">    	<span class="built_in">printf</span>(<span class="string">&quot;%d %x\n&quot;</span>, p[i], &amp;p[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出结果为</span></span><br><span class="line"><span class="comment">//0 b3ecf480</span></span><br><span class="line"><span class="comment">//1 b3ecf484</span></span><br><span class="line"><span class="comment">//2 b3ecf488</span></span><br><span class="line"><span class="comment">//3 b3ecf48c</span></span><br><span class="line"><span class="comment">//4 b3ecf490</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h2><h3 id="数组指针和指针数组"><a href="#数组指针和指针数组" class="headerlink" title="数组指针和指针数组"></a>数组指针和指针数组</h3><p><strong>数组指针</strong>就是指向数组的指针，它表示的是一个指针，这个指针指向的是一个数组，它的重点是指针<code>(*p)</code>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio. h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib. h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> b[<span class="number">12</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>&#125;;</span><br><span class="line">    <span class="type">int</span> (*p)[<span class="number">4</span>];</span><br><span class="line">    p = b;</span><br><span class="line">    <span class="built_in">printf</span>（<span class="string">&quot;%d\n&quot;</span>， **(++p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上例程序的输出结果为 5。p是一个数组指针，它指向一个<strong>包含有4个int</strong>类型数组的指针，刚开始p被初始化为指向数组b的首地址，++p相当于把p所指向的地址<strong>向后移动4个int</strong>所占用的空间，此时p指向数组{5,6,7,8}，语句<code>*（++p）</code>表示的是这个数组中<strong>第一个元素</strong>的地址(可以理解p为指向二维数组的指针，｛1,2,3,4｝，｛5,6,7,8｝，｛9,10,11,12｝。p指向的就是｛1,2,3,4｝的地址，<code>*p</code>就是指向元素，｛1,2,3,4｝， <code>**p</code>指向的就是1，语句**（++p）会输出这个数组的第一个元素5。</p>
+<p><strong>指针数组</strong>表示的是一个数组，而数组中的元素是指针。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">int</span> *p[<span class="number">4</span>];</span><br><span class="line">    <span class="type">int</span> a[<span class="number">4</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line">    p[<span class="number">0</span>] = &amp;a[<span class="number">0</span>];</span><br><span class="line">    p[<span class="number">1</span>] = &amp;a[<span class="number">1</span>];</span><br><span class="line">    p[<span class="number">2</span>] = &amp;a[<span class="number">2</span>];</span><br><span class="line">    p[<span class="number">3</span>] = &amp;a[<span class="number">3</span>];</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,*p[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>程序的输出结果为1234。</p>
+<h3 id="函数指针和指针函数"><a href="#函数指针和指针函数" class="headerlink" title="函数指针和指针函数"></a>函数指针和指针函数</h3><p>1)<strong>函数指针</strong></p>
+<p><strong>函数指针</strong>：如果在程序中定义了一个函数，那么在编译时系统就会为这个函数代码分配一段存储空间，这段存储空间的首地址称为这个<strong>函数的地址</strong>。而且函数名表示的就是这个地址。既然是地址我们就可以定义一个指针变量来存放，这个指针变量就叫作函数指针变量，简称<strong>函数指针</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>(*p)(<span class="type">int</span>, <span class="type">int</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这个语句就定义了一个指向函数的指针变量 p。首先它是一个指针变量，所以要有一个<code>(*p)</code>；其次前面的 int 表示这个指针变量可以指向返回值类型为 int 型的函数；后面括号中的两个 int 表示这个指针变量可以指向有两个参数且都是 int 型的函数。所以合起来就是：定义了一个指针变量 p，该指针变量可以指向返回值类型为 int 型，且有两个整型参数的函数。p 的类型为<code>int(*)(int,int)</code>。</p>
+<p>函数指针的定义就是将“函数声明”中的“函数名”改成“（指针变量名）<em>”</em>。但是这里需要注意的是：<em>“</em>（指针变量名）”<strong>两端的括号不能省略</strong>，括号改变了运算符的优先级。如果省略了括号，就不是定义函数指针而是一个函数声明了，即声明了一个返回值类型为指针型的函数。</p>
+<p><strong>最后需要注意的是，指向函数的指针变量没有++和–运算。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Max</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span>; <span class="comment">//函数声明</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span>(*p)(<span class="type">int</span>, <span class="type">int</span>); <span class="comment">//定义一个函数指针</span></span><br><span class="line">    <span class="type">int</span> a, b, c;</span><br><span class="line">    p = Max; <span class="comment">//把函数Max赋给指针变量p, 使p指向Max函数</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;please enter a and b:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d%d&quot;</span>, &amp;a, &amp;b);</span><br><span class="line">    c = (*p)(a, b); <span class="comment">//通过函数指针调用Max函数</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;a = %d\nb = %d\nmax = %d\n&quot;</span>, a, b, c);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">Max</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> <span class="comment">//定义Max函数</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> z;</span><br><span class="line">    <span class="keyword">if</span> (x &gt; y)</span><br><span class="line">    &#123;</span><br><span class="line">        z = x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        z = y;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1)<strong>指针函数</strong></p>
+<p>首先它是一个函数，只不过这个函数的返回值是一个地址值。函数返回值必须用同类型的指针变量来接受，也就是说，指针函数一定有“函数返回值”，而且，在主调函数中，函数返回值必须赋给同类型的指针变量。</p>
+<p><code>类型名 *函数名(函数参数列表);</code></p>
+<p>其中，后缀运算符括号“()”表示这是一个函数，其前缀运算符星号“*”表示此函数为指针型函数，其函数值为指针，即它带回来的值的类型为指针，当调用这个函数后，将得到一个“指向返回值为…的指针（地址），“类型名”表示函数返回的指针指向的类型”。</p>
+<p>“(函数参数列表)”中的括号为函数调用运算符，在调用语句中，即使函数不带参数，其参数表的一对括号也不能省略。其示例如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> *<span class="title function_">pfun</span><span class="params">(<span class="type">int</span>, <span class="type">int</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">float</span> *<span class="title function_">find</span><span class="params">(<span class="type">float</span>(*pionter)[<span class="number">4</span>],<span class="type">int</span> n)</span>;<span class="comment">//函数声明</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">static</span> <span class="type">float</span> score[][<span class="number">4</span>]=&#123;&#123;<span class="number">60</span>,<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>&#125;,&#123;<span class="number">56</span>,<span class="number">89</span>,<span class="number">34</span>,<span class="number">45</span>&#125;,&#123;<span class="number">34</span>,<span class="number">23</span>,<span class="number">56</span>,<span class="number">45</span>&#125;&#125;;</span><br><span class="line">    <span class="type">float</span> *p;</span><br><span class="line">    <span class="type">int</span> i,m;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Enter the number to be found:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;m);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;the score of NO.%d are:\n&quot;</span>,m);</span><br><span class="line">    p=find(score,m<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%5.2f\t&quot;</span>,*(p+i));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">float</span> *<span class="title function_">find</span><span class="params">(<span class="type">float</span>(*pionter)[<span class="number">4</span>],<span class="type">int</span> n)</span><span class="comment">/*定义指针函数*/</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">float</span> *pt;</span><br><span class="line">    pt=*(pionter+n);</span><br><span class="line">    <span class="keyword">return</span>(pt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序中，函数find()被定义为指针函数，其形参pointer是指针指向包含4个元素的一维数组的指针变量。pointer+n指向score的第n+1行。*(pointer+1)指向第一行的第0个元素。pt是一个指针变量，它指向浮点型变量。main()函数中调用find()函数，将score数组的首地址传给pointer。</p>
+<h3 id="数组名和指针的区别"><a href="#数组名和指针的区别" class="headerlink" title="数组名和指针的区别"></a>数组名和指针的区别</h3><ul>
+<li><strong>数据保存方面</strong></li>
+</ul>
+<p>指针保存的是地址（保存目标数据地址，自身地址由编译器分配），内存访问偏移量为4个字节，无论其中保存的是何种数据均已地址类型进行解析。</p>
+<p>数组保存的数据。数组名表示的是第一个元素的地址，内存偏移量是保存数据类型的内存偏移量；只有对数组名取地址（&amp;数组名）时数组名才表示整个数组，<strong>内存偏移量是整个数组的大小（sizeof(数组名)）</strong>。</p>
+<ul>
+<li><strong>数据访问方面</strong></li>
+</ul>
+<p>指针对数据的访问方式是间接访问，需要用到解引用符号（*指针）。</p>
+<p>数组对数据的访问则是直接访问，可通过下标访问或数组名+元素偏移量的方式。</p>
+<ul>
+<li><strong>使用环境</strong></li>
+</ul>
+<p>指针多用于动态数据结构（如链表，等等）和动态内存开辟。</p>
+<p>数组多用于存储固定个数且类型统一的数据结构（如线性表等等）和隐式分配。</p>
+<h3 id="指针进行强制类型转换后与地址进行加法运算，结果是什么？"><a href="#指针进行强制类型转换后与地址进行加法运算，结果是什么？" class="headerlink" title="指针进行强制类型转换后与地址进行加法运算，结果是什么？"></a>指针进行强制类型转换后与地址进行加法运算，结果是什么？</h3><p>假设在32位机器上，在对齐为4的情况下,sizeof(long)的结果为4字节，sizeof(char*)的结果为4字节，sizeof(short int)的结果与 sizeof(short)的结果都为2字节， sizeof(char)的结果为1字节， sizeof(int)的结果为4字节，由于32位机器上是4字节对齐，以如下结构体为例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BBB</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">long</span> num;</span><br><span class="line">    <span class="type">char</span> *name;</span><br><span class="line">    <span class="type">short</span> <span class="type">int</span> data;</span><br><span class="line">    <span class="type">char</span> ha;</span><br><span class="line">    <span class="type">short</span> ba[<span class="number">5</span>];</span><br><span class="line">&#125;*p;</span><br></pre></td></tr></table></figure>
+
+<p>当<code> p=0x100000; 则 p+0×200=? (ulong)p+0x200=? (char*)p+0x200=?</code></p>
+<p>其实,在32位机器下,<code>sizeof(struct BBB)=sizeof(*p)=4+4+2+2+1+3/*补齐*/+2*5+2/*补齐*/=24字节</code>，而 p&#x3D;0x100000 ,那么<code>p+0x200=0x1000000+0x200*24</code>指针加法，加出来的是指针所指类型的字节长度的整倍数，就是p偏移sizeof(p)*0x200。</p>
+<p><code>(ulong)p+0x200=0x10000010+0x200 </code>经过ulong后,已经不再是指针加法，而变成一个数值加法了。</p>
+<p><code>(char*)p+0x200=0x1000000+0×200*sizeof(char) </code>结果类型是char*。</p>
+<h3 id="指针常量和常量指针"><a href="#指针常量和常量指针" class="headerlink" title="指针常量和常量指针"></a>指针常量和常量指针</h3><p>1、<strong>指针常量</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> * <span class="type">const</span> p</span><br></pre></td></tr></table></figure>
+
+<p>p是一个常量类型的指针，<strong>不能修改这个指针的指向</strong>，但是这个指针所指向的地址上存储的<strong>值可以修改</strong>。</p>
+<p>2、<strong>常量指针</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *p</span><br><span class="line"><span class="type">int</span> <span class="type">const</span> *p</span><br></pre></td></tr></table></figure>
+
+<p>常量指针指向一个常量，不能通过指针来修改这个指针<strong>指向的值</strong>。</p>
+<p>1、 <strong>指向常量的常量指针</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> *<span class="type">const</span> p</span><br></pre></td></tr></table></figure>
+
+<p>必须同时满足上述1和2中的内容，<strong>既不可以修改指针的值，也不可以修改指针指向的值</strong>。</p>
+<h3 id="指针和引用"><a href="#指针和引用" class="headerlink" title="指针和引用"></a>指针和引用</h3><p>1、<strong>相同点</strong></p>
+<ul>
+<li><p>都是地址的概念，指针指向某一内存、它的内容是所指内存的地址；引用则是某块内存的别名。</p>
+</li>
+<li><p>从内存分配上看：两者都占内存，程序为指针会分配内存，一般是4个字节；而引用的本质是指针</p>
+<p>  常量，指向对象不能变，但指向对象的值可以变。</p>
+</li>
+</ul>
+<p>2、<strong>不同点</strong></p>
+<ul>
+<li><p>指针是实体，而引用是别名。</p>
+</li>
+<li><p>指针和引用的自增（++）运算符意义不同，指针是对内存地址自增，而引用是对值的自增。</p>
+</li>
+<li><p>引用使用时无需解引用(*)，指针需要解引用；</p>
+</li>
+<li><p>引用只能在定义时被初始化一次，之后不可变；指针可变。</p>
+</li>
+<li><p>引用不能为空，指针可以为空。</p>
+</li>
+<li><p>“sizeof 引用”得到的是所指向的变量(对象)的大小，而“sizeof 指针”得到的是指针本身的大小，在32</p>
+<p>  位系统指针变量一般占用4字节内存。</p>
+</li>
+</ul>
+<p>3、<strong>相互转换</strong></p>
+<ul>
+<li><strong>指针转引用</strong>：把指针用*就可以转换成对象，可以用在引用参数当中。</li>
+<li><strong>引用转指针</strong>：把引用类型的对象用&amp;取地址就获得指针了。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a = <span class="number">5</span>;</span><br><span class="line"><span class="type">int</span> *p = &amp;a;</span><br><span class="line"><span class="type">void</span> <span class="title function_">fun</span><span class="params">(<span class="type">int</span> &amp;x)</span>&#123;&#125;<span class="comment">//此时调用fun可使用 ： fun（*p）;</span></span><br><span class="line"><span class="comment">//p是指针，加个*号后可以转换成该指针指向的对象，此时fun的形参是一个引用值,</span></span><br><span class="line"><span class="comment">//p指针指向的对象会转换成引用X。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h3><p>1、相关概念</p>
+<ul>
+<li><p>野指针是指向不可用内存的指针，当指针被创建时，指针不可能自动指向NULL，这时，默认值是随机的，此时的指针成为野指针。</p>
+</li>
+<li><p>当指针被free或delete释放掉时，如果没有把指针设置为NULL，则会产生野指针，因为释放掉的仅仅是指针指向的内存，并没有把指针本身释放掉。</p>
+</li>
+<li><p>第三个造成野指针的原因是指针操作超越了变量的作用范围。</p>
+</li>
+</ul>
+<p>2、避免</p>
+<ul>
+<li>对指针进行初始化。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将指针初始化为NULL。</span></span><br><span class="line"><span class="type">char</span> * p = <span class="literal">NULL</span>;</span><br><span class="line"><span class="comment">//用malloc分配内存</span></span><br><span class="line"><span class="type">char</span> * p = (<span class="type">char</span> * )<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">char</span>));</span><br><span class="line"><span class="comment">//用已有合法的可访问的内存地址对指针初始化</span></span><br><span class="line"><span class="type">char</span> num[ <span class="number">30</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="type">char</span> *p = num;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指针用完后释放内存，将指针赋NULL。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">delete(p);</span><br><span class="line">p = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+
+<p>注：malloc函数分配完内存后需注意：</p>
+<p>a. 检查是否分配成功（若分配成功，返回内存的首地址；分配不成功，返回NULL。可以通过if语句来判断）</p>
+<p>b. 清空内存中的数据（malloc分配的空间里可能存在垃圾值，用memset或bzero 函数清空内存）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//s是需要置零的空间的起始地址； n是要置零的数据字节个数。</span></span><br><span class="line"><span class="type">void</span> bzero（<span class="type">void</span> *s, <span class="type">int</span> n）;</span><br><span class="line"><span class="comment">// 如果要清空空间的首地址为p，value为值，size为字节数。</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">memset</span><span class="params">(<span class="type">void</span> *start, <span class="type">int</span> value, <span class="type">int</span> size)</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a><strong>智能指针</strong></h3><p>智能指针是一个类，用来存储指针（指向动态分配对象的指针）。</p>
+<p>C++程序设计中使用堆内存是非常频繁的操作，堆内存的申请和释放都由程序员自己管理。程序员自己管理堆内存可以提高了程序的效率，但是整体来说堆内存的管理是麻烦的，C++11中引入了智能指针的概念，方便管理堆内存。使用普通指针，容易造成堆内存泄露（忘记释放），二次释放，程序发生异常时内存泄露等问题等，使用智能指针能更好的管理堆内存。</p>
+<p><strong>智能指针的内存泄漏</strong></p>
+<p>为了解决循环引用导致的内存泄漏，引入了弱指针 weak_ptr ， weak_ptr 的构造函数不会修改引用计数的值，从而不会对对象的内存进行管理，其类似一个普通指针，但是不会指向引用计数的共享内存，但是可以检测到所管理的对象是否已经被释放，从而避免非法访问。</p>
+<h2 id="位操作"><a href="#位操作" class="headerlink" title="位操作"></a>位操作</h2><p>1、求解整型数的二进制表示中1的个数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">(<span class="type">int</span> x)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> countx = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(x)</span><br><span class="line">    &#123;</span><br><span class="line">        countx++;</span><br><span class="line">        x = x&amp;(x<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> countx;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,func(<span class="number">9999</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、求解二进制中0的个数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">CountZeroBit</span><span class="params">(<span class="type">int</span> num)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (num + <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        count++;</span><br><span class="line">        num |= (num + <span class="number">1</span>); <span class="comment">//算法转换</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> value = <span class="number">25</span>;</span><br><span class="line">    <span class="type">int</span> ret = CountZeroBit(value);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d的二进制位中0的个数为%d\n&quot;</span>,value, ret);</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、交换两个变量的值，不使用第三个变量。</p>
+<p>方法1：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a + b;</span><br><span class="line">b = a - b;</span><br><span class="line">a = a - b;</span><br></pre></td></tr></table></figure>
+
+<p>方法2：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = a^b;<span class="comment">// 只能对int,char..</span></span><br><span class="line">b = a^b;</span><br><span class="line">a = a^b;</span><br><span class="line"><span class="comment">//or</span></span><br><span class="line">a ^= b ^= a;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="写个函数在main函数执行前先运行"><a href="#写个函数在main函数执行前先运行" class="headerlink" title="写个函数在main函数执行前先运行"></a>写个函数在main函数执行前先运行</h3><p><strong>attribute</strong>可以设置函数属性（Function Attribute）、变量属性（Variable Attribute）和类型属性（Type Attribute）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">before</span><span class="params">()</span> __<span class="title function_">attribute__</span><span class="params">((constructor))</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">after</span><span class="params">()</span> __<span class="title function_">attribute__</span><span class="params">((destructor))</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">before</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;this is function %s\n&quot;</span>,__func__);</span><br><span class="line"><span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">after</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;this is function %s\n&quot;</span>,__func__);</span><br><span class="line"><span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;this is function %s\n&quot;</span>,__func__);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出结果</span></span><br><span class="line"><span class="comment">// this is function before</span></span><br><span class="line"><span class="comment">// this is function main</span></span><br><span class="line"><span class="comment">// this is function after</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="C语言是怎么进行函数调用的"><a href="#C语言是怎么进行函数调用的" class="headerlink" title="C语言是怎么进行函数调用的"></a>C语言是怎么进行函数调用的</h3><p>大多数CPU上的程序实现<strong>使用栈来支持函数调用操作</strong>，栈被用来传递函数参数、存储返回信息、临时保存寄存器原有的值以备恢复以及用来存储局部变量。</p>
+<p>函数调用操作所使用的栈部分叫做<strong>栈帧结构</strong>，每个函数调用都有属于自己的栈帧结构，栈帧结构由两个指针指定，帧指针（指向起始），栈指针（指向栈顶），函数对大多数数据的访问都是基于帧指针。下面是结构图：</p>
+<style>.opykqsaigtyo{zoom:67%;}</style><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2024/04/09/%E5%85%AB%E8%82%A1%E6%96%87-C%E8%AF%AD%E8%A8%80/image-20240620092854360.png" class="opykqsaigtyo lazy" alt="image-20240620092854360">
+
+<p>栈指针和帧指针一般都有专门的寄存器，通常使用ebp寄存器作为帧指针，使用esp寄存器做栈指针。</p>
+<p><strong>帧指针指向栈帧结构的头，存放着上一个栈帧的头部地址，栈指针指向栈顶。</strong></p>
+<h3 id="void-函数的返回值问题"><a href="#void-函数的返回值问题" class="headerlink" title="void 函数的返回值问题"></a><strong>void</strong> 函数的返回值问题</h3><p>void 函数可以写return;表示程序结束，但是没有返回值。</p>
+<p> 在软件开发过程中有一种很常见的编程方法，就是即使将参数传给无返回值的void函数也能实现对原始参数值的修改。</p>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><h3 id="C语言中内存分配的方式"><a href="#C语言中内存分配的方式" class="headerlink" title="C语言中内存分配的方式"></a>C语言中内存分配的方式</h3><ul>
+<li><strong>静态存储区分配</strong></li>
+</ul>
+<p>内存分配在程序编译之前完成，且在程序的整个运行期间都存在，例如全局变量、静态变量等。</p>
+<ul>
+<li><strong>栈上分配</strong></li>
+</ul>
+<p>在函数执行时，函数内的局部变量的存储单元在栈上创建，函数执行结束时这些存储单元自动释放。</p>
+<ul>
+<li><strong>堆上分配</strong></li>
+</ul>
+<h3 id="堆与栈的区别"><a href="#堆与栈的区别" class="headerlink" title="堆与栈的区别"></a><strong>堆与栈的区别</strong></h3><ul>
+<li><strong>申请方式</strong></li>
+</ul>
+<p>栈的空间由操作系统自动分配&#x2F;释放，堆上的空间手动分配&#x2F;释放。</p>
+<ul>
+<li><strong>申请大小的限制</strong></li>
+</ul>
+<p>栈空间有限。在Windows下,栈是向<strong>低地址</strong>扩展的数据结 构，是一块<strong>连续的内存的区域</strong>。这句话的意思是栈顶的地址和栈的最大容量是系统预先规定好的，在WINDOWS下，栈的大小是2M（也有的说是1M，总之是 一个编译时就确定的常数），如果申请的空间超过栈的剩余空间时，将提示overflow溢出。因此，能<strong>从栈获得的空间较小</strong>。</p>
+<p>堆是很大的自由存储区。堆是向<strong>高地址</strong>扩展的数据结构，是不连续的内存区域。这是由于系统是用<strong>链表来存储的空闲内存地址的</strong>，自然是不连续的，而链表的遍历方向是由低地址向高地址。堆的大小<strong>受限于计算机系统中有效的虚拟内存</strong>。由此可见，堆获得的空间比较灵活，也比较大。</p>
+<ul>
+<li><strong>申请效率</strong></li>
+</ul>
+<p>栈由系统自动分配，速度较快。但程序员是无法控制的。</p>
+<p>堆是由new分配的内存，一般速度比较慢，而且容易产生内存碎片,不过用起来最方便.</p>
+<h3 id="栈在C语言中的作用"><a href="#栈在C语言中的作用" class="headerlink" title="栈在C语言中的作用"></a>栈在C语言中的作用</h3><ul>
+<li><p>C语言中栈用来存储临时变量，临时变量包括<strong>函数参数和函数内部定义的临时变量</strong>。函数调用中和函数调用相关的<strong>函数返回地址</strong>，函数中的临时变量，寄存器等均保存在栈中，函数调动返回后从栈中恢复寄存器和临时变量等函数运行场景。</p>
+</li>
+<li><p>多线程编程的基础是栈，<strong>栈是多线程编程的基石</strong>，每一个线程都最少有一个自己专属的栈，用来存储本线程运行时各个函数的临时变量和维系函数调用和函数返回时的函数调用关系和函数运行场景。 操作系统最基本的功能是支持多线程编程，支持中断和异常处理，每个线程都有专属的栈，中断和异常处理也具有专属的栈，栈是操作系统多线程管理的基石。</p>
+</li>
+</ul>
+<h3 id="C语言函数参数压栈顺序"><a href="#C语言函数参数压栈顺序" class="headerlink" title="C语言函数参数压栈顺序"></a>C语言函数参数压栈顺序</h3><p>从右至左。</p>
+<p>C语言参数入栈顺序的好处就是可以动态变化参数个数。如果是自左向右的入栈方式，最前面的参数被压在栈底。除非知道参数个数，否则是无法通过栈指针的相对位移求得最左边的参数。这样就变成了左边参数的个数不确定，正好和动态参数个数的方向相反。因此，Ｃ语言函数参数采用自右向左的入栈顺序，主要原因是为了支持可变长参数形式。</p>
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p>简单地说就是申请了一块内存空间，使用完毕后没有释放掉。</p>
+<p>它的一般表现方式是程序运行时间越长，占用内存越多，最终用尽全部内存，整个系统崩溃。由程序申请的一块内存，且没有任何一个指针指向它，那么这块内存就泄露了。</p>
+<p><strong>如何判断</strong></p>
+<ul>
+<li><p>良好的编码习惯，尽量在涉及内存的程序段，检测出内存泄露。当程式稳定之后，在来检测内存泄露时，无疑增加了排除的困难和复杂度。使用了内存分配的函数，一旦使用完毕,要记得要使用其相应的函数释放掉。</p>
+</li>
+<li><p>将分配的内存的指针以链表的形式自行管理，使用完毕之后从链表中删除，程序结束时可检查改链表。</p>
+</li>
+<li><p>Boost 中的smart pointer。</p>
+</li>
+<li><p>一些常见的工具插件，如ccmalloc、Dmalloc、Leaky等等。</p>
+</li>
+</ul>
+
 <div class="article-footer fs14">
     <section id="license">
       <div class="header"><span>许可协议</span></div>
